@@ -10,4 +10,5 @@ Thus, the idea of extending jexl.
 After cloning jexl - and modifying it heavily - it looked like a better option would be a public release.
 And hence nJexl was born. The *n* stands for Neo.
 
+It is an interpreted language. And it is fast, at least 2 times faster than python.
  
