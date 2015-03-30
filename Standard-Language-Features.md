@@ -16,6 +16,10 @@ Never the less that is one salient feature of the language.
 Generally people love ".". I do too. They are kind of match all - catch all. But then one has to find - is that an imported module or an object or what? That is why all method calls of a module is with strictly ":".
 That lets people know - yes, that is a function I am calling from an IMPORTED MODULE, it may inside be an object - but that does not matter.
 
+## Comments 
+They are line : "//" or block "/*  */".
+We would support "@" just like javadoc later.
+
 ## Variables
 Everything and anything that does not match a strict keyword is a variable.
 The strict keywords are :- 
@@ -42,9 +46,9 @@ That would destroy compression if need be. I do not want it. Note that Blocks do
 ## Loops
 goto is not there. I am sorry for that. I love goto, but EwDijkstra did not. I do not know why.
 In any case - fear not, we are Turing Complete by introducing the very new : 
-while(condition){ statements } and for ( var : utterable ) { statements }.
+while(condition){ statements } and for ( var : iterable ) { statements }.
 Totally works.
-![for loop with range ](http://picpaste.com/5691d43fd64bfdb908095530fe3d411d.png)
+![for loop with range ](http://s17.postimg.org/gbchlvycv/Screen_Shot_2015_03_30_at_11_17_19_am.png)
 
 ### range
 That brings you to range. Range is good. You should use range. It is optimal - and thus at least 2 times faster than the python equivalent and may be more. No, I was joking - it is fast because JVM is eons faster than PVM.
@@ -96,17 +100,40 @@ In fact, if you do not even say it - the outcome of the last executed statement 
 
 ## Methods 
 defining methods is easy.
-![Methods](http://picpaste.com/2fe40f9b6dd0bfa72197136050a2a96b.png)
+![Methods](http://s17.postimg.org/fzzmmv7an/Screen_Shot_2015_03_30_at_11_37_35_am.png)
 
 It also introduces you to "true" "false" two constants. They are Boolean type.
 Also note the interesting "my:". That is important. In a complete dynamic environment - if you do not specify the "my:" it might call another method from another module with the same name. So that does not happen - we have my.
 No cross calling of functions.
 
+## Operators
+Generally the operations like "=" , "==" , "!" ,  "<" , ">" , "<=" , "=>" , "!=" have same meaning.
+But they also have names like       "eq", "not",  "lt", "gt", "le", "ge", "ne" 
+So are the bitwise operations like "|" , "&" , "^", "~".
 
+Unlike it's parent Java, "==" means equals(). That is it. In fact it goes further.
+The automatic intelligent analysis ensures that "1" == 1 works in case of integer comparisons.
+That is very good for testing related activities.
 
+The logical operators are "||" : "or"  and "&&" : "and" and "!" : "not".
+The english and the symbolic both works.
 
+## Set & List Operations.
+Almost all the operators are overloaded to handle some tricky stuff - "+" can add lists.
+In the same way "-" can do a set minus. It also can do a multi set minus popularly known as list minus.
+The special operator "@" defines "in". That is : {  1 @ [ 1, 2, 3]  } would give you true. 
+While {  0 @ [ 1, 2, 3]  } would give you false. At the same time : {  [2,1]  @ [ 1, 2, 3]  } would give you true.
+Native support of set operations you see.
+![List and Set Operations](http://s14.postimg.org/h3xznkagx/Screen_Shot_2015_03_30_at_12_52_53_pm.png) 
 
+## Anonymous Functions and Lambda's.
+Do not worry. We are not geeks. We are way short - and hence we actually use it in a way people understand what it is. Inside a for loop one generally runs a condition and does something extra. It would be good if the for loop becomes implicit and then one can only write the condition and the extra thing.
+
+That thing is called anonymous function.
+See line no 16. We are filtering  everything that is (>= 3) within the list specified.
+For the set operations we are using int() of every value as the key.
  
-  
+
+
 
   
