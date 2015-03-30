@@ -136,7 +136,7 @@ For the set operations we are using int() of every value as the key.
 
 ## List operations
 Various list operations are demonstrated - with some interesting power operations.
-![List Operations](http://postimg.org/image/dp7v35vnn/)
+![List Operations](http://s29.postimg.org/ym437tton/Screen_Shot_2015_03_30_at_3_40_17_pm.png)
 Note that the power operator "**" works on String as well as lists.
 To reverse a string use <string>^-1. That should be awesome.
 Now just like python : <string>*n catenated. Here,  <string>**n catenated the string n times.
