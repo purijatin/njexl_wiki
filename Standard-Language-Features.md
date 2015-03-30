@@ -1,7 +1,7 @@
 # Language Features
 We start with the proverbial - "Hello World".
 This is easy :- 
-![Hello, World](http://picpaste.com/8e3179b51eb8cb93a071ba754621e056.png)
+![Hello, World](http://s23.postimg.org/3ob28xj8r/Screen_Shot_2015_03_30_at_10_51_14_am.png)
 
 ## Imports
 This also tells you something interesting about the design of the language.
