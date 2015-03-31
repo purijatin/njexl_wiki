@@ -51,6 +51,12 @@ Because a human mind thinks that way. Clearly '1   ' is no 1. Thus, if you do no
 
      njexl>'1'.equals(1) 
      =>false 
+     njexl>i=int(1)
+     =>1
+     njexl>i.equals(1)
+     =>true
+
+
 Which works as expected. Else trust in the force of nJexl you should.
 Basically what can be accomplished by 100 lines of Java code - can be done in 2/3 lines of nJexl code.
 That was indeed the design goal. Thus, ends the discussion of "==".
