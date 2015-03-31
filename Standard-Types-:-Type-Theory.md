@@ -10,10 +10,12 @@ By that what we really mean is - it finds the minimal container type of an objec
 
 This is kind of intriguing and saves memory.
 But it is confusing - and hence - if you wan to compare and be sure - then you should always type cast.
-    njexl>a = list{int($)}(0,1,2)
-    =>[0, 1, 2]
-    njexl>a[0].getClass()
-    =>class java.lang.Integer
+    
+     njexl>a = list{int($)}(0,1,2)
+     =>[0, 1, 2]
+     njexl>a[0].getClass()
+     =>class java.lang.Integer
+
    
 This happens *only* when one passes constant values in the parameters in a function.
 
