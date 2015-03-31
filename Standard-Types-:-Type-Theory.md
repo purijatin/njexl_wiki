@@ -41,9 +41,34 @@ This is bad. What if you really want a fallback - when one can not type convert?
 
       njexl>bool('xx',false)
       =>false 
+      njexl>int('xx',42)
+      =>42
 
 Same with any other types.
       
 ## Date & Time
+Simplification of date & time are premium from a testing perspective.
+Thus, we have much easier functions      
+     njexl>date()
+     =>Tue Mar 31 19:03:12 IST 2015
+     njexl>str(date())
+     =>20150331
+The string conversion is easy with str(). But in what format?
+If one is using date() object - then the format used is : http://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html 
+In any case - the formatting can be changed : 
+
+     njexl>str(date(),'yyyy/dd/MM')
+     =>2015/31/03
+In any case - the time() function can be used to get time():
+
+     njexl>time()
+     =>2015-03-31T19:08:49.723+05:30
+     njexl>str(time(),'yyyy/dd/MM')
+     =>2015/31/03
+
+The formatting guide is : http://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html
+
+ 
+
 
 
