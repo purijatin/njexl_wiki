@@ -97,15 +97,18 @@ In the colourful language of set theory they are called
 
 * Set Difference 
       Easily done : 
+ 
            njexl>a-b // MINUS is set minus 
            =>[3]
 
 * Set Symmetric Difference 
       Fun thing to do, if people understood it - there would be less testing on db tables : 
+
            njexl>a^b    // XOR is Symmetric Difference 
            =>[3]
       
 * Union 
+          
            njexl>a|b   // OR is Union
            =>[1,2,3]
  
