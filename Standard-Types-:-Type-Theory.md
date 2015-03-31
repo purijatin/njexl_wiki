@@ -48,17 +48,22 @@ Same with any other types.
       
 ## Date & Time
 Simplification of date & time are premium from a testing perspective.
-Thus, we have much easier functions      
+Thus, we have much easier functions   
+
+   
      njexl>date()
      =>Tue Mar 31 19:03:12 IST 2015
      njexl>str(date())
      =>20150331
+
+
 The string conversion is easy with str(). But in what format?
 If one is using date() object - then the format used is : http://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html 
 In any case - the formatting can be changed : 
 
      njexl>str(date(),'yyyy/dd/MM')
      =>2015/31/03
+
 In any case - the time() function can be used to get time():
 
      njexl>time()
