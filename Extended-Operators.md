@@ -14,6 +14,7 @@
       njexl>l+4
       =>[1, 2, 3, 4] 
 
+
 Hows this for a start? It simply get's better : 
      
        njexl>s=set(1,2,3,3,4)
@@ -114,6 +115,61 @@ In the colourful language of set theory they are called
  
 These works on list and sets.
 
+## On the matter of Order
+*"Order matters Not" - Noga *
+Thus, 
+
+        njexl>a = list(1,2,3,4,5,6)
+        =>[1, 2, 3, 4, 5, 6]
+        njexl>b = list(2,6,1)
+        =>[2, 6, 1]
+        njexl>a - b
+        =>[3, 4, 5]
+        njexl>a|b
+        =>[1, 2, 3, 4, 5, 6]
+        njexl>a&b
+        =>[1, 2, 6]
+
+Thus, it works as it should work. That is what normally known as re-usable code.
+One guy writes it - and the others use it. No more random coding!
+
+## The idea of General Multiplication 
+Pople like this : 
+
+      njexl>2*2
+      =>4
+
+But at the same time, multiplication is a revered operator : 
+
+      njexl>a=list(0,1)
+      =>[0, 1]
+      njexl>a*a
+      =>[[0, 0], [0, 1], [1, 0], [1, 1]]
+
+Wow, that is something! But that brings you to the next:
 
 
- 
+## The beauty of Exponentiation 
+Generally people likes it : 
+     
+      njexl>2**10
+      =>1024.0
+
+But then, it is trivial. Hmm. Yea, what about this ?
+      
+      njexl>"hi"**2
+      =>hihi
+      njexl>"hi"**-1
+      =>ih
+      njexl>"hi"**-2
+      =>ihih
+
+And the list exponentiation : 
+       
+      njexl>a=list(0,1)
+      =>[0, 1]
+      njexl>a**3
+      =>[[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 1, 1], [1, 0, 0], [1, 0, 1], [1, 1, 0], [1, 1, 1]]
+
+Yes, you guessed it right - the join operation is '*'. 
+   
