@@ -68,7 +68,11 @@ In any case - the time() function can be used to get time():
 
 The formatting guide is : http://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html
 
- 
+The reverse creation of date / time is *obviously* possible. 
+    
+     njexl>time('2015/31/03','yyyy/dd/MM')
+     =>2015-03-31T00:00:00.000+05:30
+     njexl>date('2015/31/03','yyyy/dd/MM')
+     =>Tue Mar 31 00:00:00 IST 2015 
 
-
-
+Formatting guide as stated above.
