@@ -66,4 +66,31 @@ What's that? where is proverbial where in SQL. When the expression for when is t
 Inside the block the $ = int($) assigning the value of the element back after transform!
 How cool is that?
 
+## Sets
+Sets are lists where occurrences are not repeated.
+Thus : 
+
+       njexl>l = list(1,2,2,3,4,4,5)
+       =>[1, 2, 2, 3, 4, 4, 5]
+       njexl>s = set(l)
+       =>S{ 1,2,3,4,5 }
+
+
+Anonymous functions becomes crucial here, because the key is the element itself : 
+
+
+       njexl>l = list(1,"1  ", "1") 
+       =>[1, 1  , 1]
+       njexl>s = set(l)
+       =>S{ 1,1  ,1 }
+
+Should not they be all 1 ? You bet they should be, in that case : 
+
+     njexl>s=set{int($)}(l)
+     =>S{ 1 }
+
+just works!  
+
+
+
 
