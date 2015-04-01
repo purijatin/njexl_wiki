@@ -4,8 +4,27 @@ It can be found here : http://en.wikipedia.org/wiki/First-order_logic
 
 But in here we would discuss how the strategy helps in formulating business and tremendously reduces formulation of test cases. 
 
-### Verify that a list is sorted.
+## There exist at least an element : [EXIST e in L : P(e) ]
 
+A general idea would be finding elements. That is the work of *select* function.
+Does any element exist in the list which is 1? 
+
+      njexl>s = list([1,2,3,3,4,5])
+      =>[1, 2, 3, 3, 4, 5]
+      njexl>s.contains(1)
+      =>true
+
+
+At the same time  : 
+      
+      njexl>s = list([1,2,3,3,4,5])
+      =>[1, 2, 3, 3, 4, 5]
+      njexl>1 @ s 
+      =>true
+
+We will give another classic example for this : 
+
+### Verify that a list is sorted.
 There you go : 
 
       njexl>l = list( 0 , 1, 2, 3, 4, 5, 6, 6, 6, 7, 8 )
@@ -18,7 +37,7 @@ passed, which is the list "l" here.
 All we are trying to test if any element is out of order, select that element.
 As no element is selected - we are sure that the list is in order - i.e. sorted.
 
-## Every Element of a List  : P(e)
+## For Every Element of a List  : [FORALL e in L ] P(e)
 
 In predicate formulation we represent properties as computable functions.
 Generally that is : 
@@ -51,7 +70,6 @@ Both works.
 
 
  
-
 
 
 
