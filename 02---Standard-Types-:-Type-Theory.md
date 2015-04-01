@@ -96,3 +96,29 @@ The reverse creation of date / time is *obviously* possible.
      =>Tue Mar 31 00:00:00 IST 2015 
 
 Formatting guide as stated above.
+
+### Strings 
+Strings are not much interesting - apart from : 
+
+    njexl>s="hi all!"
+    =>hi all!
+    njexl>s[2]
+    => 
+    njexl>s[3]
+    =>a
+    njexl>s[5]
+    =>l
+
+Which basically means string[index] is what returns the individual characters.
+
+    njexl>s[6].getClass()
+    =>class java.lang.Character
+
+size() works as intended : 
+
+    njexl>size(s)
+    =>7
+    njexl>s.length()
+    =>7
+
+
