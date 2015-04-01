@@ -1,7 +1,7 @@
 # Theory of Types 
 
 What the design of jexl did - is type compression.
-By that what we really mean is - it finds the minimal container type of an object while computing stuff.
+By that what we really mean is - it finds the minimal container type of an object while computing stuffs like arguments passed to a function : 
 
     njexl>a = list(0,1,2)
     =>[0, 1, 2]
@@ -17,7 +17,22 @@ But it is confusing - and hence - if you wan to compare and be sure - then you s
      =>class java.lang.Integer
 
    
-This happens *only* when one passes constant values in the parameters in a function.
+This happens *only* when one passes constant values in the parameters in a function. Thus, if you want to pass stuff as stuff - no more byte, short  etc - then  a better trick is : 
+
+        njexl>a = [ 1 , 2, 2.01 ]
+        =>[Ljava.lang.Number;@1edf1c96
+        njexl>a[2].getClass()
+        =>class java.lang.Float
+        njexl>a[0].getClass()
+        =>class java.lang.Integer
+
+Now, this Object[] coming as [L generally gets into one's nerves, thus : 
+
+       njexl>a = list([1,2,2.01])
+       =>[1, 2, 2.01] 
+
+Perfect. Slightly bad, but it is OK I presume.
+ 
 The general types which can be converted are : 
      
       int(x)
