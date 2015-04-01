@@ -13,17 +13,17 @@ This is the form :
 A general idea would be finding elements. That is the work of *select* function.
 Does any element exist in the list which is 1? 
 
-      njexl>s = list([1,2,3,3,4,5])
+      (njexl)s = list([1,2,3,3,4,5])
       =>[1, 2, 3, 3, 4, 5]
-      njexl>s.contains(1)
+      (njexl)s.contains(1)
       =>true
 
 
 At the same time  : 
       
-      njexl>s = list([1,2,3,3,4,5])
+      (njexl)s = list([1,2,3,3,4,5])
       =>[1, 2, 3, 3, 4, 5]
-      njexl>1 @ s 
+      (njexl)1 @ s 
       =>true
 
 We will give another classic example for this : 
@@ -31,9 +31,9 @@ We will give another classic example for this :
 ### Verify that a list is sorted.
 There you go : 
 
-      njexl>l = list( 0 , 1, 2, 3, 4, 5, 6, 6, 6, 7, 8 )
+      (njexl)l = list( 0 , 1, 2, 3, 4, 5, 6, 6, 6, 7, 8 )
       =>[0, 1, 2, 3, 4, 5, 6, 6, 6, 7, 8]
-      njexl>empty( select{ _ > 0 and $ < $$[_-1] }(l) )
+      (njexl)empty( select{ _ > 0 and $ < $$[_-1] }(l) )
       =>true
 
 The "_" is the current index of the implicit loop, while "$" is the current variable. "$$" is the argument context 
@@ -57,16 +57,16 @@ Thus, P(x) becomes "x=1" and
 There would be two ways to do it : 
 
 
-      njexl>l = [1,1,1,1,1,1]    
-      =>[I@1c655221
-      njexl>s = set(l)              
+      (njexl)l = [1,1,1,1,1,1]    
+      =>@[1,1,1,1,1,1]
+      (njexl)s = set(l)              
       =>S{ 1 }
-      njexl>int(1) @ s and !empty(s)
+      (njexl)int(1) @ s and !empty(s)
       =>true
 
 Then, the other way : 
 
-      njexl>empty( select{ int($) != 1 }(l) )
+      (njexl)empty( select{ int($) != 1 }(l) )
       =>true
 
 Both works. 
@@ -77,16 +77,16 @@ The idea is http://en.wikipedia.org/wiki/Axiom_of_choice : I can take product of
 This is trivial in nJexl : 
 
 
-       njexl>a = list([1,2,2.01])
+       (njexl)a = list([1,2,2.01])
        =>[1, 2, 2.01]
-       njexl>b = list(0,1)
+       (njexl)b = list(0,1)
        =>[0, 1]
-       njexl>a*b
+       (njexl)a*b
        =>[[1, 0], [1, 1], [2, 0], [2, 1], [2.01, 0], [2.01, 1]]
 
 Fine, but we need pairs which are all different, thus : 
 
-       njexl>join{ $[0] != int($[1]) }(a,b)
+       (njexl)join{ $[0] != int($[1]) }(a,b)
        =>[[1, 0], [2, 0], [2, 1], [2.01, 0], [2.01, 1]]
 
  That is join for you. Clearly there is an implicit WHERE clause, within than block {}.
@@ -96,16 +96,12 @@ The multiplication operator "*" does not have it, but "join" has it.
 So, let's use this to do some fun stuff, find all pairs (x,y) where (x < y). 
 Darn easy :
 
-      njexl>a = list("abc","def","xyz", "klm")           
+      (njexl)a = list("abc","def","xyz", "klm")           
       =>[abc, def, xyz, klm]
-      njexl>join{ $[0] < $[1] }(a,a)
+      (njexl)join{ $[0] < $[1] }(a,a)
       =>[[abc, def], [abc, xyz], [abc, klm], [def, xyz], [def, klm], [klm, xyz]]  
 
 
 That should do it. You see, the whole idea is about code-less-ness.
 As a professional tester, I understand that coding is bad, and hence I ensured none had to code.
-
-
-
-
 
