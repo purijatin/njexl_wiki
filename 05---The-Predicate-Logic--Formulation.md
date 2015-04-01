@@ -21,7 +21,16 @@ As no element is selected - we are sure that the list is in order - i.e. sorted.
 ## Every Element of a List  : P(e)
 
 In predicate formulation we represent properties as computable functions.
+Generally that is : 
+
+![General Predicate Form ](http://latex.codecogs.com/gif.latex?%5Cfn_phv%20%5Cforall%20x%20%5Cin%20L%20%5C%3B%20%3B%5C%3B%20P%28x%29%20%3A%20TRUE)
+
 In this formulation - suppose we want to test if every element of a list is equal to integer 1.
+Thus, P(x) becomes "x=1" and 
+
+![Predicate Form ](http://latex.codecogs.com/gif.latex?%5Cfn_phv%20%5Cforall%20x%20%5Cin%20L%20%5C%3B%20%3B%5C%3B%20x%20%3D%201)
+
+
 There would be two ways to do it : 
 
 
@@ -42,7 +51,6 @@ Both works.
 
 
  
-
 
 
 
