@@ -16,7 +16,7 @@ The most easily used one is an array type. Everything inside it automatically be
 Thus : 
 
     (njexl)a = [1,2,3,4] 
-    =>[I@45fe3ee3
+    => @[1, 2, 3, 4]
     (njexl)a[0].getClass()
     =>class java.lang.Integer
 
@@ -24,7 +24,7 @@ As we can see arrays can be indexed by their offset.
 You can assign stuffs to arrays.
 
       (njexl)a = [1,2,'hi', "hello"]
-      =>[Ljava.lang.Object;@b1a58a3
+      =>@[1, 2, hi, hello]
       (njexl)a[0]
       =>1
       (njexl)a[2]
@@ -190,4 +190,3 @@ How cool is that? At the same time - we can start using it even :
 
 
 Thus, we can access any field of any class instance as this O['field name'] syntax!
-
