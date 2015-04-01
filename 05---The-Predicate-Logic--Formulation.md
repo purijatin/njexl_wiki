@@ -18,8 +18,30 @@ passed, which is the list "l" here.
 All we are trying to test if any element is out of order, select that element.
 As no element is selected - we are sure that the list is in order - i.e. sorted.
 
+## Every Element of a List  : P(e)
+
+In predicate formulation we represent properties as computable functions.
+In this formulation - suppose we want to test if every element of a list is equal to integer 1.
+There would be two ways to do it : 
 
 
+      njexl>l = [1,1,1,1,1,1]    
+      =>[I@1c655221
+      njexl>s = set(l)              
+      =>S{ 1 }
+      njexl>int(1) @ s and !empty(s)
+      =>true
+
+Then, the other way : 
+
+      njexl>empty( select{ int($) != 1 }(l) )
+      =>true
+
+Both works. 
+
+
+
+ 
 
 
 
