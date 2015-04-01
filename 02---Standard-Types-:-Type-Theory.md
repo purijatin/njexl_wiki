@@ -42,6 +42,8 @@ The general types which can be converted are :
       str(x)
       date(x) // converts to java.lang.Date 
       time(x) // converts to JodaTime --> http://www.joda.org/joda-time
+      array(x,y,z,...) // minimal sized object array 
+      [ x, y, z, ... ]  // Full sized object array 
       list(x,y,...) // generates an ArrayList 
       set(x,y,z,...) // a ListSet, ensures that the set is indexible 
 
