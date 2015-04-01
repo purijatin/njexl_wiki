@@ -3,32 +3,32 @@
 What the design of jexl did - is type compression.
 By that what we really mean is - it finds the minimal container type of an object while computing stuffs like arguments passed to a function : 
 
-    njexl>a = list(0,1,2)
+    (njexl)a = list(0,1,2)
     =>[0, 1, 2]
-    njexl>a[0].getClass()
+    (njexl)a[0].getClass()
     =>class java.lang.Byte
 
 This is kind of intriguing and saves memory.
 But it is confusing - and hence - if you wan to compare and be sure - then you should always type cast.
     
-     njexl>a = list{int($)}(0,1,2)
+     (njexl)a = list{int($)}(0,1,2)
      =>[0, 1, 2]
-     njexl>a[0].getClass()
+     (njexl)a[0].getClass()
      =>class java.lang.Integer
 
    
 This happens *only* when one passes constant values in the parameters in a function. Thus, if you want to pass stuff as stuff - no more byte, short  etc - then  a better trick is : 
 
-        njexl>a = [ 1 , 2, 2.01 ]
+        (njexl)a = [ 1 , 2, 2.01 ]
         =>[Ljava.lang.Number;@1edf1c96
-        njexl>a[2].getClass()
+        (njexl)a[2].getClass()
         =>class java.lang.Float
-        njexl>a[0].getClass()
+        (njexl)a[0].getClass()
         =>class java.lang.Integer
 
 Now, this Object[] coming as [L generally gets into one's nerves, thus : 
 
-       njexl>a = list([1,2,2.01])
+       (njexl)a = list([1,2,2.01])
        =>[1, 2, 2.01] 
 
 Perfect. Slightly bad, but it is OK I presume.
@@ -51,14 +51,14 @@ The general types which can be converted are :
 The general idea is convert type peacefully.
 That idea xxx(y) would convert an object peacefully. If it can not, it would return null.
 
-      njexl>int('xx')
+      (njexl)int('xx')
       =>null
 
 This is bad. What if you really want a fallback - when one can not type convert?
 
-      njexl>bool('xx',false)
+      (njexl)bool('xx',false)
       =>false 
-      njexl>int('xx',42)
+      (njexl)int('xx',42)
       =>42
 
 Same with any other types.
@@ -68,9 +68,9 @@ Simplification of date & time are premium from a testing perspective.
 Thus, we have much easier functions   
 
    
-     njexl>date()
+     (njexl)date()
      =>Tue Mar 31 19:03:12 IST 2015
-     njexl>str(date())
+     (njexl)str(date())
      =>20150331
 
 
@@ -78,23 +78,23 @@ The string conversion is easy with str(). But in what format?
 If one is using date() object - then the format used is : http://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html 
 In any case - the formatting can be changed : 
 
-     njexl>str(date(),'yyyy/dd/MM')
+     (njexl)str(date(),'yyyy/dd/MM')
      =>2015/31/03
 
 In any case - the time() function can be used to get time():
 
-     njexl>time()
+     (njexl)time()
      =>2015-03-31T19:08:49.723+05:30
-     njexl>str(time(),'yyyy/dd/MM')
+     (njexl)str(time(),'yyyy/dd/MM')
      =>2015/31/03
 
 The formatting guide is : http://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html
 
 The reverse creation of date / time is *obviously* possible. 
     
-     njexl>time('2015/31/03','yyyy/dd/MM')
+     (njexl)time('2015/31/03','yyyy/dd/MM')
      =>2015-03-31T00:00:00.000+05:30
-     njexl>date('2015/31/03','yyyy/dd/MM')
+     (njexl)date('2015/31/03','yyyy/dd/MM')
      =>Tue Mar 31 00:00:00 IST 2015 
 
 Formatting guide as stated above.
@@ -102,25 +102,24 @@ Formatting guide as stated above.
 ### Strings 
 Strings are not much interesting - apart from : 
 
-    njexl>s="hi all!"
+    (njexl)s="hi all!"
     =>hi all!
-    njexl>s[2]
+    (njexl)s[2]
     => 
-    njexl>s[3]
+    (njexl)s[3]
     =>a
-    njexl>s[5]
+    (njexl)s[5]
     =>l
 
 Which basically means string[index] is what returns the individual characters.
 
-    njexl>s[6].getClass()
+    (njexl)s[6].getClass()
     =>class java.lang.Character
 
 size() works as intended : 
 
-    njexl>size(s)
+    (njexl)size(s)
     =>7
-    njexl>s.length()
+    (njexl)s.length()
     =>7
-
 
