@@ -68,22 +68,22 @@ First let me show the xml :
 
 In fact it is hidden in :  
 
-        (njexl)import 'org.apache.commons.jexl2.extension.dataaccess.XmlMap' as xml
+       (njexl)import 'org.apache.commons.jexl2.extension.dataaccess.XmlMap' as xml
         =>class org.apache.commons.jexl2.extension.dataaccess.XmlMap
-        (njexl)x = xml:file2xml('sample.xml')
+        (njexl)xml:file2xml('sample.xml')
         =>name='slideshow',text=''
-        attr={null=Sample Slide Show}
+        attr={date=Date of publication, author=Yours Truly, title=Sample Slide Show}
         children=[name='slide',text=''
-        attr={null=all}
+        attr={type=all}
         children=[name='title',text='Wake up to WonderWidgets!'
         attr={}
         children=[]
         ]
         , name='slide',text=''
-         attr={null=all}
-         children=[name='title',text='Overview'
-         attr={}
-         children=[]
+        attr={type=all}
+        children=[name='title',text='Overview'
+        attr={}
+        children=[]
         , name='item',text='Why  are great'
         attr={}
         children=[name='em',text='WonderWidgets'
@@ -101,6 +101,8 @@ In fact it is hidden in :
         ]
         ]
         ]
+
+
 
 Thus, any node can be accessed like objects straight away.
 
