@@ -100,6 +100,23 @@ Another way to use the same size functionality is to use #|expr|.
     =>7
 
 Which is much more accessible short hand.
+The type works as expected : 
+
+     (njexl)type(0)
+     =>class java.lang.Integer
+     (njexl)type(0l)
+     =>class java.lang.Long
+     (njexl)type(0.0)
+     =>class java.lang.Float
+     (njexl)type(0.0d)
+     =>class java.lang.Double
+     (njexl)type("hi")
+     =>class java.lang.String
+     (njexl)type(date())
+     =>class java.util.Date
+     (njexl)type(time())
+     =>class org.joda.time.DateTime
+
 
 The specific operator "isa" lets you know if one object type is actually of another type or not : 
 
@@ -128,6 +145,5 @@ And then, finally -- integer types are well converted :
        =>Z
 
 And thus, this - section ends.
-
 
 
