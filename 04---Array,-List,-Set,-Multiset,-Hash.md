@@ -9,6 +9,20 @@ There are two generic operations.
        (njexl)size(a)  // what is the size of the collection 
        =>0 
 
+Now then size() is a kind of bad way of representing things so we have #|expr| operator.
+
+       (njexl)#|1.0-0.4|
+       =>0.6
+       (njexl)#|1.0-4|
+       =>3.0
+       (njexl)a = [1,2,3,4]
+       =>@[1, 2, 3, 4]
+       (njexl)#|a|
+       =>4
+
+Thus, #|expr| also is abs() function, which is important for Business Logic and Validation.
+
+
 Also every collection is indexable, col[x] is valid for all of them. And that includes for Sets too.
 
 ## Array
