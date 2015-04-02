@@ -1,40 +1,12 @@
 # Theory of Types 
 
-What the design of jexl did - is type compression.
-By that what we really mean is - it finds the minimal container type of an object while computing stuffs like arguments passed to a function : 
-
-    (njexl)a = list(0,1,2)
-    =>[0, 1, 2]
-    (njexl)a[0].getClass()
-    =>class java.lang.Byte
-
-This is kind of intriguing and saves memory.
-But it is confusing - and hence - if you wan to compare and be sure - then you should always type cast.
-    
-     (njexl)a = list{int($)}(0,1,2)
-     =>[0, 1, 2]
-     (njexl)a[0].getClass()
-     =>class java.lang.Integer
-
-   
-This happens *only* when one passes constant values in the parameters in a function. Thus, if you want to pass stuff as stuff - no more byte, short  etc - then  a better trick is : 
-
-        (njexl)a = [ 1 , 2, 2.01 ]
-        =>[Ljava.lang.Number;@1edf1c96
-        (njexl)a[2].getClass()
-        =>class java.lang.Float
-        (njexl)a[0].getClass()
-        =>class java.lang.Integer
-
-Now, this Object[] coming as [L generally gets into one's nerves, thus : 
-
-       (njexl)a = list([1,2,2.01])
-       =>[1, 2, 2.01] 
-
-Perfect. Slightly bad, but it is OK I presume.
  
 The general types which can be converted are : 
-     
+      
+      type(x) // tells what type x is
+      byte(x)
+      short(x)
+      char(x)     
       int(x)
       bool(x)
       long(x)
@@ -42,7 +14,7 @@ The general types which can be converted are :
       str(x)
       date(x) // converts to java.lang.Date 
       time(x) // converts to JodaTime --> http://www.joda.org/joda-time
-      array(x,y,z,...) // minimal sized object array 
+      array(x,y,z,...) // object array : with functionals  
       [ x, y, z, ... ]  // Full sized object array 
       list(x,y,...) // generates an ArrayList 
       set(x,y,z,...) // a ListSet, ensures that the set is indexible 
