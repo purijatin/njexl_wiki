@@ -36,7 +36,11 @@ Awesome, right? You bet. No extra fancy stuff - nothing really. Less talk - and 
 ## The excess of Xml
 
 Xml was, is, and always will be a very bad idea [ http://harmful.cat-v.org/software/xml/ ]
+
+
   > “XML combines the efficiency of text files with the readability of binary files” – unknown
+
+
 But thanks to many *big* enterprise companies - it became a norm to be abused human intellect - the last are obviously Java EE usage in Hibernate, Springs and Struts. Notwithstanding the complexity and loss of precise network bandwidth - it is a very popular format. Thus - against my better judgement I could not avoid Xml.
 And yes, it is hidden.
 
