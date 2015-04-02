@@ -94,4 +94,40 @@ size() works as intended :
     =>7
     (njexl)s.length()
     =>7
+Another way to use the same size functionality is to use #|expr|.
+
+    (njexl)#|s|
+    =>7
+
+Which is much more accessible short hand.
+
+The specific operator "isa" lets you know if one object type is actually of another type or not : 
+
+      (njexl)1 isa int(0)
+      =>true
+      (njexl)1.0 isa int(0)
+      =>false
+      (njexl){:} isa dict()
+      =>true
+      (njexl)[] isa array()
+      =>true
+
+And then, finally -- integer types are well converted : 
+
+       (njexl)byte(1)
+       =>1
+       (njexl)byte('a')
+       =>null
+       (njexl)short('a')
+       =>97
+       (njexl)char(1)
+       =>
+       (njexl)char(0)
+       =>
+       (njexl)char('Z')
+       =>Z
+
+And thus, this - section ends.
+
+
 
