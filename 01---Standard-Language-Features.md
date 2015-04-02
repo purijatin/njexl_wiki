@@ -17,7 +17,7 @@ Generally people love ".". I do too. They are kind of match all - catch all. But
 That lets people know - yes, that is a function I am calling from an IMPORTED MODULE, it may inside be an object - but that does not matter.
 
 ## Comments 
-They are line : "//" or block "/*  */".
+They are line : "//" or "##" or block "/*  */".
 We would support "@" just like javadoc later.
 
 ## Variables
