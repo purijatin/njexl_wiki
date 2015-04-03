@@ -81,6 +81,33 @@ passed, which is the list "a" here.
 All we are trying to test if any element is out of order, select that element.
 As no element is selected - we are sure that the list is in order - i.e. sorted.
 
+## First Find 
+Suppose you wan to find the element and the index of the element where some predicate P(e) is true.
+Specifically, suppose I want to find the first element which is greater than 10 in a list.
+What to do? This : 
+
+    (njexl)a = [ 1, 2, 3, 30, 40 , -1]
+    =>@[1, 2, 3, 30, 40, -1]
+    (njexl)index{$>10}(a)
+    =>3
+
+If it would not find it, it would return -1.
+     (njexl)index{$<0}(a)
+     =>5
+     (njexl)index{$=0}(a)
+     =>-1
+
+This is at most O(n), and on the average O(n/2), because it immediately terminates the loop after a match.
+Index also works w/o anonymous function block, in that case the first element is taken as the item to be found, 
+while the rest comprise of the list.
+
+    (njexl)index(0,1,2,3,4,5,0)
+    =>5
+    (njexl)index(0,1,2,3,4,5,9)
+    =>-1
+    (njexl)index(1,a)
+    =>0
+
 
 ## For Every Element of a List  : [FORALL e in L ] P(e)
 
@@ -96,7 +123,6 @@ Thus, P(x) becomes "x=1" and
 
 
 There would be two ways to do it : 
-
 
       (njexl)l = [1,1,1,1,1,1]    
       =>@[1,1,1,1,1,1]
