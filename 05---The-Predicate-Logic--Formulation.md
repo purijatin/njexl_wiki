@@ -92,6 +92,7 @@ What to do? This :
     =>3
 
 If it would not find it, it would return -1.
+
      (njexl)index{$<0}(a)
      =>5
      (njexl)index{$=0}(a)
