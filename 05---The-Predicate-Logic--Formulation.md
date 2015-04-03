@@ -26,20 +26,61 @@ At the same time  :
       (njexl)1 @ s 
       =>true
 
-We will give another classic example for this : 
+## Index, Item , Context 
+
+The "_" is the index. The "$" is the item.
+For what? In the predicate formulation - there is an implicit loop. One needs to understand the looping:
+       
+       l = list()
+       for ( i : [ 1 , 2, 3, 4, 5 ] ){
+           if ( i >= 2 and i <= 4 ){
+               l = l + i
+           }
+       }
+       // use l here.
+
+This what actually filters/select things between [2,4].
+But think about it. One can see that there is a for loop. Then there is an if block.
+If the condition is true, then do something. This can be succinctly written as : 
+
+      (njexl)a = [ 1, 2, 3, 4, 5 ]
+      =>@[1, 2, 3, 4, 5]
+      (njexl)select{ $ >= 2 and $<= 4 }(a)
+      =>[2, 3, 4]
+
+Now then - where should we use the context as in "$$"? Or rather the index "_" ?
+We will give a classic example for this : 
 
 ### Verify that a list is sorted.
+
+The idea would be doing this :  
+       
+      i = 0 
+      sorted = true 
+      while ( i < size(a)  ){
+           if ( i > 0 &&  a[i] < a[i-1] ){
+               //fail!
+               sorted = false
+               break; // this is not a jexl keyword 
+           }
+           i = i+1
+       }      
+      if ( sorted ){ /*  this is where I know a is sorted. */ }
+
 There you go : 
 
-      (njexl)l = list( 0 , 1, 2, 3, 4, 5, 6, 6, 6, 7, 8 )
+      (njexl)a = list( 0 , 1, 2, 3, 4, 5, 6, 6, 6, 7, 8 )
       =>[0, 1, 2, 3, 4, 5, 6, 6, 6, 7, 8]
-      (njexl)empty( select{ _ > 0 and $ < $$[_-1] }(l) )
+      (njexl)empty( select{ _ > 0 and $ < $$[_-1] }(a) )
       =>true
 
+
 The "_" is the current index of the implicit loop, while "$" is the current variable. "$$" is the argument context 
-passed, which is the list "l" here.
+passed, which is the list "a" here.
+
 All we are trying to test if any element is out of order, select that element.
 As no element is selected - we are sure that the list is in order - i.e. sorted.
+
 
 ## For Every Element of a List  : [FORALL e in L ] P(e)
 
@@ -104,4 +145,3 @@ Darn easy :
 
 That should do it. You see, the whole idea is about code-less-ness.
 As a professional tester, I understand that coding is bad, and hence I ensured none had to code.
-
