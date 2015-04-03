@@ -102,21 +102,25 @@ Now, every row can be accessed by row hashes. This is what it means :
        =>1
 
 And that is why in the query - instead of standard sql where column_name ... gets replaced with $["column_name"].
+But better, in nJexl a["xx"] is same as a.xx ! 
 Thus, we can have : 
 
       (njexl)qr = matrix.select{ $["Name"] == "Noga" }()
       =>[[1, Noga]] 
-      
+      (njexl)qr = matrix.select{ $.Name == "Noga" }()
+      =>[[1, Noga]] 
+
+That should be a pretty interesting thing, no?
 The classic LIKE operation becomes "@" operation : 
 
-      (njexl)qr = matrix.select{ "e" @ $["Name"]  }()
+      (njexl)qr = matrix.select{ "e" @ $.Name  }()
       =>[[2, Jaideep ], [5, Shweta], [6, Waseem]]
 
 Its imply gets better - because nJexl supports regular expressions! Thus  : 
 
       (njexl)"abcdef" =~ "abc.*"
       =>true
-      (njexl)qr = matrix.select{ $["Name"] =~ ".*a$" }() // ends with "a".
+      (njexl)qr = matrix.select{ $.Name =~ ".*a$" }() // ends with "a".
       =>[[1, Noga], [3, Partha], [4, Chanda], [5, Shweta]]
 
 Pretty awesome, right?
