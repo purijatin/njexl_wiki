@@ -21,8 +21,14 @@ No more controlled location by sys admins. You are as free as one can get.
 Never the less that is one salient feature of the language.
 
 ### Calling Imported Functions  
+
 Generally people love ".". I do too. They are kind of match all - catch all. But then one has to find - is that an imported module or an object or what? That is why all method calls of a module is with strictly ":".
-That lets people know - yes, that is a function I am calling from an IMPORTED MODULE, it may inside be an object - but that does not matter.
+That lets people know - yes, that is a function I am calling from an IMPORTED MODULE, it may inside be an object - but that does not matter. For example, wanna know my user name?
+
+     (njexl)sys:getProperty("user.name")
+     =>noga
+     (njexl)sys:getProperty("user.dir")
+     =>/Codes/Java/njexl/target
 
 ## Comments 
 They are line : "//" or "##" or block "/*  */".
@@ -33,17 +39,25 @@ Everything and anything that does not match a strict keyword is a variable.
 The strict keywords are :- 
 if, else, for, while, @ , ":" , def : and we are done.
 
+     (njexl)x = "i am a var"
+      =>i am a var
+     (njexl)x
+     =>i am a var
+
 ### Names
+
 Can be anything, but only starts with [@$a-z_A-Z]. That is important.
 The specific variable types starting "$" and "@" gets used in implicit loop operations - which we would talk later.
 You should not use a $ type variable in a loop.
 
 ### Scope
+
 Variables are global in the script - unless they are declared within the method definitions.
 That is a very crucial concept. No specific things are needed to call global variables inside a method like python.
 Just use it.
 
 ## Statements 
+
 Statements are separated by - well you guessed it : new lines. And ";". If you want to put lots of stuff in a single line ( saving space is still a premium ) : use ";". If not, use new line. Makes it work, makes it readable.
 Now what about a statement that is too large to fit in the same line ? In that case use "..." to end that line. Yes, ellipsis. And then continue the next line as if nothing happened, that would concatenate the lines.
 
@@ -59,6 +73,7 @@ Totally works.
 ![for loop with range ](http://s17.postimg.org/gbchlvycv/Screen_Shot_2015_03_30_at_11_17_19_am.png)
 
 ### range
+
 That brings you to range. Range is good. You should use range. It is optimal - and thus at least 2 times faster than the python equivalent and may be more. No, I was joking - it is fast because JVM is eons faster than PVM.
 I took gazillion time faster JVM and make it very slow - so now nJexl is *only* 2 times faster than that of any Python Script. The syntax of range is  : 
  * range(end)
@@ -75,25 +90,61 @@ Anything between [0-9] and then +,- appended. No hex, please. I do not like them
 Anything within '...' and "....". As usual "\" lets you escape.
 
 ### Arrays
+
 Anything that is [ ]. Err, [ 'a' , 10, 'b'] is an array. They are actually Object[] type.
 Everything is object in here. They are not modifiable. You can also generate an array by : array(1,2,3) etc. 
 
+     (njexl)arr = [ "I" , "am", "an" , "Array" ]
+     =>@[I, am, an, Array]
+     (njexl)arr = array{ $ + ':' }(arr)
+     =>@[I:, am:, an:, Array:]
+    
+What is that {} block? We will talk about in the section of Anonymous functions.
+
 ### Lists
+
 Fear not, you can cast an array to list straight by : list(). That gives you a modifiable list.
+     
+      (njexl)l = list()
+     =>[]
+     (njexl)l = l + 'hi'
+     =>[hi]
+     (njexl)l
+     =>[hi]
+     (njexl)l.add('bye')
+     =>true
+     (njexl)l
+     =>[hi, bye]
+
 
 ### Dictionaries and Hashes
 {  key : value } is a dictionary. {:} is an empty dictionary.
 They are always modifiable. You can create a dictionary by dict() and pass two lists, first one is key list, 
 second one is value list. It would marry them up.
+    (njexl){:}
+    =>{}
+    (njexl)d = {:}
+    =>{}
+    (njexl)d[0]=0
+    =>0
+    (njexl)d
+    =>{0=0}
 
 ### Size and Empty
+
 These are special functions.
 size(C) gives you size of a container. Let it be array, list or hash.
 Well, if you know it is an array - then ".length" also works.
 So does C.size()
 empty(C) tells you iff  C is null or empty.
+     
+     (njexl)d = {:}
+     =>{}
+     (njexl)size(d)
+     =>0
 
 ### Accessor to Array, List, Hash, Object
+
 C[x].
 It is that simple. For an Array/List , it starts with C[0] and goes until you know when : C[size(C)-1].
 For a hash, that becomes C[key]. 
@@ -102,11 +153,13 @@ O[F] gives you the value of the field named 'F'.
 Don't worry. O.F also works as expected.
 
 ## Return
+
 return <expression>.
 You must return something. No void, please. 
 In fact, if you do not even say it - the outcome of the last executed statement is taken as return value.
 
 ## Methods 
+
 defining methods is easy.
 ![Methods](http://s17.postimg.org/fzzmmv7an/Screen_Shot_2015_03_30_at_11_37_35_am.png)
 
