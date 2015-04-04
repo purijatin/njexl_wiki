@@ -94,11 +94,13 @@ To get a mapping between what column is what column index - we used the Awesome 
        (njexl)matrix.columns.indexOf("xxx")
        =>-1
 
-Now, every row can be accessed by row hashes. This is what it means : 
+Now, every row can be accessed by tuples. 
+This is the thing - http://en.wikipedia.org/wiki/Tuple_relational_calculus 
+This is what it means : 
 
-       (njexl)matrix.rh(0)
-       =>{Id=1, Name=Noga}
-       (njexl)(matrix.rh(0))["Id"]
+       (njexl)matrix.tuple(0)
+       =>< [ 0->'Id' 1->'Name'] @[ 1 , Noga ] >
+       (njexl)(matrix.tuple(0))["Id"]
        =>1
 
 And that is why in the query - instead of standard sql where column_name ... gets replaced with $["column_name"].
@@ -124,7 +126,6 @@ Its imply gets better - because nJexl supports regular expressions! Thus  :
       =>[[1, Noga], [3, Partha], [4, Chanda], [5, Shweta]]
 
 Pretty awesome, right?
-
 
 
 
