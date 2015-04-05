@@ -70,6 +70,29 @@ Some more demonstration follows :
 That is the power - of 1960 computer science. No, not *computer* engineering, and heavens no, no software engineering. In any case, the great JVN knew it, and that is why there is a JVN architecture.
 
 
+# Why Back-Tick?
+
+I could have implemented the currying as part of the language - straight, not as a string processing.
+But that would actually mean - processing the file 2 times, one for the standard notation, another for the operations overload. After all, who told you that the forms are limited?
+
+You can have : 
+
+      a #{op} b 
+      func( a #{op} b )
+
+and now, imagine that the #{op} can turn itself into an operator or a comma! What then?
+Thus, it is theoretically impossible to 'guess' context of the operator. And thus, a better implementation is double reading by default, *ONLY* when one is forced to ask : dude, there is my back tick!
+Note that, back tick returns a string, if nothing found.
+
+     (njexl)x = `hi`
+     =>hi
+     (njexl) method = 'equals' 
+     =>equals
+     (njexl)`x.#{method}(y)`
+     =>false
+     
+You can call it - the executable(2) string. Or, you can call it a glorified macro processor.
+Does not matter. Currying is essential in computer theory - and is more than essential if you are trying to avoid voluminous coding. 
 
 
 
