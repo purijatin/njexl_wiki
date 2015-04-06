@@ -85,7 +85,34 @@ And no, not only on list. On sets too. In there, they have very precise meaning 
   * A >= B  implies B is a subset of A
   * Obviously A == B is when the sets are equal.
 
+     (njexl)[1,2] < [3,1,2]
+     =>true
+     (njexl)[1,2,3] < [3,1,2]
+     =>false
+     (njexl)[1,2,3] <= [3,1,2]
+     =>true
+   
+These operations are tenable for array, list, or set type.
+List and arrays are mixable - while set is not.
+   
+     (njexl)list(1,2,3) ==  [3,1,2]
+     =>true
+
+Empty list, arrays and stuffs are always everyones sub-thing: 
+
+     (njexl)[] < [1]
+     =>true
+     (njexl)[] < []
+     =>false
+     (njexl)[] <= []
+     =>true
+     (njexl)[] == []
+     =>true
+
+
 But wait, that is not the only cool thing!
+
+
 
 ### Overlaps, Difference, Merger 
 In the colourful language of set theory they are called 
