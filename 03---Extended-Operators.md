@@ -19,16 +19,14 @@ Hows this for a start? It simply get's better :
      
        (njexl)s=set(1,2,3,3,4)
        =>S{ 1,2,3,4 }
-       (njexl)s+5
-       =>[1, 2, 3, 4, 5]
-       (njexl)s+5
-       =>[1, 2, 3, 4, 5]
-
+       (njexl)s = s+5
+       =>S{ 1,2,3,4,5 }
+       
 Take that. That comes in as default!
 Now if you believe '+' acts in awesome ways - so does '-'.
 
      (njexl)s-1
-     =>[1, 2, 3, 4]
+     =>S{ 1, 2, 3, 4 }
 
 You basically got the idea, did not you?
 
