@@ -109,6 +109,18 @@ Empty list, arrays and stuffs are always everyones sub-thing:
      (njexl)[] == []
      =>true
 
+If two things are essentially incomparable - that is, a is not a proper sub-thing of b, then : 
+
+
+     (njexl)[3] <  [1]
+     =>false
+     (njexl)[3] >  [1]
+     =>false
+     (njexl)[3] >=  [1]
+     =>false
+    (njexl)[3] <=  [1]
+    =>false
+
 
 But wait, that is not the only cool thing!
 
