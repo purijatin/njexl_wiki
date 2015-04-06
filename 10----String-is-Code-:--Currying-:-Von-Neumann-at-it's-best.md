@@ -10,7 +10,7 @@ http://en.wikipedia.org/wiki/Currying
 
 ## Why on Earth?
 
-Because it is cool. No, am just joking around. This is the most important thing that happened in the theory of computation - and thus in the hole darn history of software. Currying. Please understand it.
+Because it is cool. No, am just joking around. This is the most important thing that happened in the theory of computation - and thus in the whole darn history of software. Currying. Please understand it.
 
 The tenet, as usual is - code is bad. Branching is part of code and thus, squarely bad.
 Test automation is testing those branching of code hence cubely bad. Finally, test automation as tons of branches that makes it a ripe harvest of people sucking out money. That is x^4 bad. 'BAD'**4 if you are using nJexl.
