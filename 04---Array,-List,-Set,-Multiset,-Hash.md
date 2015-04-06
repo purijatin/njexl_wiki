@@ -145,6 +145,20 @@ It basically saying that for the key 1, both left and right multisets are having
 But, for the key 2, left and right multisets are having different values , left : 2 and right : 1.
 Of course all list operations are treated as multiset operations.
 
+## Relation between Lists and Sets 
+
+Those can be found by : 
+
+    (njexl)set:set_relation([1],[2])
+    =>INDEPENDENT
+    (njexl)set:set_relation([1,2],[2,3])
+    =>OVERLAP
+    (njexl)set:set_relation([1,2,3],[1,2,3])
+    =>EQUAL
+    (njexl)set:list_relation([1,2],[2,3])
+    =>OVERLAP
+
+
 
 ## Hashes  
 They are list of key value pairs.
