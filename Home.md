@@ -24,7 +24,7 @@ It is a multi-paradigm language. It supports functionals ( i.e. anonymous functi
 It supports OOP. Albeit not recommended, as [OOPs!](http://harmful.cat-v.org/software/OO_programming/why_oo_sucks)
 clearly shows why. In case you want C++ i.e.  [multiple inheritance](http://en.wikipedia.org/wiki/Multiple_inheritance) with full operator overloading, friend functions, etc. then this is for you anyways. Then, probably you would love it to the core.
 
-Python is a brilliant language, and I shamelessly copied many, and many adage of Python here. The heavy use of __xxx__ literals, and the *me* directive, and *def* is out and out python. 
+Python is a brilliant language, and I shamelessly copied many, and many adage of Python here. The heavy use of "__xxx__" literals, and the *me* directive, and *def* is out and out python. 
 
 The space and tab debate is very religious, and hence jexl is "{ }" : Brace yourself.
 Pick tab/space to indent - none bothers here.
