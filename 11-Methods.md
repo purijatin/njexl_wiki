@@ -156,6 +156,48 @@ Basically, it is calling methods "my_max_function" and "dummy:some_func" by name
 
 Another curious way of calling methods would be using currying.
 
+	import 'java.lang.System.out' as out 
+
+	def func_taking_other_function( func ){
+	   `#{func}( 'hello!' )`
+	}
+
+	my:func_taking_other_function('out:println')
+
+This works, as expected.
+
+        $ java -jar njexl-0.1-SNAPSHOT.jar ../samples/curry_sample.jexl
+        hello!
+
+Thus, we have reached the end of how methods work.
+One final thing before we end, the argument eccentricities which I built.
+
+## The Args constructs 
+
+
+### The Anonymous Argument 
+
+     __args__
+
+is the construct. The purpose of it, is to be used to anonymously use the whole argument list ( actually Object array). Why they are useful? Mostly when I do not care about the arguments, but needs to process them, and names are last on my mind. A classic example is the one given at the start of the chapter : 
+
+
+	// This does not take any param, so, a call to this 
+	def my_max_function(){
+	    // Use a function that use functional : e.g. list 
+	    o = sqlmath(__args__)
+	    return o[1]
+	}
+
+
+Here, the sqlmath() actually takes functional as input. and I want this sqlmath to process the arguments, rather than me. Hence, when I call : 
+
+       x = my_max_function{ int($) }( '1', 2, '3', 4, '5')
+
+The arguments are passed as is to the sqlmath, who handles all the anonymous function thing, and returns me the result.
+
+
+
 
 
 
