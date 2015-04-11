@@ -152,7 +152,9 @@ Notice that we are showcasing that args return backs to original - after functio
 Basically, it is calling methods "my_max_function" and "dummy:some_func" by name, and one can pass them as such, as string. What it also demonstrates that the ability take anonymous parameters for any function call. 
 
 
+## Currying while method call
 
+Another curious way of calling methods would be using currying.
 
 
 
