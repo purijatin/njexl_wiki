@@ -197,9 +197,48 @@ Here, the sqlmath() actually takes functional as input. and I want this sqlmath 
 The arguments are passed as is to the sqlmath, who handles all the anonymous function thing, and returns me the result.
 
 
+### Default Arguments : Variable No of Args
+
+Essentially, while *args* gets all the arguments anonymously, standard way works, as is shown.
+Also, one can pass default arguments : 
+
+	/*
+	 Showcases the named parameters 
+	*/
+	import 'java.lang.System.out' as out 
+
+	def some_method(param1='1',param2='2'){
+	     out:printf('p1 is : %s\tp2 is %s\n', param1,param2)
+	}
+
+	// should take defaults 
+	some_method()
+	// only the fist parameter
+	some_method(2)
+	// both the positional paramater
+	some_method(3,4)
+	// specific parameter : 1 
+	some_method(param2='42')
+	// Parameter 2 
+	some_method(param1='42')
+	// parameters in reverse order 
+	some_method(param2='42', param1='24')
 
 
+The result would be, as expected:
 
+     p1 is : 1	p2 is 2
+     p1 is : 2	p2 is 2
+     p1 is : 3	p2 is 4
+     p1 is : 1	p2 is 42
+     p1 is : 42	p2 is 2
+     p1 is : 24	p2 is 42
 
+Which basically sums up how the args should be used. Note that, one should not mix named args passing with unnamed positional arguments. That is bad, is not tolerated.
+
+Every function takes variable length args, and thus - null values get's assigned to parameters which are not passed. 
+People should be careful.
+
+This concludes the method level knowledge base.
 
 
