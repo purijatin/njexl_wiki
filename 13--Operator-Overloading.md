@@ -116,4 +116,9 @@ And that tells you something about Arithmetics.
 
 
 
+## Other Logical Operators
+
+Other operators which can be overloaded are "|" or the "or" operator, "&" or the "and" operator, 
+"^" or the "xor" operator. I do not see they are much useful, and in case they are, for those rare scenarios, they are overloaded anyways,before hand e.g. in case of Sets, Arrays, and Lists.
+
 
