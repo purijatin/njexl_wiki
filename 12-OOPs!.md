@@ -215,9 +215,11 @@ These whole discussion becomes kind of moot, if we add the do_print() method to 
 
 In this case, the result is pretty boring : 
 
-   Complex!
-   Some1!
-   Some2!
+
+     Complex!
+     Some1!
+     Some2!
+
 
 Which is boring, because it is supposed to be that way.
 
