@@ -224,6 +224,35 @@ In this case, the result is pretty boring :
 Which is boring, because it is supposed to be that way.
 
 
- 
+ ## Cross File Importing
+
+Is, in fact supported. Highly not recommended though. It is better to have all the class intermingling in the same file, but then some might want to extend you. Albeit rarely done in practice, unless forced too, 
+that is a distinct possibility. Hence, this is how it is done : 
+
+
+    import  '_/class_demo.jexl' as  CD 
+    def ExternalImport : CD:Some1 {}
+    s1 = new ( 'CD:Some1' )
+    s1.do_print()
+    ei = new ( 'ExternalImport' )
+    ei.do_print()
+    ei.supers['CD:Some1'].do_print()
+    return 0
+
+If we run it, we get : 
+    
+    Script imported : JexlMain@/Codes/Java/njexl/target/../samples/jclass.jexl
+    Script imported : CD@/Codes/Java/njexl/target/../samples/class_demo.jexl
+    Some1!
+    Some1!
+    Some1!
+
+That should conclude the OOPs! section.
+Next are operators, and overloading of them.
+
+
+
+
+
 
 
