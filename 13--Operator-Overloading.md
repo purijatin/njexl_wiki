@@ -38,6 +38,36 @@ This showcase very interesting things, that *str* is the one used for converting
 
 ### Other Comparison Operators 
 
-Now 
+Now other comparisons are "<", "<=" , ">" , ">=".
+Too many, and thus, we use java compareTo() hocus focus. In fact we use it slightly differently.
+The function is demonstrated here : 
+
+
+	    def __cmp__(me, o ){
+	        if ( me.s < o.s ){ return -1 }
+	        if ( me.s > o.s ){ return 1 }
+	        return 0 
+	    }
+        }// end of class body 
+	x = new ('MyClass',10)
+	y = new ('MyClass',120)
+	out:printf("%s < %s ? %s\n", x,y, x < y)
+	out:printf("%s > %s ? %s\n", x,y, x > y)
+	out:printf("%s <= %s ? %s\n", x,y, x <= y)
+	out:printf("%s >= %s ? %s\n", x,y, x >= y)
+
+
+When we add it to the class MyClass, we see the following : 
+
+       10 < 120 ? true
+       10 > 120 ? false
+       10 <= 120 ? true
+       10 >= 120 ? false
  
+And that is pretty good, should we say?
+Note that the equal() and compareTo() == 0 ideally should match. If they do not, it is your problem, not mine.
+
+
+  
+
 
