@@ -68,6 +68,52 @@ And that is pretty good, should we say?
 Note that the equal() and compareTo() == 0 ideally should match. If they do not, it is your problem, not mine.
 
 
-  
+ ## Arithmetic Operators 
+
+These would be "+", "-", "*", "/".
+It is customary to define them as is, with Complex number as an example, sans the "/". So we present that accordingly : 
+
+
+	import 'java.lang.System.out' as out
+
+	def Complex {
+	def __new__ (me,x=0.0,y=0.0){
+	  me.x = x
+	  me.y = y
+	}
+	def __str__(me){
+	  str:format('(%f,i %f)', me.x, me.y)
+	}
+	def __add__(me,o){
+	  return new ('Complex' , me.x + o.x , me.y + o.y )
+	}
+	def __sub__(me,o){
+	  return new ('Complex' , me.x - o.x , me.y - o.y )
+	}
+	def __mul__(me,o){
+	  return new ('Complex' , me.x * o.x  - me.y * o.y , me.x * o.y + me.y * o.x )
+	}
+	}
+	c1 = new ( 'Complex' , 1.0, 2.0 )
+	out:printf( 'c1 : %s\n' , c1 )
+	c2 = new ( 'Complex' , 2.0, 1.0 )
+	out:printf( 'c2 : %s\n' , c2 )
+	out:printf( 'c1 + c2 : %s\n' , c1 + c2 )
+	out:printf( 'c1 - c2 : %s\n' , c1 - c2 )
+	out:printf( 'c1 * c2 : %s\n' , c1 * c2 )
+
+
+This generates, as expected : 
+
+       Script imported : JexlMain@/Codes/Java/njexl/target/../samples/class_demo2.jexl
+       c1 : (1.000000,i 2.000000)
+       c2 : (2.000000,i 1.000000)
+       c1 + c2 : (3.000000,i 3.000000)
+       c1 - c2 : (-1.000000,i 1.000000)
+       c1 * c2 : (0.000000,i 5.000000)
+ 
+And that tells you something about Arithmetics.
+
+
 
 
