@@ -81,6 +81,9 @@ passed, which is the list "a" here.
 All we are trying to test if any element is out of order, select that element.
 As no element is selected - we are sure that the list is in order - i.e. sorted.
 
+But the same thing can be done faster by the next one we would discuss.
+That is first find, and exit when find.
+
 ## First Find 
 Suppose you wan to find the element and the index of the element where some predicate P(e) is true.
 Specifically, suppose I want to find the first element which is greater than 10 in a list.
@@ -108,6 +111,17 @@ while the rest comprise of the list.
     =>-1
     (njexl)index(1,a)
     =>0
+
+Using index() then, finding if a list is in order or not is easier : 
+
+      (njexl)a=[1,2,3,4,5]
+      =>@[1, 2, 3, 4, 5]
+      (njexl)index{ _ > 0 and $ < $$[_-1] }(a) < 0 
+      =>true
+     (njexl)a=[1,2,3,4,5,2]
+     =>@[1, 2, 3, 4, 5, 2]
+     (njexl)index{ _ > 0 and $ < $$[_-1] }(a) < 0 
+     =>false
 
 
 ## For Every Element of a List  : [FORALL e in L ] P(e)
