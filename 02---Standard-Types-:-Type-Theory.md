@@ -18,6 +18,8 @@ The general types which can be converted are :
       [ x, y, z, ... ]  // Full sized object array 
       list(x,y,...) // generates an ArrayList 
       set(x,y,z,...) // a ListSet, ensures that the set is indexible 
+      dict(...) // a dictionary 
+
 
 ## General Numeric Type Conversion 
 The general idea is convert type peacefully.
