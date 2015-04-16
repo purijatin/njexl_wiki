@@ -37,7 +37,7 @@ You can use ";" to separate statements in a line. Lines are statements.
 
 ## If you like what you see 
 
-There are many samples in the  [samples](https://github.com/nmondal/njexl/tree/master/samples)  folder.
+There are many samples in the  [samples](https://github.com/nmondal/njexl/tree/master/core/samples)  folder.
 As of the moment it is going through heavy churn in design and code.
 If you want to use it - you have to download it using git. 
 You need to have java 1.8 installed as well as maven.
