@@ -42,7 +42,7 @@ nJexl is fabulous in this regard.
      (njexl)1=='1'
      =>true
      (njexl)1=='1  '
-     =>false
+     =>true
 
 That is what is called common sense. Now, question why the heck string 1 is equal to integer 1?
 Because a human mind thinks that way. Clearly '1   ' is no 1. Thus, if you do not like it, you can use the standard java technique :
@@ -54,10 +54,18 @@ Because a human mind thinks that way. Clearly '1   ' is no 1. Thus, if you do no
      (njexl)i.equals(1)
      =>true
 
+But it get's better. One can use the borrowed from Javascript "===" operator, thus : 
+
+
+      (njexl)1==='1'
+      =>false
+      (njexl)1===1
+      =>true
+
 
 Which works as expected. Else trust in the force of nJexl you should.
-Basically what can be accomplished by 100 lines of Java code - can be done in 2/3 lines of nJexl code.
-That was indeed the design goal. Thus, ends the discussion of "==".
+Basically what can be accomplished by 50/60 lines of Java code - can be done in 2/3 lines of nJexl code.
+That was indeed the design goal. Thus, ends the discussion of "==" and "===".
 Now then, there are other operators : 
 
 ## Logical Comparators 
