@@ -86,15 +86,15 @@ And no, not only on list. On sets too. In there, they have very precise meaning 
   * Obviously A == B is when the sets are equal.
 
 
-       (njexl)[1,2] < [3,1,2]
-       =>true
-       (njexl)[1,2,3] < [3,1,2]
-       =>false
-       (njexl)[1,2,3] <= [3,1,2]
-       =>true
-   
- 
+  
+	(njexl)[1,2] < [3,1,2]
+	=>true
+	(njexl)[1,2,3] < [3,1,2]
+	=>false
+	(njexl)[1,2,3] <= [3,1,2]
+	=>true   
 
+ 
 These operations are tenable for array, list, or set type.
 List and arrays are mixable - while set is not.
    
