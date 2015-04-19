@@ -50,7 +50,9 @@ the source can be compiled. Some tests fails, so it is ok.
 Should do the job fine.
 Now, if you want to experience the nJexl, go to the target folder, and type in : 
 
-     java -jar njexl-0.1-SNAPSHOT.jar
+
+       java -jar njexl.lang-0.1-SNAPSHOT.jar 
+
 
 And you would be in the nJexl command prompt.
      
