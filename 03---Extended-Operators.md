@@ -77,6 +77,8 @@ If you really believe otherwise, take a look around this also :
      =>true
     (njexl)b === c
     =>false
+    (njexl)a===b
+    =>true
 
 
 Else trust in the force of nJexl you should.
