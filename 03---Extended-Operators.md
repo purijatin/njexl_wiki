@@ -63,7 +63,23 @@ But it get's better. One can use the borrowed from Javascript "===" operator, th
       =>true
 
 
-Which works as expected. Else trust in the force of nJexl you should.
+Which works as expected. 
+
+If you really believe otherwise, take a look around this also : 
+
+     (njexl)a=[1,2,3]
+     =>@[1, 2, 3]
+     (njexl)b=[2,3,1]
+     =>@[2, 3, 1]
+     (njexl)c=list(2,3,1)
+     =>[2, 3, 1]
+     (njexl)a == b and b == c
+     =>true
+    (njexl)b === c
+    =>false
+
+
+Else trust in the force of nJexl you should.
 Basically what can be accomplished by 50/60 lines of Java code - can be done in 2/3 lines of nJexl code.
 That was indeed the design goal. Thus, ends the discussion of "==" and "===".
 Now then, there are other operators : 
