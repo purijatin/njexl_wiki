@@ -16,10 +16,10 @@ Suppose I have a file like this :
 
 To load the file in data matrix : 
 
-     		(njexl)import 'org.apache.commons.jexl2.extension.dataaccess.DataMatrix' as matrix
-		=>class org.apache.commons.jexl2.extension.dataaccess.DataMatrix
+     		(njexl)import 'com.noga.njexl.lang.extension.dataaccess.DataMatrix' as matrix
+		=>class com.noga.njexl.lang.extension.dataaccess.DataMatrix
 		(njexl)matrix
-		=>class org.apache.commons.jexl2.extension.dataaccess.DataMatrix
+		=>class com.noga.njexl.lang.extension.dataaccess.DataMatrix
 		(njexl)m1 = matrix:file2matrix('../samples/test.tsv')
 		=>< S{ Number,First Name,Last Name,Points } , [[1, Eve, Jackson, 94], [2, John, Doe, 80], [3, Adam, Johnson, 67], [4, Jill, Smith, 50]] >
 
