@@ -67,7 +67,9 @@ That should do it.
 
 Select works seamlessly with matrices.
 
+      (njexl)m1.select{  "e" @ $['First Name']  }() 
+      =>[[1, Eve, Jackson, 94]]
 
-
+That should show it!
 
 
