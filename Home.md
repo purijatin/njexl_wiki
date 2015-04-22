@@ -65,5 +65,35 @@ Enjoy the new language.
 And let me know how it feels!
 
 
+# How to include it in your project
 
- 
+You basically need to allow snapshots - in maven. 
+Thus, in your POM :
+
+        <profiles>
+        <profile>
+            <id>allow-snapshots</id>
+            <activation><activeByDefault>true</activeByDefault></activation>
+        <repositories>
+        <repository>
+            <id>snapshots-repo</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <releases><enabled>false</enabled></releases>
+            <snapshots><enabled>true</enabled></snapshots>
+         </repository>
+        </repositories>
+       </profile>
+       </profiles> 
+
+
+And then, in the dependency section : 
+
+      <dependency>
+          <groupId>com.github.nmondal</groupId>
+          <artifactId>njexl.lang</artifactId>
+          <version>0.1-SNAPSHOT</version>
+       </dependency>
+
+That should immediately make your project a nJexl supported one. 
+
+
