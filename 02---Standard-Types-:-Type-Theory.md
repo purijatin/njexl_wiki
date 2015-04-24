@@ -21,6 +21,74 @@ The general types which can be converted are :
       dict(...) // a dictionary 
 
 
+## The Literals
+
+Literals are stuff those are terminal node of a language grammar, essentially constant values which get's assigned to variables.
+So we start with the primitive ( albeit boxed ) types : 
+
+
+      (njexl)x='hello'
+      =>hello
+      (njexl)type(x)
+      =>class java.lang.String
+
+Then we have boolean.
+
+     (njexl)x=true
+     =>true
+     (njexl)type(x)
+     =>class java.lang.Boolean
+
+Now, we have integer family ( natural numbers ) : 
+
+
+     (njexl)x=1
+     =>1
+     (njexl)type(x)
+     =>class java.lang.Integer
+     (njexl)x=100000000000
+     =>100000000000
+     (njexl)type(x)
+     =>class java.lang.Long
+     (njexl)x=100000000000000000000000000
+     =>100000000000000000000000000
+     (njexl)type(x)
+     =>class java.math.BigInteger
+
+
+And then we have rational types - the floating point numbers : 
+
+
+    (njexl)x=0.1
+    =>0.1
+    (njexl)type(x)
+    =>class java.lang.Float
+    (njexl)x=0.000000010001
+    =>1.0001E-8
+    (njexl)type(x)
+    =>class java.lang.Float
+    (njexl)x=0.000000010001010101
+    =>1.0001010101E-8
+    (njexl)type(x)
+    =>class java.lang.Double
+    (njexl)x=0.000000010001010101000000000000101
+    =>1.0001010101000000000000101E-8
+    (njexl)type(x)
+    =>class java.math.BigDecimal
+
+Thus we see that the type assignment is pretty much magical.
+However, one can force it to be a specific type. In that case: 
+
+    (njexl)x=0.1b
+    =>0.1
+    (njexl)type(x)
+    =>class java.math.BigDecimal
+    (njexl)x=0.1d
+    =>0.1
+    (njexl)type(x)
+    =>class java.lang.Double
+
+
 ## General Numeric Type Conversion 
 The general idea is convert type peacefully.
 That idea xxx(y) would convert an object peacefully. If it can not, it would return null.
@@ -35,8 +103,19 @@ This is bad. What if you really want a fallback - when one can not type convert?
       (njexl)int('xx',42)
       =>42
 
-Same with any other types.
-      
+Same with any other types. The functions DEC() and INT() can be used to convert things into big decimal and big integers. 
+
+     (njexl)x=DEC(0.1)
+     =>0.1
+     (njexl)type(x)
+     =>class java.math.BigDecimal
+     (njexl)x=INT(1)
+     =>1
+     (njexl)type(x)
+     =>class java.math.BigInteger
+
+
+     
 ## Date & Time
 Simplification of date & time are premium from a testing perspective.
 Thus, we have much easier functions   
@@ -147,5 +226,3 @@ And then, finally -- integer types are well converted :
        =>Z
 
 And thus, this - section ends.
-
-
