@@ -114,6 +114,18 @@ Same with any other types. The functions DEC() and INT() can be used to convert 
      (njexl)type(x)
      =>class java.math.BigInteger
 
+Generally this is to be used to type promotion ( upward ) : 
+
+    (njexl)x=0.1
+    =>0.1
+    (njexl)type(x)
+    =>class java.lang.Float
+    (njexl)x=DEC(x)
+    =>0.1
+    (njexl)type(x)
+    =>class java.math.BigDecimal
+
+
 
      
 ## Date & Time
