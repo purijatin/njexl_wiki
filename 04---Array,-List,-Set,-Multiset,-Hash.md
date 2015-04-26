@@ -218,3 +218,35 @@ How cool is that? At the same time - we can start using it even :
 
 
 Thus, we can access any field of any class instance as this O['field name'] syntax!
+
+
+### The String operation on Collection
+Anything that is complex is a collection. Be it list, be it Hash, be it an Object.
+In any case, sometimes we need to serialise back the object in question -- preferably so that it becomes a tuple.
+How so? This demonstrates how : 
+
+
+     (njexl)d={'a': 'A' , 'b' : 'B' }
+     =>{a=A, b=B}
+     (njexl)str{ [ $.a , $.b  ]}(d)
+     =>A,B
+     (njexl)str{ [ $.a , $.b  ]}(d,'#')
+     =>A#B
+
+
+This way, one can take arbitrary  object and can get a serialised form out of it.
+Notice the use of "[" and "]" to make the functional expression as an *array*. Thus, we actually can take any list - and serialise it straight : 
+
+
+    (njexl)str{ [ 1,2,3 ]}(0)
+    =>1,2,3
+    (njexl)str([1,2,3])
+    =>1,2,3
+
+Now, interestingly, we can use any string to use as delimiter : 
+
+    (njexl)str([1,2,3],"&&")
+    =>1&&2&&3
+ 
+That should be good!
+
