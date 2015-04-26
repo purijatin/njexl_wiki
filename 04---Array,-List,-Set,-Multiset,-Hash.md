@@ -250,3 +250,17 @@ Now, interestingly, we can use any string to use as delimiter :
  
 That should be good!
 
+### Linearising Tuple 
+The usage of such a craft is to reduce dimension of multi dimensional arrays, and lists.
+This is a handy example : 
+
+
+     (njexl)D = [ {'a': 'A1' , 'b' : 'B1' } , { 'a' : 'A2' , 'b' : 'B2' } ]
+     =>@[{a=A1, b=B1}, {a=A2, b=B2}]
+     (njexl)x = set{  str{ [ $.a , $.b] }($, '#')  }(D) ## Use the str to linearise the individual rows 
+     =>S{ A1#B1,A2#B2 } ## Here, a 2-d array became single D array!
+
+
+
+
+
