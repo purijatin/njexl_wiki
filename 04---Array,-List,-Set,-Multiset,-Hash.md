@@ -19,6 +19,9 @@ Now then size() is a kind of bad way of representing things so we have #|expr| o
        =>@[1, 2, 3, 4]
        (njexl)#|a|
        =>4
+       (njexl)#|"Hello!"|
+
+       
 
 Thus, #|expr| also is abs() function, which is important for Business Logic and Validation.
 
@@ -259,7 +262,6 @@ This is a handy example :
      =>@[{a=A1, b=B1}, {a=A2, b=B2}]
      (njexl)x = set{  str{ [ $.a , $.b] }($, '#')  }(D) ## Use the str to linearise the individual rows 
      =>S{ A1#B1,A2#B2 } ## Here, a 2-d array became single D array!
-
 
 
 
