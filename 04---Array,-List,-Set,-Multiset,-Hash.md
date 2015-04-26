@@ -20,9 +20,10 @@ Now then size() is a kind of bad way of representing things so we have #|expr| o
        (njexl)#|a|
        =>4
        (njexl)#|"Hello!"|
+       =>6
 
-       
 
+      
 Thus, #|expr| also is abs() function, which is important for Business Logic and Validation.
 
 
