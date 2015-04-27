@@ -20,6 +20,17 @@ The general types which can be converted are :
       set(x,y,z,...) // a ListSet, ensures that the set is indexible 
       dict(...) // a dictionary 
 
+## The Define[d]s
+In a scripting language, it is important to understand that variables gets declared on the fly.
+Thus, it is important to know whether or not a variable is defined or not. That gets solved with the trick : 
+ 
+    (njexl)#def x // functional form --> only references are allowed 
+    =>false
+    (njexl)#def(10) // function form --> anything is allowed
+    =>true
+    (njexl)#def(x.y) // function form --> again
+    =>false
+
 
 ## The Literals
 
