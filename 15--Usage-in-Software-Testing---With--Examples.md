@@ -64,3 +64,34 @@ Now you need a generic formatting -- so :
 
 This is a different sort of currying!
 
+## Summing them up : 
+
+You want to add individual items for a list.
+
+     (njexl)L1 = [0.1, 0.2 , 0.3]
+     =>@[0.1, 0.2, 0.3]
+     (njexl)sqlmath(L1)
+     =>@[0.1, 0.3, 0.6000000000000001]
+
+This returns you min,max, sum. In an array.
+But it also takes anonymous function so : 
+
+    (njexl)L1 = ['0.1', '0.2' , '0.3']
+    =>@[0.1, 0.2, 0.3]
+    (njexl)sqlmath{float($)}(L1)
+    =>@[0.1, 0.3, 0.6000000000000001]
+
+
+## On Manipulating Time
+
+Suppose we need to find number of days between two dates.
+So: 
+
+    (njexl) date('20150101') 
+    =>Thu Jan 01 00:00:00 IST 2015
+    (njexl) [date('20150101') : date('20150209')].days // using a DateRange!
+    =>39
+    (njexl)
+
+
+
