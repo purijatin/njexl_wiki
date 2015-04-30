@@ -121,12 +121,21 @@ And no, not only on list. On sets too. In there, they have very precise meaning 
 
 
  
-These operations are tenable for array, list, or set type.
+These operations are tenable for array, list, Hash or set type.
 List and arrays are mixable - while set is not.
    
      (njexl)list(1,2,3) ==  [3,1,2]
      =>true
 
+For hashes, the comparison is funny but accurate: 
+
+     (njexl){1:2} == {1:2}
+     =>true
+     (njexl){1:2} <= {1:2}
+     =>true
+     (njexl){1:2} > {1:2}
+     =>false
+     
 Empty list, arrays and stuffs are always everyones sub-thing: 
 
      (njexl)[] < [1]
@@ -137,6 +146,13 @@ Empty list, arrays and stuffs are always everyones sub-thing:
      =>true
      (njexl)[] == []
      =>true
+     (njexl){:} <  {1:2,2:4}
+     =>true
+     (njexl){:} <  {:}
+     =>false
+     (njexl){:} ==  {:}
+     =>true
+
 
 If two things are essentially incomparable - that is, a is not a proper sub-thing of b, then : 
 
@@ -147,8 +163,14 @@ If two things are essentially incomparable - that is, a is not a proper sub-thin
      =>false
      (njexl)[3] >=  [1]
      =>false
-    (njexl)[3] <=  [1]
-    =>false
+     (njexl)[3] <=  [1]
+     =>false
+     (njexl){1:2, 2:3 } <= {1:2,3:4}
+     =>false
+     (njexl){1:2, 2:3 } == {1:2,3:4}
+     =>false
+     (njexl){1:2, 2:3 } == {1:2,2:4}
+     =>false
 
 
 But wait, that is not the only cool thing!
