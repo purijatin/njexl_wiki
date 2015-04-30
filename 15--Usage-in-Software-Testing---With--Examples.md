@@ -33,9 +33,22 @@ Here you go :
      =>@[0.21, 0.11, 0.29]
      (njexl)select{ #|$[0] -$[1]| < 0.01 }(L1*L2) // showcasing how the idea evolved : 
      =>[[0.1, 0.11], [0.2, 0.21]]
-     (njexl)#|select{ #|$[0] -$[1]| < 0.01 }(L1*L2)| != 0
+     (njexl)#|select{ #|$[0] -$[1]| < 0.01 }(L1*L2)| > 0
      =>true
 
+Two lists are item by item almost same?
+    
+     (njexl)L2 = [0.21, 0.11 , 0.29]
+     =>@[0.21, 0.11, 0.29]
+     (njexl)L1 = [0.1, 0.2 , 0.3]
+     =>@[0.1, 0.2, 0.3]
+     (njexl)empty( select{ #| $ - L2[_]| < 0.001 }(L1) )  
+     =>true
+
+Item by item. That should do it!
+
+
+## Number formatting and rounding. 
 
 
 
