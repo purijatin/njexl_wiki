@@ -50,6 +50,17 @@ Item by item. That should do it!
 
 ## Number formatting and rounding. 
 
+This shows the generic idea : 
+   
+     (njexl)str:format("%.4f", 0.235678d)
+     =>0.2357
 
+Now you need a generic formatting -- so : 
+  
+     (njexl)str:format("%%.%df",4)
+     =>%.4f
+     (njexl)str:format ( str:format("%%.%df",4) , 0.2345678)
+     =>0.2346
 
+This is a different sort of currying!
 
