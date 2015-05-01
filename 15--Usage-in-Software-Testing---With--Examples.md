@@ -141,12 +141,12 @@ I thought that I should just monkey it. So I mon-keyed it :
 
 Calculating prime numbers using [Sieve of Eratosthenes](http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) : 
 
-     	import 'java.lang.System.out' as out 
-
+     import 'java.lang.System.out' as out 
 	def soe( n ){
 	    select {
 	        x = $ // set the current iterate variable 
-	        where ( index{ x % $ == 0 }( _$_ + 2 ) < 0 ){ $ = x } // _$_ is the partial result as of now !   
+                // _$_ is the partial result as of now !
+	        where ( index{ x % $ == 0 }( _$_ + 2 ) < 0 ){ $ = x }    
 	    }([3:n+1].list()) + 2  // adding 2 in the end list of primes 
 	}
 	out:println( soe(31) )
