@@ -137,4 +137,20 @@ I thought that I should just monkey it. So I mon-keyed it :
     (njexl)sqlmath ( list{ 2*$ }([0:10].list() ) )
     =>@[0, 18, 90] // the first one is the min, second one is the max!
     
+## Sieve of Eratosthenes
 
+Calculating prime numbers using [Sieve of Eratosthenes](http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) : 
+
+     	import 'java.lang.System.out' as out 
+
+	def soe( n ){
+	    select {
+	        x = $ // set the current iterate variable 
+	        where ( index{ x % $ == 0 }( _$_ + 2 ) < 0 ){ $ = x } // _$_ is the partial result as of now !   
+	    }([3:n+1].list()) + 2  // adding 2 in the end list of primes 
+	}
+	out:println( soe(31) )
+
+So that should tell you about it.
+
+ 
