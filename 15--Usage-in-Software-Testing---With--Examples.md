@@ -151,6 +151,13 @@ Calculating prime numbers using [Sieve of Eratosthenes](http://en.wikipedia.org/
 	}
 	out:println( soe(31) )
 
+        $ njexl descap.jexl 
+        Script imported : JexlMain@/Users/noga/soe.jexl
+        [3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 2]
+        
+ 
+
 So that should tell you about it.
+
 
  
