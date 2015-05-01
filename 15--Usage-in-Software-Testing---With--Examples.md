@@ -100,6 +100,41 @@ So:
     (njexl)td.minutes
     =>56160
 
+# Some One Liners 
+
+From here :  [10 scala one liners ](https://mkaz.com/2011/05/31/10-scala-one-liners-to-impress-your-friends/)
+I thought that I should just monkey it. So I mon-keyed it : 
+
+## Multiple Each Item in a List by 2
+
+     (njexl)list{ 2*$ }([0:10].list() )
+     =>[0, 2, 4, 6, 8, 10, 12, 14, 16, 18] 
+
+## Sum a List of Numbers 
+
+     (njexl)sqlmath ( list{ 2*$ }([0:10].list() ) )
+     =>@[0, 18, 90] // the last one is the sum!
+
+## Verify if Exists in a String 
+ 
+     (njexl)line =  "Individuals are brilliant,  but people,  people are inherently stupid!"
+     =>Individuals are brilliant,  but people,  people are inherently stupid!
+     (njexl)bag = [ "but" , "stupid" , "are" , "people"  ]
+     =>@[but, stupid, are, people]
+     (njexl)index{ $ @ bag }(line.split( "\W" )) >= 0
+     =>true
+ 
+## Filter list of numbers
+  
+     (njexl)nos = [ 10, 20, 60, 10, 90, 34, 56, 91, 24 ]
+     =>@[10, 20, 60, 10, 90, 34, 56, 91, 24]
+     (njexl)partition{ $> 30 }(nos)
+     =>@[[60, 90, 34, 56, 91], [10, 20, 10, 24]] 
 
 
+## Find minimum (or maximum) in a List
+    
+    (njexl)sqlmath ( list{ 2*$ }([0:10].list() ) )
+    =>@[0, 18, 90] // the first one is the min, second one is the max!
+    
 
