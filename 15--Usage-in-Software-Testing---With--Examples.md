@@ -91,7 +91,15 @@ So:
     =>Thu Jan 01 00:00:00 IST 2015
     (njexl) [date('20150101') : date('20150209')].days // using a DateRange!
     =>39
-    (njexl)
+    (njexl)td = [date('20150101') : date('20150209')]
+    =>Thu Jan 01 00:00:00 IST 2015 : Mon Feb 09 00:00:00 IST 2015 : PT86400S
+    (njexl)td.seconds
+    =>3369600
+    (njexl)td.hours
+    =>936
+    (njexl)td.minutes
+    =>56160
+
 
 
 
