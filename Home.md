@@ -115,6 +115,6 @@ IDEs are good - and that is why we have minimal editor support, [Sublime Text ](
 
 If you use them with your sublime text editor - then typical jexl script file looks like this : 
 
-![Sample Editing in Sublime Text ](http://s12.postimg.org/hfhqoyydn/Screen_Shot_2015_05_02_at_6_23_45_pm.png)
+![Sample Editing in Sublime Text ](http://s12.postimg.org/5dmcutp59/Screen_Shot_2015_05_02_at_6_23_45_pm.png)
 
 Happy Coding!
