@@ -205,5 +205,15 @@ Note that the power operator "**" works on String as well as lists.
 To reverse a string use <string>^-1. That should be awesome.
 Now just like python : <string>*n catenated. Here,  <string>**n catenated the string n times.
 
+## Why NO Exception Handling ?
+
+I toyed with the idea, and then found that : 
+[Why Exception Handling is Bad?](http://stackoverflow.com/questions/1736146/why-is-exception-handling-bad)
+GO does not have exception handling.
+And I believe it is OK not to have exceptions.
+
+Code for everything, never ever eat up.
+In particular - the multi part arguments and the return story - should ensure that there is really no exceptional thing that happens. After all, trying to build a fool-proof solution is never full-proof.
+
 
   
