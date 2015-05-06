@@ -121,6 +121,8 @@ Fear not, you can cast an array to list straight by : list(). That gives you a m
 {  key : value } is a dictionary. {:} is an empty dictionary.
 They are always modifiable. You can create a dictionary by dict() and pass two lists, first one is key list, 
 second one is value list. It would marry them up.
+
+
     (njexl){:}
     =>{}
     (njexl)d = {:}
@@ -129,6 +131,7 @@ second one is value list. It would marry them up.
     =>0
     (njexl)d
     =>{0=0}
+
 
 ### Size and Empty
 
