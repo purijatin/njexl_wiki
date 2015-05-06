@@ -215,5 +215,27 @@ And I believe it is OK not to have exceptions.
 Code for everything, never ever eat up.
 In particular - the multi part arguments and the return story - should ensure that there is really no exceptional thing that happens. After all, trying to build a fool-proof solution is never full-proof.
 
+In any case there is this try function which acts as wrapper in case you want to make underlying Java object calls - which may end up throwing exceptions : 
 
+	import 'java.lang.System.out' as out
+	import 'java.lang.Integer' as Integer
+
+	i = try{
+	  Integer:parseInt(__args__[1])
+	}()
+
+	out:printf("%s\n",i)
+ 
+When we run it using normal stuff : 
+
+        $ njexl sample.jexl 10
+        10
+
+  
+But when we run it with invalid argument : 
+
+         $ njexl sample.jexl ccc
+         java.lang.NumberFormatException: For input string: "ccc"
+
+Thus, one may wrap indecent function calls into try{}() function block.
   
