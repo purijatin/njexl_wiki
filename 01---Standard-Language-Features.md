@@ -2,13 +2,11 @@
 We start with the proverbial - "Hello World".
 This is easy :- 
 
-
       (njexl)import 'java.lang.System.out' as out
       =>class java.lang.System
       (njexl)out:println('Hello,World!')
       Hello,World!
       =>null
-
 
 
 ## Imports
@@ -33,11 +31,20 @@ That lets people know - yes, that is a function I am calling from an IMPORTED MO
 ## Comments 
 They are line : "//" or "##" or block "/*  */".
 We would support "@" just like javadoc later.
+Thus : 
+     
+      /* this is a multi
+        line comment */
+
+      // while this is a single line comment 
+      ## and so is this.
+
 
 ## Variables
+
 Everything and anything that does not match a strict keyword is a variable.
 The strict keywords are :- 
-if, else, for, while, @ , ":" , def : and we are done.
+if, else, for, while, @ , ":" , def, true, false, var : and we are done.
 
      (njexl)x = "i am a var"
       =>i am a var
@@ -58,7 +65,7 @@ Just use it.
 
 ## Statements 
 
-Statements are separated by - well you guessed it : new lines. And ";". If you want to put lots of stuff in a single line ( saving space is still a premium ) : use ";". If not, use new line. Makes it work, makes it readable.
+Statements are separated by - well you guessed it : new lines, or ";". If you want to put lots of stuff in a single line ( saving space is still a premium ) : use ";". If not, use new line. Makes it work, makes it readable.
 Now what about a statement that is too large to fit in the same line ? In that case use "..." to end that line. Yes, ellipsis. And then continue the next line as if nothing happened, that would concatenate the lines.
 
 ## Blocks
@@ -70,7 +77,14 @@ goto is not there. I am sorry for that. I love goto, but EwDijkstra did not. I d
 In any case - fear not, we are Turing Complete by introducing the very new : 
 while(condition){ statements } and for ( var : iterable ) { statements }.
 Totally works.
-![for loop with range ](http://s17.postimg.org/gbchlvycv/Screen_Shot_2015_03_30_at_11_17_19_am.png)
+       
+          import 'java.lang.System.out' as out
+
+          my_arr = [1,2,3,4]
+          for ( i : my_arr ){
+              out:println(i)
+          }
+
 
 ### range
 
@@ -83,9 +97,15 @@ and it returns long. Thus it would be wise not to use this over arrays without c
 You see, due to design of Java - the maximum size of any container is MAX_INT.
 
 ## Literals
-These are the data values. 
+These are the data values. .
+ 
 ### Numbers 
+
 Anything between [0-9] and then +,- appended. No hex, please. I do not like them. May be later.
+Also they can take float, double values. A number 0.01 is float. A number 0.01d is double.
+And a number 0.01b is BigDecimal.
+ 
+
 ### Strings
 Anything within '...' and "....". As usual "\" lets you escape.
 
@@ -164,9 +184,21 @@ In fact, if you do not even say it - the outcome of the last executed statement 
 ## Methods 
 
 defining methods is easy.
-![Methods](http://s17.postimg.org/fzzmmv7an/Screen_Shot_2015_03_30_at_11_37_35_am.png)
+  
+	import 'java.lang.System.out' as out
+	def some_func(s){
+	    out:println(s)
+	    my:void_func()
+	    return true
+	}
+	def void_func(){
+	    return false
+	}
+	some_func("Hello, World!")
 
-It also introduces you to "true" "false" two constants. They are Boolean type.
+
+
+It also introduces you to "true" "false" two constants. They are Boolean types named after John Boole.
 Also note the interesting "my:". That is important. In a complete dynamic environment - if you do not specify the "my:" it might call another method from another module with the same name. So that does not happen - we have my.
 No cross calling of functions.
 
@@ -185,22 +217,33 @@ The english and the symbolic both works.
 ## Set & List Operations.
 Almost all the operators are overloaded to handle some tricky stuff - "+" can add lists.
 In the same way "-" can do a set minus. It also can do a multi set minus popularly known as list minus.
-The special operator "@" defines "in". That is : {  1 @ [ 1, 2, 3]  } would give you true. 
-While {  0 @ [ 1, 2, 3]  } would give you false. At the same time : {  [2,1]  @ [ 1, 2, 3]  } would give you true.
-Native support of set operations you see.
-![List and Set Operations](http://s14.postimg.org/h3xznkagx/Screen_Shot_2015_03_30_at_12_52_53_pm.png) 
+The special operator "@" defines "in". That is : 
+
+          1 @ [ 1, 2, 3]   // would give you true.
+          0 @ [ 1, 2, 3]   //  would give you false. 
+          [2,1]  @ [ 1, 2, 3]  // would give you true.
+
+Native support of set operations you see. Moreover, there is no @ analog in Java. 
+The closest of x @ y is y.contains(x) in some sense. 
+But then clearly one needs to do null check, string type check etc.
+
 
 ## Anonymous Functions and Lambda's.
-Do not worry. We are not geeks. We are way short - and hence we actually use it in a way people understand what it is. Inside a for loop one generally runs a condition and does something extra. It would be good if the for loop becomes implicit and then one can only write the condition and the extra thing.
+Do not worry. We are not geeks. We are way practical - and hence we actually use it in a way people understand what it is. Inside any for-loop one generally runs a condition and does something extra. It would be good if the for loop becomes implicit and then one can only write the condition and the extra thing.
 
 That thing is called anonymous function.
-See line no 16. We are filtering  everything that is (>= 3) within the list specified.
+
+       // classic sql --> this way. 
+       y = select{ where ( $ > 2 ) { $=$*10 } }( 1, 2, 3 ) 
+       
+
+We are filtering  everything that is (>= 2) within the list specified.
 For the set operations we are using int() of every value as the key.
  
 
 ## List operations
 Various list operations are demonstrated - with some interesting power operations.
-![List Operations](http://s29.postimg.org/ym437tton/Screen_Shot_2015_03_30_at_3_40_17_pm.png)
+
 Note that the power operator "**" works on String as well as lists.
 To reverse a string use <string>^-1. That should be awesome.
 Now just like python : <string>*n catenated. Here,  <string>**n catenated the string n times.
