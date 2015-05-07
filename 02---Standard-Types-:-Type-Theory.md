@@ -174,7 +174,14 @@ The reverse creation of date / time is *obviously* possible.
      (njexl)date('2015/31/03','yyyy/dd/MM')
      =>Tue Mar 31 00:00:00 IST 2015 
 
-Formatting guide as stated above.
+Formatting guide as stated above. 
+For invalid dates, it would return null. No leniency. Thus: 
+
+    (njexl)date('20150230')
+    =>null
+    (njexl)date('20150222')
+    =>Sun Feb 22 00:00:00 IST 2015
+
 
 ### Strings 
 Strings are not much interesting - apart from : 
