@@ -19,6 +19,7 @@ The general types which can be converted are :
       list(x,y,...) // generates an ArrayList 
       set(x,y,z,...) // a ListSet, ensures that the set is indexible 
       dict(...) // a dictionary 
+      [x:y:z] // is a range type -- notably of lang or Joda DateTime 
 
 ## The Define[d]s
 In a scripting language, it is important to understand that variables gets declared on the fly.
