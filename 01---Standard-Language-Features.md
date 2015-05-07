@@ -66,7 +66,33 @@ Just use it.
 ## Statements 
 
 Statements are separated by - well you guessed it : new lines, or ";". If you want to put lots of stuff in a single line ( saving space is still a premium ) : use ";". If not, use new line. Makes it work, makes it readable.
-Now what about a statement that is too large to fit in the same line ? In that case use "..." to end that line. Yes, ellipsis. And then continue the next line as if nothing happened, that would concatenate the lines.
+Now what about a statement that is too large to fit in the same line ? In that case use "\" to end that line. 
+Yes, escaping new line. And then continue the next line as if nothing happened, that would concatenate the lines.
+I understand that is a bit too much, so for normal operation like concatenating a string or and or or, it is taken care of already, so none has to do a "+ \".
+Thus, 
+  
+    import  'java.lang.System.out' as out
+
+    s = true || 
+         false   
+    out:println(s)
+
+    s = true and  
+         false   
+    out:println(s)
+
+
+    s = " "  + 
+       "aaa aa "  + 
+       "xxxx" + 
+       "z"
+    out:println(s)
+
+    s = 10 -   
+         2
+    out:println(s)
+
+works as expected.
 
 ## Blocks
 Like eternal rule "{ inside }" is a block. Space and tabs are bad idea to indent anything.
