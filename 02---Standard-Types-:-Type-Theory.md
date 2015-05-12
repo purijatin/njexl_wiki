@@ -256,4 +256,34 @@ And then, finally -- integer types are well converted :
        (njexl)char('Z')
        =>Z
 
+## The str() function 
+
+str() is used to make everything back to string type.
+This is a multi-utility function, capable of doing way more things than you can imagine.
+A classic case is that of formatting floating point numbers.
+
+    (njexl)x=1.2345
+    =>1.2345
+    (njexl)str(x,1)
+    =>1.2
+    (njexl)str(x,2)
+    =>1.23
+    (njexl)str(x,3)
+    =>1.235
+    
+That is darn good. Now then, this can be implicitly used in comparing floating point numbers.
+
+    (njexl)x=1.2345
+    =>1.2345
+    (njexl)y=1.235
+    =>1.235
+    (njexl)str(x,2) == str(y,2)
+    =>false
+    (njexl)str(x,3) == str(y,3)
+    =>true
+
+Thus, it is not truncate, but it is -- round() that is taking place.
+Hence it is very important for testing and business process.
+
+
 And thus, this - section ends.
