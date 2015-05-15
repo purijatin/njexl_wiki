@@ -51,17 +51,25 @@ if, else, for, while, @ , ":" , def, true, false, var : and we are done.
      (njexl)x
      =>i am a var
 
-### Names
+### Names of Variables 
 
 Can be anything, but only starts with [@$a-z_A-Z]. That is important.
 The specific variable types starting "$" and "@" gets used in implicit loop operations - which we would talk later.
 You should not use a $ type variable in a loop.
 
-### Scope
+### Scope of Variables
 
 Variables are global in the script - unless they are declared within the method definitions.
 That is a very crucial concept. No specific things are needed to call global variables inside a method like python.
-Just use it.
+Just use it. To check if a variable *var_name* is defined within scope or not, use #def var_name :
+
+    (njexl)#def x
+    =>false
+    (njexl)x = 10
+    =>10
+    (njexl)#def x
+    =>true
+
 
 ## Statements 
 
@@ -96,7 +104,13 @@ works as expected.
 
 ## Blocks
 Like eternal rule "{ inside }" is a block. Space and tabs are bad idea to indent anything.
-That would destroy compression if need be. I do not want it. Note that Blocks does not - and I repeat - does not nest variables - does not take them in or out of scope. That is currently a flaw in the design - which we may or may to fix later. Thus, { i = 0  {  j = 1 }  out:println(i+j) } works.
+That would destroy compression if need be. I do not want it. Note that Blocks does not - and I repeat - does not nest variables - does not take them in or out of scope. That is currently a flaw in the design - which we may or may to fix later. Thus, 
+
+    (njexl){ i = 0 ; {  j = 1 }  out:println(i+j) } // works.
+    1
+    =>null
+
+as one would have expected.
 
 ## Loops
 goto is not there. I am sorry for that. I love goto, but EwDijkstra did not. I do not know why.
@@ -104,15 +118,15 @@ In any case - fear not, we are Turing Complete by introducing the very new :
 while(condition){ statements } and for ( var : iterable ) { statements }.
 Totally works.
        
-          import 'java.lang.System.out' as out
+    import 'java.lang.System.out' as out
 
-          my_arr = [1,2,3,4]
-          for ( i : my_arr ){
-              out:println(i)
-          }
+    my_arr = [1,2,3,4]
+    for ( i : my_arr ){
+        out:println(i)
+    }
 
 
-### range
+### Range
 
 That brings you to range. Range is good. You should use range. It is optimal - and thus at least 2 times faster than the python equivalent and may be more. No, I was joking - it is fast because JVM is eons faster than PVM.
 I took gazillion time faster JVM and make it very slow - so now nJexl is *only* 2 times faster than that of any Python Script. The syntax of range is  : 
@@ -123,7 +137,7 @@ and it returns long. Thus it would be wise not to use this over arrays without c
 You see, due to design of Java - the maximum size of any container is MAX_INT.
 
 ## Literals
-These are the data values. .
+These are the data values. Generally String and Integers and Floating point numbers. 
  
 ### Numbers 
 
@@ -133,17 +147,18 @@ And a number 0.01b is BigDecimal.
  
 
 ### Strings
-Anything within '...' and "....". As usual "\" lets you escape.
+Anything within '...' and "....". As usual "\" lets you escape. There is another specific one, called curried Literals,
+which are delimited by ` and `. The back-tick operator, borrowed from Perl and Python.
 
 ### Arrays
 
 Anything that is [ ]. Err, [ 'a' , 10, 'b'] is an array. They are actually Object[] type.
 Everything is object in here. They are not modifiable. You can also generate an array by : array(1,2,3) etc. 
 
-     (njexl)arr = [ "I" , "am", "an" , "Array" ]
-     =>@[I, am, an, Array]
-     (njexl)arr = array{ $ + ':' }(arr)
-     =>@[I:, am:, an:, Array:]
+    (njexl)arr = [ "I" , "am", "an" , "Array" ]
+    =>@[I, am, an, Array]
+    njexl)arr = array{ $ + ':' }(arr)
+    =>@[I:, am:, an:, Array:]
     
 What is that {} block? We will talk about in the section of Anonymous functions.
 
@@ -151,19 +166,20 @@ What is that {} block? We will talk about in the section of Anonymous functions.
 
 Fear not, you can cast an array to list straight by : list(). That gives you a modifiable list.
      
-      (njexl)l = list()
-     =>[]
-     (njexl)l = l + 'hi'
-     =>[hi]
-     (njexl)l
-     =>[hi]
-     (njexl)l.add('bye')
-     =>true
-     (njexl)l
-     =>[hi, bye]
+    (njexl)l = list()
+    =>[]
+    (njexl)l = l + 'hi'
+    =>[hi]
+    (njexl)l
+    =>[hi]
+    (njexl)l.add('bye')
+    =>true
+    (njexl)l
+    =>[hi, bye]
 
 
 ### Dictionaries and Hashes
+
 {  key : value } is a dictionary. {:} is an empty dictionary.
 They are always modifiable. You can create a dictionary by dict() and pass two lists, first one is key list, 
 second one is value list. It would marry them up.
@@ -209,7 +225,7 @@ In fact, if you do not even say it - the outcome of the last executed statement 
 
 ## Methods 
 
-defining methods is easy.
+defining methods are easy.
   
 	import 'java.lang.System.out' as out
 	def some_func(s){
@@ -221,7 +237,6 @@ defining methods is easy.
 	    return false
 	}
 	some_func("Hello, World!")
-
 
 
 It also introduces you to "true" "false" two constants. They are Boolean types named after John Boole.
@@ -245,9 +260,9 @@ Almost all the operators are overloaded to handle some tricky stuff - "+" can ad
 In the same way "-" can do a set minus. It also can do a multi set minus popularly known as list minus.
 The special operator "@" defines "in". That is : 
 
-          1 @ [ 1, 2, 3]   // would give you true.
-          0 @ [ 1, 2, 3]   //  would give you false. 
-          [2,1]  @ [ 1, 2, 3]  // would give you true.
+    1 @ [ 1, 2, 3]   // would give you true.
+    0 @ [ 1, 2, 3]   //  would give you false. 
+    [2,1]  @ [ 1, 2, 3]  // would give you true.
 
 Native support of set operations you see. Moreover, there is no @ analog in Java. 
 The closest of x @ y is y.contains(x) in some sense. 
@@ -255,14 +270,14 @@ But then clearly one needs to do null check, string type check etc.
 
 
 ## Anonymous Functions and Lambda's.
-Do not worry. We are not geeks. We are way practical - and hence we actually use it in a way people understand what it is. Inside any for-loop one generally runs a condition and does something extra. It would be good if the for loop becomes implicit and then one can only write the condition and the extra thing.
+
+Do not worry. We are not geeks. We are way too practical - and hence we actually use it in a way people understand what it is. Inside any for-loop one generally runs a condition and does something extra. It would be good if the for loop becomes implicit and then one can only write the condition and the extra thing.
 
 That thing is called anonymous function.
 
-       // classic sql --> this way. 
-       y = select{ where ( $ > 2 ) { $=$*10 } }( 1, 2, 3 ) 
+    // classic sql --> this way. 
+    y = select{ where ( $ > 2 ) { $=$*10 } }( 1, 2, 3 ) 
        
-
 We are filtering  everything that is (>= 2) within the list specified.
 For the set operations we are using int() of every value as the key.
  
@@ -286,25 +301,25 @@ In particular - the multi part arguments and the return story - should ensure th
 
 In any case there is this try function which acts as wrapper in case you want to make underlying Java object calls - which may end up throwing exceptions : 
 
-	import 'java.lang.System.out' as out
-	import 'java.lang.Integer' as Integer
+    import 'java.lang.System.out' as out
+    import 'java.lang.Integer' as Integer
+    
+    i = try{
+    Integer:parseInt(__args__[1])
+    }()
 
-	i = try{
-	  Integer:parseInt(__args__[1])
-	}()
-
-	out:printf("%s\n",i)
+    out:printf("%s\n",i)
  
 When we run it using normal stuff : 
 
-        $ njexl sample.jexl 10
-        10
+    $ njexl sample.jexl 10
+    10
 
   
 But when we run it with invalid argument : 
 
-         $ njexl sample.jexl ccc
-         java.lang.NumberFormatException: For input string: "ccc"
+    $ njexl sample.jexl ccc
+    java.lang.NumberFormatException: For input string: "ccc"
 
 Thus, one may wrap indecent function calls into try{}() function block.
   
