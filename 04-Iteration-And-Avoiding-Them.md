@@ -66,36 +66,36 @@ Now, let's take a real cool example, and start calculating factorial.
 
 And the output comes : 
     
-       788657867364790503552363213932185062295135977687173263294742533244359449
-       963403342920304284011984623904177212138919638830257642790242637105061926
-       624952829931113462857270763317237396988943922445621451664240254033291864
-       131227428294853277524242407573903240321257405579568660226031904170324062
-       351700858796178922222789623703897374720000000000000000000000000000000000
-       000000000000000
+    788657867364790503552363213932185062295135977687173263294742533244359449
+    963403342920304284011984623904177212138919638830257642790242637105061926
+    624952829931113462857270763317237396988943922445621451664240254033291864
+    131227428294853277524242407573903240321257405579568660226031904170324062
+    351700858796178922222789623703897374720000000000000000000000000000000000
+    000000000000000
 
       
 ## Other Worldly Matters : Continue and Break
 
 We do have "continue" and "break". Which works as expected : 
 
-  import 'java.lang.System.out' as out
+    import 'java.lang.System.out' as out
 
-  // the standard one 
-  out.println('first while loop')
+    // the standard one 
+    out.println('first while loop')
+    
+    i = 0 
+    while ( i < 10 ){
+      i = i + 1 
+      if ( i % 3 == 0 ){ continue }
+      out.println(i)
+    }
 
-  i = 0 
-  while ( i < 10 ){
-     i = i + 1 
-     if ( i % 3 == 0 ){ continue }
-     out.println(i)
-  }
-
-  out.println('Now for loop')
-
-  for ( i : [1:11]){
-     out.println(i)
-     if ( i % 4 == 0 ){ break }
-  }
+    out.println('Now for loop')
+    
+    for ( i : [1:11]){
+       out.println(i)
+       if ( i % 4 == 0 ){ break }
+    }
 
 Which generates the output : 
 
