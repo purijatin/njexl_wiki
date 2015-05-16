@@ -275,24 +275,3 @@ And the list exponentiation :
 
 Yes, you guessed it right - the join operation is '*'. 
    
-## Generic List And Set Operations
-
-By this, we mean operations which ensures validations.
-We took a look around them : +,-,==,<=,>=,<,> are some.
-But then, sometimes we need to find overlaps. 
-For those, essentially we must have intersection (&) , union (|), minus(-), and symmetric difference(^).
-Thus:
-   
-    (njexl)[1,1,2] - [1,2] ## standard minus 
-    =>[1]
-    (njexl)[1,2] - [1,1,2]  ## minus, again 
-    =>[]
-    (njexl)[1,2] & [1,1,2] ## The AND or Intersection operation 
-    =>[1, 2]
-    (njexl)[1,2] | [1,1,2]  ## The OR or Union operation
-    =>[1, 1, 2]
-    (njexl)[1,2,3] ^ [3,4,5] ## XOR or symmetric difference operation
-    =>[1, 2, 4, 5]
-
-These are valid for sets even.
-
