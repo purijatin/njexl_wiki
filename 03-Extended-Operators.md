@@ -1,26 +1,29 @@
 # Extended Operators 
+This is where we talk about all sort of operators, 
+extended, and default and what not.
 
 ## Arithmetic Operators 
+Generally we start with Arithmetic: 
 
-    +,-,*, /    // do what they supposed to do.
-    **  // does exponentiation 
-    |,&,^, ~ // they are standard bitwise operators 
+    +,-,*, /     // do what they supposed to do.
+    **           // does exponentiation 
+    |,&,^, ~     // they are standard bitwise operators 
 
 ## Extension of Arithmetic Operators 
-   Based on what sort of stuff we are in, the operators change meaning. Not completely, but in a context sensitive way. 
+Based on what sort of stuff we are in, the operators change meaning. 
+Not completely, but in a context sensitive way. 
     
-      (njexl)l=list(1,2,3)
-      =>[1, 2, 3]
-      (njexl)l+4
-      =>[1, 2, 3, 4] 
-
+    (njexl)l=list(1,2,3)
+    =>[1, 2, 3]
+    (njexl)l+4
+    =>[1, 2, 3, 4] 
 
 Hows this for a start? It simply get's better : 
      
-       (njexl)s=set(1,2,3,3,4)
-       =>S{ 1,2,3,4 }
-       (njexl)s = s+5
-       =>S{ 1,2,3,4,5 }
+    (njexl)s=set(1,2,3,3,4)
+    =>S{ 1,2,3,4 }
+    (njexl)s = s+5
+    =>S{ 1,2,3,4,5 }
        
 Take that. That comes in as default!
 Now if you believe '+' acts in awesome ways - so does '-'.
@@ -28,13 +31,13 @@ Now if you believe '+' acts in awesome ways - so does '-'.
      (njexl)s-1
      =>S{ 1, 2, 3, 4 }
 
-You basically got the idea, did not you?
+You basically got the idea I suppose?
 
-## Uncommon Operations
+## Uncommon Operations on Equality
 
 Software Testers should not write code. Not because they can not, because when you write code, who tests that code?
-Hence, the idea is minimising code to generate errors, and Java is a very sad language in this regard.
-I mean seriously?    1000 != new Integer(1000)  ? That is not done. 
+Hence, the idea is minimizing code to generate errors, and Java is a very sad language in this regard.
+I mean seriously?    1000 != new Integer(1000)  ? That is not done, that is lame. 
 nJexl is fabulous in this regard.
 
      (njexl)1==1
@@ -45,7 +48,8 @@ nJexl is fabulous in this regard.
      =>true
 
 That is what is called common sense. Now, question why the heck string 1 is equal to integer 1?
-Because a human mind thinks that way. Clearly '1   ' is no 1. Thus, if you do not like it, you can use the standard java technique :
+Because a human mind thinks that way. However, '1   ' is no 1. Thus, if you do not like it, 
+you can use the standard *Java*  (utterly stupid) technique :
 
      (njexl)'1'.equals(1) 
      =>false 
@@ -54,44 +58,46 @@ Because a human mind thinks that way. Clearly '1   ' is no 1. Thus, if you do no
      (njexl)i.equals(1)
      =>true
 
-But it get's better. One can use the borrowed from Javascript "===" operator, thus : 
-
+Or, you can use the borrowed from Javascript "===" operator, thus : 
 
       (njexl)1==='1'
       =>false
       (njexl)1===1
       =>true
 
-
 Which works as expected. 
+If you really believe otherwise, take a look around this also to convince yourself: 
 
-If you really believe otherwise, take a look around this also : 
-
-     (njexl)a=[1,2,3]
-     =>@[1, 2, 3]
-     (njexl)b=[2,3,1]
-     =>@[2, 3, 1]
-     (njexl)c=list(2,3,1)
-     =>[2, 3, 1]
-     (njexl)a == b and b == c
-     =>true
+    (njexl)a=[1,2,3]
+    =>@[1, 2, 3]
+    (njexl)b=[2,3,1]
+    =>@[2, 3, 1]
+    (njexl)c=list(2,3,1)
+    =>[2, 3, 1]
+    (njexl)a == b and b == c
+    =>true
     (njexl)b === c
     =>false
     (njexl)a===b
+    =>true
+    (njexl){1:2} == {1:2}
+    =>true
+    (njexl){1:2,3:4} == {3:4,1:2}
     =>true
 
 
 Else trust in the force of nJexl you should.
 Basically what can be accomplished by 50/60 lines of Java code - can be done in 2/3 lines of nJexl code.
-That was indeed the design goal. Thus, ends the discussion of "==" and "===".
-Now then, there are other operators : 
+Try writing a full proof code of list equality in Java to convince yourself.
+Thus, ends the discussion of "==" and "===".
+Now then, there are other operators, which we discuss next.
 
 ## Logical Comparators 
 
     <, > , == , <=, >= , !=  // they do what they suppose to do. 
 
 They are also named as 'lt','gt', 'eq', 'le', 'ge' , 'ne'.
-Both form works. You choose. But, the fun is they are overloaded too.
+Both form works. You choose. But, the fun is in the fact that they are overloaded too.
 
 ## On Collections 
 
@@ -105,23 +111,23 @@ Both form works. You choose. But, the fun is they are overloaded too.
 Try beating that. It is hard to do so.
 And no, not only on list. On sets too. In there, they have very precise meaning : 
 
-  * A < B  implies A is a strict subset of B
-  * A <= B  implies A is subset of B
-  * A > B  implies B is a strict subset of A
-  * A >= B  implies B is a subset of A
-  * Obviously A == B is when the sets are equal.
+ * A < B  implies A is a strict subset of B
+ * A <= B  implies A is subset of B
+ * A > B  implies B is a strict subset of A
+ * A >= B  implies B is a subset of A
+ * Obviously A == B is when the sets are equal.
+
+And thus, the idea is simply:
+
+    (njexl)[1,2] < [3,1,2]
+    =>true
+    (njexl)[1,2,3] < [3,1,2]
+    =>false
+    (njexl)[1,2,3] <= [3,1,2]
+    =>true   
 
 
-             (njexl)[1,2] < [3,1,2]
-	      =>true
-	     (njexl)[1,2,3] < [3,1,2]
-	     =>false
-	     (njexl)[1,2,3] <= [3,1,2]
-	     =>true   
-
-
- 
-These operations are tenable for array, list, Hash or set type.
+These operations are tenable for array, List, Hash or Set type.
 List and arrays are mixable - while set is not.
    
      (njexl)list(1,2,3) ==  [3,1,2]
@@ -154,7 +160,7 @@ Empty list, arrays and stuffs are always everyones sub-thing:
      =>true
 
 
-If two things are essentially incomparable - that is, a is not a proper sub-thing of b, then : 
+If two things are essentially non-comparable - that is, a is not a proper sub-thing of b, then : 
 
 
      (njexl)[3] <  [1]
@@ -213,32 +219,32 @@ These works on list and sets.
 *"Order matters Not" - Noga *
 Thus, 
 
-        (njexl)a = list(1,2,3,4,5,6)
-        =>[1, 2, 3, 4, 5, 6]
-        (njexl)b = list(2,6,1)
-        =>[2, 6, 1]
-        (njexl)a - b
-        =>[3, 4, 5]
-        (njexl)a|b
-        =>[1, 2, 3, 4, 5, 6]
-        (njexl)a&b
-        =>[1, 2, 6]
+    (njexl)a = list(1,2,3,4,5,6)
+    =>[1, 2, 3, 4, 5, 6]
+    (njexl)b = list(2,6,1)
+    =>[2, 6, 1]
+    (njexl)a - b
+    =>[3, 4, 5]
+    (njexl)a|b
+    =>[1, 2, 3, 4, 5, 6]
+    (njexl)a&b
+    =>[1, 2, 6]
 
 Thus, it works as it should work. That is what normally known as re-usable code.
 One guy writes it - and the others use it. No more random coding!
 
 ## The idea of General Multiplication 
-Pople like this : 
+People like this : 
 
-      (njexl)2*2
-      =>4
+    (njexl)2*2
+    =>4
 
-But at the same time, multiplication is a revered operator : 
+But at the same time, multiplication is an abstract operator on collection to generate product collection: 
 
-      (njexl)a=list(0,1)
-      =>[0, 1]
-      (njexl)a*a
-      =>[[0, 0], [0, 1], [1, 0], [1, 1]]
+    (njexl)a=list(0,1)
+    =>[0, 1]
+    (njexl)a*a
+    =>[[0, 0], [0, 1], [1, 0], [1, 1]]
 
 Wow, that is something! But that brings you to the next:
 
@@ -246,24 +252,47 @@ Wow, that is something! But that brings you to the next:
 ## The beauty of Exponentiation 
 Generally people likes it : 
      
-      (njexl)2**10
-      =>1024.0
+    (njexl)2**10
+    =>1024
 
 But then, it is trivial. Hmm. Yea, what about this ?
       
-      (njexl)"hi"**2
-      =>hihi
-      (njexl)"hi"**-1
-      =>ih
-      (njexl)"hi"**-2
-      =>ihih
+    (njexl)"hi"**2
+    =>hihi
+    (njexl)"hi"**-1
+    =>ih
+    (njexl)"hi"**-2
+    =>ihih
+
+Essentially, this is of the form string to the power a number is standard regular expression form.    
 
 And the list exponentiation : 
        
-      (njexl)a=list(0,1)
-      =>[0, 1]
-      (njexl)a**3
-      =>[[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 1, 1], [1, 0, 0], [1, 0, 1], [1, 1, 0], [1, 1, 1]]
+    (njexl)a=list(0,1)
+    =>[0, 1]
+    (njexl)a**3
+    =>[[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 1, 1], [1, 0, 0], [1, 0, 1], [1, 1, 0], [1, 1, 1]]
 
 Yes, you guessed it right - the join operation is '*'. 
    
+## Generic List And Set Operations
+
+By this, we mean operations which ensures validations.
+We took a look around them : +,-,==,<=,>=,<,> are some.
+But then, sometimes we need to find overlaps. 
+For those, essentially we must have intersection (&) , union (|), minus(-), and symmetric difference(^).
+Thus:
+   
+    (njexl)[1,1,2] - [1,2] ## standard minus 
+    =>[1]
+    (njexl)[1,2] - [1,1,2]  ## minus, again 
+    =>[]
+    (njexl)[1,2] & [1,1,2] ## The AND or Intersection operation 
+    =>[1, 2]
+    (njexl)[1,2] | [1,1,2]  ## The OR or Union operation
+    =>[1, 1, 2]
+    (njexl)[1,2,3] ^ [3,4,5] ## XOR or symmetric difference operation
+    =>[1, 2, 4, 5]
+
+These are valid for sets even.
+
