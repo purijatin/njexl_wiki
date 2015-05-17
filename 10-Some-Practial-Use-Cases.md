@@ -1,9 +1,10 @@
-# Practical Usage 
+# Practical Use Cases 
 
 >Nothing is more practical than a good theory.
->In theory practice matches theory. In practice, it does not.
+>In theory practice matches theory. 
+>In practice, it does not.
 
-Thus, we showcase how a good theory, can be used in practical usage.
+Thus, we showcase how a good theory can be used practically.
 
 ## List Comprehension Examples 
 
@@ -11,10 +12,10 @@ We start with : is a particular item in a list with property P, exist?
 Or rather formally, does an element x exist in List L, such that P(x) is true?
 Now a practical example, do we have an item in this list such that x > 5 ?
 
-     (njexl)L = [1,2,3,4,5,6,8,9]
-     =>@[1, 2, 3, 4, 5, 6, 8, 9]
-     (njexl)index{ $ > 5 }(L) > 0 
-     =>true
+    (njexl)L = [1,2,3,4,5,6,8,9]
+    =>@[1, 2, 3, 4, 5, 6, 8, 9]
+    (njexl)index{ $ > 5 }(L) > 0 
+    =>true
 
 Now, is all element of a list having some property P?
 That is, is all element of a list is non zero?
@@ -23,6 +24,9 @@ That is, is all element of a list is non zero?
 
 Take that for expressiveness.
 Ok, now some tough one. 
+
+### How Close are Two Lists?
+
 Given two lists, L1(x), L2(y) find all pairs such that P(x,y) holds true.
 To do so, take that |x-y| < epsilon.
 Here you go : 
@@ -35,6 +39,7 @@ Here you go :
      =>[[0.1, 0.11], [0.2, 0.21]]
      (njexl)#|select{ #|$[0] -$[1]| < 0.01 }(L1*L2)| > 0
      =>true
+
 
 Two lists are item by item almost same?
     
@@ -62,7 +67,14 @@ Now you need a generic formatting -- so :
      (njexl)str:format ( str:format("%%.%df",4) , 0.2345678)
      =>0.2346
 
-This is a different sort of currying!
+This is a different sort of currying! 
+Now, all of these can be easily accomplished in a line by:
+
+     (njexl)str(0.2345678,4)
+     =>0.2346
+
+Hence, comparing doubles upto arbitrary precision values are easy.
+
 
 ## Summing them up : 
 
@@ -156,8 +168,5 @@ Calculating prime numbers using [Sieve of Eratosthenes](http://en.wikipedia.org/
         [3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 2]
         
  
-
 So that should tell you about it.
-
-
  
