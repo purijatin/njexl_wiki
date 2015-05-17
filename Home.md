@@ -5,14 +5,20 @@ nJexl is continuation of [Apache Jexl](http://commons.apache.org/proper/commons-
 ## A brief History
 
 All I wanted is a language where I can write my test automation freely - i.e. using theories from testing.
-The standard book, and there is only one for formal software testing is :  [Beizer](http://www.amazon.com/Software-Testing-Techniques-2nd-Edition/dp/1850328803)
+The standard book, and there is only one for formal software testing is 
+that of [Beizer](http://www.amazon.com/Software-Testing-Techniques-2nd-Edition/dp/1850328803).
 
-There was no language available which lets me intermingle with Java POJOs and let me write my test automation. Worse still - one can not write test automation freely using Java - and almost all of modern enterprise apps are written using Java.
+There was no language available which lets me intermingle with Java POJOs and let me write my test automation. 
+Worse still - one can not write test automation freely using Java. 
+As almost all of modern enterprise application are written using Java, it is impossible to avoid Java 
+and write test automation : in many cases you would need to call appropriate Java methods to automate APIs.
 
-Thus, one really needs a channel of working out a JVM scripting language that can freely call and act on POJOs.
-Thus, the idea of extending jexl come into my mind.
+Thus, one really needs a JVM scripting language that can freely call and act on POJOs.
+The idea of extending JEXL thus came into my mind : a language that has all the good stuffs from
+the vast Java libraries, but clearly not verbose enough.
 
-After cloning jexl - and modifying it real heavy - it looked like a better option would be a public release in a public repository where multiple people can look into it, rather than one working from his den.
+After cloning JEXL - and modifying it real heavy - a public release in a public repository
+seemed a better approach. There, multiple people can look into it, rather than one lone ranger working from his den.
 And hence nJexl was born. The *n* stands for Neo, not Noga, which is, by the way, my nick name.
 
 ## About the Language 
@@ -22,23 +28,24 @@ It is an interpreted language. It is asymptotically as fast as python, with a ge
 It is a multi-paradigm language. It supports functionals ( i.e. anonymous functions ) out of the box, and every function by design can take functional as input. There are tons of in built methods which uses functional.
 
 It supports OOP. Albeit not recommended, as [OOPs!](http://harmful.cat-v.org/software/OO_programming/why_oo_sucks)
-clearly shows why. In case you want C++ i.e.  [multiple inheritance](http://en.wikipedia.org/wiki/Multiple_inheritance) with full operator overloading, friend functions, etc. then this is for you anyways. Then, probably you would love it to the core.
+clearly shows why. In case you want C++ i.e.  [multiple inheritance](http://en.wikipedia.org/wiki/Multiple_inheritance) with full operator overloading, friend functions, etc. then this is for you anyways. 
+Probably you would love it to the core.
 
-Python is a brilliant language, and I shamelessly copied many, and many adage of Python here. The heavy use of 
+Python is a brilliant language, and I shamelessly copied many, and many adages of Python here. The heavy use of 
 
       __xxx__    
 
 literals, and the *me* directive, and *def* is out and out python. 
 
-The space and tab debate is very religious, and hence jexl is "{ }" : Brace yourself.
+The space and tab debate is very religious, and hence JEXL is "{ blocked }" : Brace yourself.
 Pick tab/space to indent - none bothers here.
-You can use ";" to separate statements in a line. Lines are statements.
+You can use ";" to separate statements in a line. 
+Lines are statements.
 
 
 ## If you like what you see 
 
 There are many samples in the  [samples](https://github.com/nmondal/njexl/tree/master/core/samples)  folder.
-As of the moment it is going through heavy churn in design and code.
 If you want to use it - you have to download it using git. 
 You need to have java 1.8 installed as well as maven.
 
