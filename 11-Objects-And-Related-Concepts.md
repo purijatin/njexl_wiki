@@ -295,19 +295,20 @@ Now other comparisons are "<", "<=" , ">" , ">=".
 Too many, and thus, we use java compareTo() hocus focus. In fact we use it slightly differently.
 The function is demonstrated here : 
 
+      // some class body 
 
       def __cmp__(me, o ){
           if ( me.s < o.s ){ return -1 }
           if ( me.s > o.s ){ return 1 }
           return 0 
       }
-        }// end of class body 
-  x = new ('MyClass',10)
-  y = new ('MyClass',120)
-  out:printf("%s < %s ? %s\n", x,y, x < y)
-  out:printf("%s > %s ? %s\n", x,y, x > y)
-  out:printf("%s <= %s ? %s\n", x,y, x <= y)
-  out:printf("%s >= %s ? %s\n", x,y, x >= y)
+    }// end of class body 
+    x = new ('MyClass',10)
+    y = new ('MyClass',120)
+    out:printf("%s < %s ? %s\n", x,y, x < y)
+    out:printf("%s > %s ? %s\n", x,y, x > y)
+    out:printf("%s <= %s ? %s\n", x,y, x <= y)
+    out:printf("%s >= %s ? %s\n", x,y, x >= y)
 
 
 When we add it to the class MyClass, we see the following : 
@@ -321,39 +322,39 @@ And that is pretty good, should we say?
 Note that the equal() and compareTo() == 0 ideally should match. If they do not, it is your problem, not mine.
 
 
- ## Arithmetic Operators 
+## Arithmetic Operators 
 
 These would be "+", "-", "*", "/".
 It is customary to define them as is, with Complex number as an example, sans the "/". So we present that accordingly : 
 
 
-  import 'java.lang.System.out' as out
+    import 'java.lang.System.out' as out
 
-  def Complex {
-  def __new__ (me,x=0.0,y=0.0){
-    me.x = x
-    me.y = y
-  }
-  def __str__(me){
-    str:format('(%f,i %f)', me.x, me.y)
-  }
-  def __add__(me,o){
-    return new ('Complex' , me.x + o.x , me.y + o.y )
-  }
-  def __sub__(me,o){
-    return new ('Complex' , me.x - o.x , me.y - o.y )
-  }
-  def __mul__(me,o){
-    return new ('Complex' , me.x * o.x  - me.y * o.y , me.x * o.y + me.y * o.x )
-  }
-  }
-  c1 = new ( 'Complex' , 1.0, 2.0 )
-  out:printf( 'c1 : %s\n' , c1 )
-  c2 = new ( 'Complex' , 2.0, 1.0 )
-  out:printf( 'c2 : %s\n' , c2 )
-  out:printf( 'c1 + c2 : %s\n' , c1 + c2 )
-  out:printf( 'c1 - c2 : %s\n' , c1 - c2 )
-  out:printf( 'c1 * c2 : %s\n' , c1 * c2 )
+    def Complex {
+    def __new__ (me,x=0.0,y=0.0){
+      me.x = x
+      me.y = y
+    }
+    def __str__(me){
+      str:format('(%f,i %f)', me.x, me.y)
+    }
+    def __add__(me,o){
+      return new ('Complex' , me.x + o.x , me.y + o.y )
+    }
+    def __sub__(me,o){
+      return new ('Complex' , me.x - o.x , me.y - o.y )
+    }
+    def __mul__(me,o){
+      return new ('Complex' , me.x * o.x  - me.y * o.y , me.x * o.y + me.y * o.x )
+    }
+    }
+    c1 = new ( 'Complex' , 1.0, 2.0 )
+    out:printf( 'c1 : %s\n' , c1 )
+    c2 = new ( 'Complex' , 2.0, 1.0 )
+    out:printf( 'c2 : %s\n' , c2 )
+    out:printf( 'c1 + c2 : %s\n' , c1 + c2 )
+    out:printf( 'c1 - c2 : %s\n' , c1 - c2 )
+    out:printf( 'c1 * c2 : %s\n' , c1 * c2 )
 
 
 This generates, as expected : 
