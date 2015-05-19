@@ -40,6 +40,18 @@ Here you go :
      (njexl)#|select{ #|$[0] -$[1]| < 0.01 }(L1*L2)| > 0
      =>true
 
+But a better bet will be using join, which avoid generating all possible Tuples...
+
+    (njexl)l1 = [0.1 , 2.0, 4.1 ]
+    =>@[0.1, 2.0, 4.1]
+    (njexl)l2 = [0.13 , 2.2, 3.98 ]
+    =>@[0.13, 2.2, 3.98]
+    (njexl)join{ #|$[0] - $[1]| < 0.2  }(l1,l2) 
+    =>[[0.1, 0.13], [4.1, 3.98]]
+    (njexl)join{ #|$[0] - $[1]| <= 0.2  }(l1,l2) 
+    =>[[0.1, 0.13], [4.1, 3.98]]
+
+And that should explain it!
 
 Two lists are item by item almost same?
     
