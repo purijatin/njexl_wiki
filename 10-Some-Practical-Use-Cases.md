@@ -40,6 +40,18 @@ Here you go :
      (njexl)#|select{ #|$[0] -$[1]| < 0.01 }(L1*L2)| > 0
      =>true
 
+But a better bet will be using join, which avoid generating all possible Tuples...
+
+    (njexl)l1 = [0.1 , 2.0, 4.1 ]
+    =>@[0.1, 2.0, 4.1]
+    (njexl)l2 = [0.13 , 2.2, 3.98 ]
+    =>@[0.13, 2.2, 3.98]
+    (njexl)join{ #|$[0] - $[1]| < 0.2  }(l1,l2) 
+    =>[[0.1, 0.13], [4.1, 3.98]]
+    (njexl)join{ #|$[0] - $[1]| <= 0.2  }(l1,l2) 
+    =>[[0.1, 0.13], [4.1, 3.98]]
+
+And that should explain it!
 
 Two lists are item by item almost same?
     
@@ -153,19 +165,19 @@ I thought that I should just monkey it. So I mon-keyed it :
 
 Calculating prime numbers using [Sieve of Eratosthenes](http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) : 
 
-     import 'java.lang.System.out' as out 
+    import 'java.lang.System.out' as out 
 	def soe( n ){
 	    select {
 	        x = $ // set the current iterate variable 
                 // _$_ is the partial result as of now !
 	        where ( index{ x % $ == 0 }( _$_ + 2 ) < 0 ){ $ = x }    
 	    }([3:n+1].list()) + 2  // adding 2 in the end list of primes 
-	}
-	out:println( soe(31) )
+    }
+    out:println( soe(31) )
 
-        $ njexl soe.jexl 
-        Script imported : JexlMain@/Users/noga/soe.jexl
-        [3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 2]
+    $ njexl soe.jexl 
+    Script imported : JexlMain@/Users/noga/soe.jexl
+    [3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 2]
         
  
 So that should tell you about it.
