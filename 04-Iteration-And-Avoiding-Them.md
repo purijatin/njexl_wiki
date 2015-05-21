@@ -218,9 +218,9 @@ What to do? This :
 
 If it would not find it, it would return -1.
 
-     (njexl)index{$<0}(a)
+     (njexl)index{ $ < 0 }(a)
      =>5
-     (njexl)index{$=0}(a)
+     (njexl)index{ $ == 0 }(a)
      =>-1
 
 This is at most O(n), and on the average O(n/2), because it immediately terminates the loop after a match.

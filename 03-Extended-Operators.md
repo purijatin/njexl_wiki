@@ -29,7 +29,7 @@ Take that. That comes in as default!
 Now if you believe '+' acts in awesome ways - so does '-'.
 
      (njexl)s-1
-     =>S{ 1, 2, 3, 4 }
+     =>S{ 2, 3, 4 , 5 }
 
 You basically got the idea I suppose?
 
