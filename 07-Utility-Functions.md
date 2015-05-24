@@ -30,6 +30,7 @@ In fact you have already met with some of them:
 * sqlmath --> finds min, Max, sum of a list in a single pass, for scalars
 * try --> guards a native Java function call to ensure it does not throw exceptions
 * load --> load arbitrary jars from a directory location, recursively
+* system --> make arbitrary system calls
 
 
 Thus, we would be familiarizing you guys with some of them.
@@ -113,6 +114,82 @@ Obviously we can do it using the roll too:
 
 
 Thus, the standard comparison function can be passed straight in the anonymous function block.
+
+## Loading arbitrary Jars and calling Classes 
+
+The big issue with Java is CLASSPATH. To remedy, we have load() function call.
+It can load arbitrary jars from a directory, recursively - and then instantiate and call
+arbitrary classes. 
+
+
+### Creating Java Classes
+
+new() creates Java classes. Obviously, the class has to be in the class path.
+To demonstrate - take a look around the following code sample :
+
+
+    (njexl)load('/Users/noga/.m2/repository/xerces/xercesImpl')
+    =>true
+    (njexl)x = new('org.xml.sax.SAXException', 'foo bar' )
+    =>org.xml.sax.SAXException: foo bar
+    (njexl)x.getMessage()
+    =>foo bar
+
+Thus, one can continue programmatic with arbitrary classes - loaded from arbitrary locations.
+
+### Almost Java - Web Driver 
+
+A much more interesting example is using Selenium Webdriver: 
+
+    //loading the path from where all class jars will be loaded 
+    load('/selenium/lib') or bye('Could not load class path!')
+    //import classes 
+    import 'org.openqa.selenium.firefox.FirefoxDriver' as fdriver
+    import 'org.openqa.selenium.firefox.internal.ProfilesIni' as profile 
+    import 'java.lang.Thread' as thread 
+    //
+    allProfiles = new ( profile )
+    p = allProfiles.getProfile("auto")
+    //init a web driver 
+    driver = new (fdriver,p)
+    // go to the url 
+    driver.get("http://www.google.com/webhp?complete=1&hl=en")
+    // call java thread as if in a namespace 
+    thread:sleep(1000)
+    // exit 
+    driver.quit()
+    // return if needed 
+    return 0 
+
+
+## Inter Operating with Operating System
+
+To do so, we have the system() function:
+
+    (njexl)system("ls -l")
+    total 24
+    -rw-r--r--  1 noga  wheel  8299 May 17 18:28 README.md
+    drwxr-xr-x  4 noga  wheel   136 May 13 22:20 doc
+    drwxr-xr-x  9 noga  wheel   306 May 24 19:18 lang
+    drwxr-xr-x  9 noga  wheel   306 May 13 22:20 script_testing
+    drwxr-xr-x  5 noga  wheel   170 May 13 22:20 testing
+    =>0 # This is the exit status 
+    (njexl)
+
+And in case of error :
+
+
+    (njexl)system("lslx")
+    Error : method 'system' in error : at line 1, cols 1:14
+    Caused By : java.io.IOException: Cannot run program "lslx": error=2, No such file or directory
+
+
+In case of a program which exist, but the run was unsuccessful :
+
+    (njexl)system("ls -l /xxx")
+    ls: /xxx: No such file or directory
+    =>1
+
 
 ## Using JSON
 
