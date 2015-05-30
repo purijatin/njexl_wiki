@@ -1,4 +1,499 @@
-# Language Features
+# Original Language Features 
+
+
+## Identifiers 
+   
+  variables Must start with a-z, A-Z, _ or $. Can then be followed by 0-9, a-z, A-Z, _ or $. e.g.
+  Valid:
+
+      var1,_a99,$1
+  
+  Invalid: 
+
+      9v,!a99,1$
+  
+  Variable names are case-sensitive, e.g. var1 and Var1 are different variables.
+  NOTE: JEXL does not support variables with hyphens in them, e.g.
+  
+    commons-logging // invalid variable name (hyphenated)
+
+is not a valid variable, but instead is treated as a subtraction of the variable logging from the variable commons!
+JEXL also supports ant-style variables, 
+the following is a valid variable name:
+
+    my.dotted.var
+
+N.B. the following keywords are reserved, and cannot be used as a variable name or property when using the dot operator: 
+
+    or and eq ne lt gt le ge div mod not null true false new var return 
+
+For example, the following is invalid:
+
+    my.new.dotted.var // invalid ('new' is keyword)
+
+In such cases, quoted identifiers or the [ ] operator can be used, for example:
+
+    my.'new'.dotted.var
+    my['new'].dotted.var
+
+
+## Scripts 
+
+A script in Jexl is made up of zero or more statements. Scripts can be read from a String, File or URL.
+They can be created with named parameters which allow a later evaluation to be performed with arguments.
+A script returns the last expression evaluated by default.
+Using the return keyword, a script will return the expression that follows (or null).
+Local variables Can be defined using the var keyword; their identifying rules are the same as contextual variables.
+
+Basic declaration: 
+
+    var x;
+
+Declaration with assignment: 
+
+    var theAnswer = 42;
+
+Invalid declaration: 
+    
+    var x.y;
+
+Their scope is the entire script scope and they take precedence in resolution over contextual variables. 
+When scripts are created with named parameters, those behave as local variables. 
+Local variables can not use ant-style naming, only one identifier.
+
+### Statements  
+
+A statement can be the empty statement, the semicolon (;) , block, assignment or an expression. 
+Statements are optionally terminated with a semicolon.
+
+### Block 
+
+A block is simply multiple statements inside curly braces ({, }).
+Assignment  Assigns the value of a variable (my.var = 'a value') using a JexlContext as initial resolver. Both beans and ant-ish variables assignment are supported.
+
+### Method calls  
+
+Calls a method of an object, e.g.
+
+    "hello world".hashCode()
+
+will call the hashCode method of the "hello world" String.
+In case of multiple arguments and overloading, Jexl will make the best effort to find the most appropriate non ambiguous method to call.
+
+### Literals
+
+#### Integer Literals  
+
+1 or more digits from 0 to 9, eg 42.
+
+Float Literals :
+
+   1 or more digits from 0 to 9, followed by a decimal point and then one or more digits from 0 to 9, optionally followed by f or F, eg 42.0 or 42.0f.
+
+Long Literals:
+
+   1 or more digits from 0 to 9 suffixed with l or L , eg 42l.
+
+Double Literals: 
+   
+   1 or more digits from 0 to 9, followed by a decimal point and then one or more digits from 0 to 9 suffixed with d or D , eg 42.0d.
+
+Big Integer Literals:
+
+  1 or more digits from 0 to 9 suffixed with b or B , eg 42B.
+
+Big Decimal Literals :
+
+  1 or more digits from 0 to 9, followed by a decimal point and then one or more digits from 0 to 9 suffixed with h or H (for Huge ala OGNL)) , eg 42.0H.
+
+Natural literals : 
+
+  octal and hex support  Natural numbers (i.e. Integer, Long, BigInteger) can also be expressed as octal or hexadecimal using the same format as Java. i.e. prefix the number with 0 for octal, and prefix with 0x or 0X for hexadecimal. For example 010 or 0x10.
+
+Real literals :
+
+ exponent support  Real numbers (i.e. Float, Double, BigDecimal) can also be expressed using standard Java exponent notation. i.e. suffix the number with e or E followed by the sign + or - followed by one or more decimal digits. For example 42.0E-1D or 42.0E+3B.
+
+String literals: 
+
+Can start and end with either ' or " delimiters, e.g.
+
+    "Hello world"
+
+and
+
+    'Hello world'
+
+are equivalent.
+
+The escape character is \ (backslash); it only escapes the string delimiter.
+
+Boolean literals:
+
+  The literals true and false can be used, e.g.
+
+     val1 == true
+
+Null literal:  
+ 
+  The null value is represented as in java using the literal null, e.g.
+
+    val1 == null
+
+Array literal: 
+
+  A [ followed by one or more expressions separated by , and ending with ], e.g.
+
+     [ 1, 2, "three" ]
+
+This syntax creates an Object[].
+JEXL will attempt to strongly type the array; if all entries are of the same class or if all entries are Number instance, the array literal will be an MyClass[] in the former case, a Number[] in the latter case.
+Furthermore, if all entries in the array literal are of the same class and that class has an equivalent primitive type, the array returned will be a primitive array. e.g. [1, 2, 3] will be interpreted as int[].
+
+
+Map literal: 
+
+  A { followed by one or more sets of key : value pairs separated by , and ending with }, e.g.
+
+     { "one" : 1, "two" : 2, "three" : 3, "more": "many more" }
+
+This syntax creates a HashMap<Object,Object>.
+
+## Functions
+
+
+### empty 
+
+  Returns true if the expression following is either:
+
+  * null
+  * An empty string
+  * An array of length zero
+  * A collection of size zero
+  * An empty map
+
+Sample use is :
+
+    empty(var1)
+
+### size  
+
+Returns the information about the expression:
+
+* Length of an array
+* Size of a List
+* Size of a Map
+* Size of a Set
+* Length of a string
+
+As an example :
+
+    size("Hello")
+
+returns 5.
+
+### new 
+
+Creates a new instance using a fully-qualified class name or Class:
+
+    new("java.lang.Double", 10)
+
+returns 10.0.
+
+Note that the first argument of new can be a variable or any expression evaluating as a String or Class; the rest of the arguments are used as arguments to the constructor for the class considered.
+In case of multiple constructors, Jexl will make the best effort to find the most appropriate non ambiguous constructor to call.
+ns:function A JexlEngine can register objects or classes used as function namespaces. This can allow expressions like:
+
+    math:cosinus(23.0)
+
+Operators
+
+Boolean and :
+
+The usual && operator can be used as well as the word and, e.g.
+
+     cond1 and cond2
+and
+
+     cond1 && cond2
+
+are equivalent.
+
+Boolean or:
+
+  The usual || operator can be used as well as the word or, e.g.
+
+     cond1 or cond2
+
+and
+ 
+     cond1 || cond2
+
+are equivalent.
+
+Boolean not:
+
+ The usual ! operator can be used as well as the word not, e.g.
+
+    !cond1
+
+and
+
+     not cond1
+
+are equivalent.
+
+Bitwise and :
+
+The usual & operator is used, e.g.
+
+    33 & 4
+    0010 0001 & 0000 0100 = 0.
+
+Bitwise or:
+
+  The usual | operator is used, e.g.
+
+    33 | 4
+    0010 0001 | 0000 0100 = 0010 0101 = 37
+
+
+Bitwise xor:
+
+ The usual ^ operator is used, e.g.
+
+     33 ^ 4
+     0010 0001 ^ 0000 0100 = 0010 0100 = 37.
+
+Bitwise complement:  
+
+ The usual ~ operator is used, e.g.
+
+    ~33
+    ~0010 0001 = 1101 1110 = -34.
+
+Ternary conditional ?:  
+
+The usual ternary conditional operator condition ? if_true : if_false operator can be used as well as the abbreviation value ?: if_false which returns the value if its evaluation is defined, non-null and non-false, e.g.
+
+
+     val1 ? val1 : val2
+
+and
+
+     val1 ?: val2 
+
+are equivalent.
+
+NOTE: The condition will evaluate to false when it refers to an undefined variable or null for all JexlEngine flag combinations. 
+This allows explicit syntactic leniency and treats the condition 'if undefined or null or false' the same way in all cases.
+
+Equality:
+
+  The usual == operator can be used as well as the abbreviation eq. For example
+
+     val1 == val2
+
+and
+
+     val1 eq val2
+
+are equivalent.
+
+
+null:
+
+ is only ever equal to null, that is if you compare null to any non-null value, the result is false.
+
+Equality uses the java equals method
+
+Inequality:
+
+  The usual != operator can be used as well as the abbreviation ne. For example
+
+    val1 != val2
+
+and
+
+    val1 ne val2
+
+are equivalent.
+
+
+Less Than:
+
+ The usual < operator can be used as well as the abbreviation lt. For example
+
+     val1 < val2
+
+and
+
+     val1 lt val2
+
+are equivalent.
+
+Less Than Or Equal To: 
+
+  The usual <= operator can be used as well as the abbreviation le. For example
+
+     val1 <= val2
+and
+
+     val1 le val2
+
+are equivalent.
+
+Greater Than:
+
+  The usual > operator can be used as well as the abbreviation gt. For example
+
+    val1 > val2
+
+and
+
+    val1 gt val2
+
+are equivalent.
+
+Greater Than Or Equal To :
+
+ The usual >= operator can be used as well as the abbreviation ge. For example
+
+    val1 >= val2
+
+and
+
+     val1 ge val2
+
+are equivalent.
+
+
+In or Match=~ :
+
+   The syntactically Perl inspired =~ operator can be used to check that a string matches a regular expression (expressed either a Java String or a java.util.regex.Pattern). For example "abcdef" =~ "abc.* returns true. It also checks whether any collection, set or map (on keys) contains a value or not; in that case, it behaves as an "in" operator. Note that it also applies to arrays as well as "duck-typed" collection, i.e classes exposing a "contains" method. 
+
+      "a" =~ ["a","b","c","d","e",f"] // returns true.
+
+
+Not-In or Not-Match!~ :
+
+The syntactically Perl inspired !~ operator can be used to check that a string does not match a regular expression (expressed either a Java String or a java.util.regex.Pattern). For example "abcdef" !~ "abc.* returns false. It also checks whether any collection, set or map (on keys) does not contain a value; in that case, it behaves as "not in" operator. Note that it also applies to arrays as well as "duck-typed" collection, ie classes exposing a "contains" method. 
+
+     "a" !~ ["a","b","c","d","e",f"] //returns true.
+
+Addition:  
+
+  The usual + operator is used. For example
+
+     val1 + val2
+
+Subtraction:
+  
+  The usual - operator is used. For example
+
+    val1 - val2
+
+Multiplication:
+
+  The usual * operator is used. For example
+
+    val1 * val2
+
+Division:  
+
+   The usual / operator is used, or one can use the div operator. For example
+
+     val1 / val2
+
+or
+
+     val1 div val2
+
+Modulus (or remainder):
+
+  The % operator is used. An alternative is the mod operator. For example
+
+     5 mod 2
+
+gives 1 and is equivalent to
+
+     5 % 2
+
+Negation:  
+ 
+ The unary - operator is used. For example
+
+     -12
+
+Array access:  
+
+  Array elements may be accessed using either square brackets or a dotted numeral, e.g.
+
+     arr1[0]
+
+and
+
+     arr1.0
+
+are equivalent!
+
+HashMap access:
+
+  Map elements are accessed using square brackets, e.g.
+
+      map[0]; map['name']; map[var];
+
+Note that
+
+    map['7']
+
+and
+     map[7]
+
+refer to different elements.
+Map elements with a numeric key may also be accessed using a dotted numeral, e.g.
+
+    map[0]
+
+and
+
+    map.0
+
+are equivalent.
+
+Conditionals: 
+
+if :  
+ 
+   Classic, if/else statement, e.g.
+
+    if ((x * 2) == 5) {
+        y = 1;
+    } else {
+        y = 2;
+    }
+
+
+for:  
+ 
+ Loop through items of an Array, Collection, Map, Iterator or Enumeration, e.g.
+
+    for(item : list) {
+        x = x + item; 
+    }
+
+Where item and list are variables.
+
+while: 
+
+Loop until a condition is satisfied, e.g.
+
+    while (x lt 10) {
+        x = x + 2; 
+    }
+
+
+# New Jexl Language Features
 We start with the proverbial - "Hello World".
 This is easy :- 
 
