@@ -206,9 +206,10 @@ ns:function A JexlEngine can register objects or classes used as function namesp
 
     math:cosinus(23.0)
 
-Operators
 
-Boolean and :
+### General Operators
+
+#### Boolean and :
 
 The usual && operator can be used as well as the word and, e.g.
 
@@ -219,7 +220,7 @@ and
 
 are equivalent.
 
-Boolean or:
+#### Boolean or:
 
   The usual || operator can be used as well as the word or, e.g.
 
@@ -231,7 +232,7 @@ and
 
 are equivalent.
 
-Boolean not:
+#### Boolean not:
 
  The usual ! operator can be used as well as the word not, e.g.
 
@@ -243,14 +244,14 @@ and
 
 are equivalent.
 
-Bitwise and :
+#### Bitwise and :
 
 The usual & operator is used, e.g.
 
     33 & 4
     0010 0001 & 0000 0100 = 0.
 
-Bitwise or:
+#### Bitwise or:
 
   The usual | operator is used, e.g.
 
@@ -258,21 +259,21 @@ Bitwise or:
     0010 0001 | 0000 0100 = 0010 0101 = 37
 
 
-Bitwise xor:
+#### Bitwise xor:
 
  The usual ^ operator is used, e.g.
 
      33 ^ 4
      0010 0001 ^ 0000 0100 = 0010 0100 = 37.
 
-Bitwise complement:  
+#### Bitwise complement:  
 
  The usual ~ operator is used, e.g.
 
     ~33
     ~0010 0001 = 1101 1110 = -34.
 
-Ternary conditional ?:  
+#### Ternary conditional ?:  
 
 The usual ternary conditional operator condition ? if_true : if_false operator can be used as well as the abbreviation value ?: if_false which returns the value if its evaluation is defined, non-null and non-false, e.g.
 
@@ -288,7 +289,7 @@ are equivalent.
 NOTE: The condition will evaluate to false when it refers to an undefined variable or null for all JexlEngine flag combinations. 
 This allows explicit syntactic leniency and treats the condition 'if undefined or null or false' the same way in all cases.
 
-Equality:
+#### Equality:
 
   The usual == operator can be used as well as the abbreviation eq. For example
 
@@ -301,13 +302,11 @@ and
 are equivalent.
 
 
-null:
+for null literal, is only ever equal to null, that is if you compare null to any non-null value, the result is false.
+Equality uses the java equals method.
 
- is only ever equal to null, that is if you compare null to any non-null value, the result is false.
 
-Equality uses the java equals method
-
-Inequality:
+#### Inequality:
 
   The usual != operator can be used as well as the abbreviation ne. For example
 
@@ -320,7 +319,7 @@ and
 are equivalent.
 
 
-Less Than:
+#### Less Than:
 
  The usual < operator can be used as well as the abbreviation lt. For example
 
@@ -332,7 +331,7 @@ and
 
 are equivalent.
 
-Less Than Or Equal To: 
+#### Less Than Or Equal To: 
 
   The usual <= operator can be used as well as the abbreviation le. For example
 
@@ -343,7 +342,7 @@ and
 
 are equivalent.
 
-Greater Than:
+#### Greater Than:
 
   The usual > operator can be used as well as the abbreviation gt. For example
 
@@ -355,7 +354,7 @@ and
 
 are equivalent.
 
-Greater Than Or Equal To :
+#### Greater Than Or Equal To :
 
  The usual >= operator can be used as well as the abbreviation ge. For example
 
@@ -368,38 +367,38 @@ and
 are equivalent.
 
 
-In or Match=~ :
+#### In (item) or Match=~ :
 
    The syntactically Perl inspired =~ operator can be used to check that a string matches a regular expression (expressed either a Java String or a java.util.regex.Pattern). For example "abcdef" =~ "abc.* returns true. It also checks whether any collection, set or map (on keys) contains a value or not; in that case, it behaves as an "in" operator. Note that it also applies to arrays as well as "duck-typed" collection, i.e classes exposing a "contains" method. 
 
       "a" =~ ["a","b","c","d","e",f"] // returns true.
 
 
-Not-In or Not-Match!~ :
+#### Not-In or Not-Match!~ :
 
 The syntactically Perl inspired !~ operator can be used to check that a string does not match a regular expression (expressed either a Java String or a java.util.regex.Pattern). For example "abcdef" !~ "abc.* returns false. It also checks whether any collection, set or map (on keys) does not contain a value; in that case, it behaves as "not in" operator. Note that it also applies to arrays as well as "duck-typed" collection, ie classes exposing a "contains" method. 
 
      "a" !~ ["a","b","c","d","e",f"] //returns true.
 
-Addition:  
+#### Addition:  
 
   The usual + operator is used. For example
 
      val1 + val2
 
-Subtraction:
+#### Subtraction:
   
   The usual - operator is used. For example
 
     val1 - val2
 
-Multiplication:
+#### Multiplication:
 
   The usual * operator is used. For example
 
     val1 * val2
 
-Division:  
+#### Division:  
 
    The usual / operator is used, or one can use the div operator. For example
 
@@ -409,7 +408,7 @@ or
 
      val1 div val2
 
-Modulus (or remainder):
+#### Modulus (or remainder):
 
   The % operator is used. An alternative is the mod operator. For example
 
@@ -419,13 +418,13 @@ gives 1 and is equivalent to
 
      5 % 2
 
-Negation:  
+#### Negation:  
  
  The unary - operator is used. For example
 
      -12
 
-Array access:  
+#### Array access:  
 
   Array elements may be accessed using either square brackets or a dotted numeral, e.g.
 
@@ -437,7 +436,7 @@ and
 
 are equivalent!
 
-HashMap access:
+#### HashMap access:
 
   Map elements are accessed using square brackets, e.g.
 
@@ -461,9 +460,9 @@ and
 
 are equivalent.
 
-Conditionals: 
+###Conditionals: 
 
-if :  
+#### if :  
  
    Classic, if/else statement, e.g.
 
@@ -474,7 +473,7 @@ if :
     }
 
 
-for:  
+#### for:  
  
  Loop through items of an Array, Collection, Map, Iterator or Enumeration, e.g.
 
@@ -484,7 +483,7 @@ for:
 
 Where item and list are variables.
 
-while: 
+#### while: 
 
 Loop until a condition is satisfied, e.g.
 
