@@ -1,5 +1,16 @@
 # Original Language Features 
 
+## Comments 
+They are line : "//" or "##" or block "/*  */".
+We would support "@" just like javadoc later.
+Thus : 
+     
+      /* this is a multi
+        line comment */
+
+      // while this is a single line comment 
+      ## and so is this.
+
 
 ## Identifiers 
    
@@ -86,35 +97,35 @@ In case of multiple arguments and overloading, Jexl will make the best effort to
 
 1 or more digits from 0 to 9, eg 42.
 
-Float Literals :
+#### Float Literals :
 
    1 or more digits from 0 to 9, followed by a decimal point and then one or more digits from 0 to 9, optionally followed by f or F, eg 42.0 or 42.0f.
 
-Long Literals:
+#### Long Literals:
 
    1 or more digits from 0 to 9 suffixed with l or L , eg 42l.
 
-Double Literals: 
+#### Double Literals: 
    
    1 or more digits from 0 to 9, followed by a decimal point and then one or more digits from 0 to 9 suffixed with d or D , eg 42.0d.
 
-Big Integer Literals:
+#### Big Integer Literals:
 
   1 or more digits from 0 to 9 suffixed with b or B , eg 42B.
 
-Big Decimal Literals :
+#### Big Decimal Literals :
 
   1 or more digits from 0 to 9, followed by a decimal point and then one or more digits from 0 to 9 suffixed with h or H (for Huge ala OGNL)) , eg 42.0H.
 
-Natural literals : 
+#### Natural literals : 
 
   octal and hex support  Natural numbers (i.e. Integer, Long, BigInteger) can also be expressed as octal or hexadecimal using the same format as Java. i.e. prefix the number with 0 for octal, and prefix with 0x or 0X for hexadecimal. For example 010 or 0x10.
 
-Real literals :
+#### Real literals :
 
  exponent support  Real numbers (i.e. Float, Double, BigDecimal) can also be expressed using standard Java exponent notation. i.e. suffix the number with e or E followed by the sign + or - followed by one or more decimal digits. For example 42.0E-1D or 42.0E+3B.
 
-String literals: 
+#### String literals: 
 
 Can start and end with either ' or " delimiters, e.g.
 
@@ -128,19 +139,19 @@ are equivalent.
 
 The escape character is \ (backslash); it only escapes the string delimiter.
 
-Boolean literals:
+#### Boolean literals:
 
   The literals true and false can be used, e.g.
 
      val1 == true
 
-Null literal:  
+#### Null literal:  
  
   The null value is represented as in java using the literal null, e.g.
 
     val1 == null
 
-Array literal: 
+#### Array literal: 
 
   A [ followed by one or more expressions separated by , and ending with ], e.g.
 
@@ -151,7 +162,7 @@ JEXL will attempt to strongly type the array; if all entries are of the same cla
 Furthermore, if all entries in the array literal are of the same class and that class has an equivalent primitive type, the array returned will be a primitive array. e.g. [1, 2, 3] will be interpreted as int[].
 
 
-Map literal: 
+#### Map literal: 
 
   A { followed by one or more sets of key : value pairs separated by , and ending with }, e.g.
 
@@ -367,14 +378,14 @@ and
 are equivalent.
 
 
-#### In (item) or Match=~ :
+#### (item) In  or Match=~ :
 
    The syntactically Perl inspired =~ operator can be used to check that a string matches a regular expression (expressed either a Java String or a java.util.regex.Pattern). For example "abcdef" =~ "abc.* returns true. It also checks whether any collection, set or map (on keys) contains a value or not; in that case, it behaves as an "in" operator. Note that it also applies to arrays as well as "duck-typed" collection, i.e classes exposing a "contains" method. 
 
       "a" =~ ["a","b","c","d","e",f"] // returns true.
 
 
-#### Not-In or Not-Match!~ :
+#### (item) Not-In or Not-Match!~ :
 
 The syntactically Perl inspired !~ operator can be used to check that a string does not match a regular expression (expressed either a Java String or a java.util.regex.Pattern). For example "abcdef" !~ "abc.* returns false. It also checks whether any collection, set or map (on keys) does not contain a value; in that case, it behaves as "not in" operator. Note that it also applies to arrays as well as "duck-typed" collection, ie classes exposing a "contains" method. 
 
@@ -522,34 +533,8 @@ That lets people know - yes, that is a function I am calling from an IMPORTED MO
      (njexl)sys:getProperty("user.dir")
      =>/Codes/Java/njexl/target
 
-## Comments 
-They are line : "//" or "##" or block "/*  */".
-We would support "@" just like javadoc later.
-Thus : 
-     
-      /* this is a multi
-        line comment */
-
-      // while this is a single line comment 
-      ## and so is this.
 
 
-## Variables
-
-Everything and anything that does not match a strict keyword is a variable.
-The strict keywords are :- 
-if, else, for, while, @ , ":" , def, true, false, var : and we are done.
-
-     (njexl)x = "i am a var"
-      =>i am a var
-     (njexl)x
-     =>i am a var
-
-### Names of Variables 
-
-Can be anything, but only starts with [@$a-z_A-Z]. That is important.
-The specific variable types starting "$" and "@" gets used in implicit loop operations - which we would talk later.
-You should not use a $ type variable in a loop.
 
 ### Scope of Variables
 
@@ -563,6 +548,9 @@ Just use it. To check if a variable *var_name* is defined within scope or not, u
     =>10
     (njexl)#def x
     =>true
+
+The specific variable types starting "$" and "@" gets used in implicit loop operations - which we would talk later.
+You should not use a $ type variable in a loop.
 
 
 ## Statements 
@@ -630,15 +618,6 @@ I took gazillion time faster JVM and make it very slow - so now nJexl is *only* 
 and it returns long. Thus it would be wise not to use this over arrays without cross checking the size. 
 You see, due to design of Java - the maximum size of any container is MAX_INT.
 
-## Literals
-These are the data values. Generally String and Integers and Floating point numbers. 
- 
-### Numbers 
-
-Anything between [0-9] and then +,- appended. No hex, please. I do not like them. May be later.
-Also they can take float, double values. A number 0.01 is float. A number 0.01d is double.
-And a number 0.01b is BigDecimal.
- 
 
 ### Strings
 Anything within '...' and "....". As usual "\" lets you escape. There is another specific one, called curried Literals,
@@ -689,28 +668,6 @@ second one is value list. It would marry them up.
     =>{0=0}
 
 
-### Size and Empty
-
-These are special functions.
-size(C) gives you size of a container. Let it be array, list or hash.
-Well, if you know it is an array - then ".length" also works.
-So does C.size()
-empty(C) tells you iff  C is null or empty.
-     
-     (njexl)d = {:}
-     =>{}
-     (njexl)size(d)
-     =>0
-
-### Accessor to Array, List, Hash, Object
-
-C[x].
-It is that simple. For an Array/List , it starts with C[0] and goes until you know when : C[size(C)-1].
-For a hash, that becomes C[key]. 
-Now, well, as we all know - Objects are nothing but Hashes ( from theory of computing ) - fields of an object can be used the very same way.
-O[F] gives you the value of the field named 'F'.
-Don't worry. O.F also works as expected.
-
 ## Return
 
 return <expression>.
@@ -752,7 +709,7 @@ The english and the symbolic both works.
 ## Set & List Operations.
 Almost all the operators are overloaded to handle some tricky stuff - "+" can add lists.
 In the same way "-" can do a set minus. It also can do a multi set minus popularly known as list minus.
-The special operator "@" defines "in". That is : 
+The special operator "@" defines "in" it extends "=~" . That is : 
 
     1 @ [ 1, 2, 3]   // would give you true.
     0 @ [ 1, 2, 3]   //  would give you false. 
