@@ -584,6 +584,13 @@ Thus,
 
 works as expected.
 
+Special consideration is also being given to comma : "," so that : 
+
+    out:printf("%s,%s,%s\n", 1 ,  // note the new line after ","
+     2, 3) // works 
+
+works as expected too!
+
 ## Blocks
 Like eternal rule "{ inside }" is a block. Space and tabs are bad idea to indent anything.
 That would destroy compression if need be. I do not want it. Note that Blocks does not - and I repeat - does not nest variables - does not take them in or out of scope. That is currently a flaw in the design - which we may or may to fix later. Thus, 
