@@ -747,6 +747,16 @@ Note that the power operator "**" works on String as well as lists.
 To reverse a string use <string>^-1. That should be awesome.
 Now just like python : <string>*n catenated. Here,  <string>**n catenated the string n times.
 
+## Threading support
+nJexl has full threading support! That is to say, one can simply create thread by calling the function :
+thread() with suitable parameters which to be passed to the anonymous function block.
+
+     t = thread{  out:println("I am a thread!") } ()
+
+Creates a thread - which just calls the out:println() call.
+More of this in the threading section.
+
+
 ## Why NO Exception Handling ?
 
 I toyed with the idea, and then found that : 

@@ -31,6 +31,7 @@ In fact you have already met with some of them:
 * try --> guards a native Java function call to ensure it does not throw exceptions
 * load --> load arbitrary jars from a directory location, recursively
 * system --> make arbitrary system calls
+* thread --> makes and starts a thread, with parameters 
 
 
 Thus, we would be familiarizing you guys with some of them.
@@ -189,6 +190,42 @@ In case of a program which exist, but the run was unsuccessful :
     (njexl)system("ls -l /xxx")
     ls: /xxx: No such file or directory
     =>1
+
+### The Threading issue 
+Part of interacting with OS is to reply on native threads. This is what Java does, 
+for most parts - and we rely on Java to do it's job, as of now.
+Let's understand threading by using the sample : 
+
+
+    import 'java.lang.System.out' as out 
+    // this is the function to call inside a thread 
+    def thread_func( a, b){
+       c = a + b 
+       out:printf("hello! : %s\n" , c )
+       return c // unlike my ancestor java, I can return value 
+    }
+
+    def main(){
+        // no arguments gets the current thread 
+        ct = thread() 
+        r = 0 // this is my return value 
+        // create another thread 
+        t = thread{  
+            r = thread_func( __args__=$$ )  // note the syntax, I am saying $$ is the arguments 
+                } ( 1, 2) // I am passing arguments 1,2 
+        while ( t.isAlive() ){
+           ct.sleep(1000) // yes, I can freely call Java functions!
+        }
+        return r // this is the return value 
+    }
+
+    // call main which now returns "r"
+    main()
+
+
+Note the curious "$$" usage, which signifies the arguments passed to the thread() function.
+This is accessible in the anonymous method block.
+The standard variable "$" contains the thread object itself, while "_" has the thread id.
 
 
 ## Using JSON
