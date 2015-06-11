@@ -74,44 +74,25 @@ And let me know how it feels!
 
 # How to include it in your project
 
-You basically need to allow snapshots - in maven. 
-Thus, in your POM :
-
-        <profiles>
-        <profile>
-            <id>allow-snapshots</id>
-            <activation><activeByDefault>true</activeByDefault></activation>
-        <repositories>
-        <repository>
-            <id>snapshots-repo</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-            <releases><enabled>false</enabled></releases>
-            <snapshots><enabled>true</enabled></snapshots>
-         </repository>
-        </repositories>
-       </profile>
-       </profiles> 
-
-
-And then, in the dependency section : 
+In the dependency section : 
 
       <dependency>
           <groupId>com.github.nmondal</groupId>
           <artifactId>njexl.lang</artifactId>
-          <version>0.1-SNAPSHOT</version>
+          <version>0.1</version>
        </dependency>
 
 That should immediately make your project a nJexl supported one. 
 
 ## Setting it up for use
 You can download the latest released ( snapshot ) one-jar from here : 
-[SNAPSHOTS](https://oss.sonatype.org/content/repositories/snapshots/com/github/nmondal/njexl.lang/0.1-SNAPSHOT/)
+[SNAPSHOTS](https://oss.sonatype.org/content/repositories/snapshots/com/github/nmondal/njexl.lang/0.2-SNAPSHOT/)
 
-It would look like : njexl.lang-0.1-<time-stamp>-onejar.jar.
+It would look like : njexl.lang-0.2-<time-stamp>-onejar.jar.
 Once downloaded, put this back in your PATH, in *nix like environment : 
 
 
-    alias njexl='java -jar /<location>/njexl.lang-0.1-<time-stamp>.one-jar.jar'
+    alias njexl='java -jar /<location>/njexl.lang-0.2-<time-stamp>.one-jar.jar'
  
 
 And you are pretty much ready to go. Now type "njexl" from anywhere in the command prompt - and you are ready inside the njexl prompt.
