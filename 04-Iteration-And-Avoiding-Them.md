@@ -115,6 +115,54 @@ Which generates the output :
 
 Which justifies their existence.
 
+### Extension of Break and Continue 
+Generally people use "break" and "continue" with the following pattern :
+
+    if ( condition ){ break }
+    if ( condition ){ continue }
+
+Thus, lot's of code can be avoided if we use the extension of break and continue :
+
+    break ( condition ){ statements ...  }
+    continue ( condition )
+
+Hence, the loop can be well written as : 
+
+    for ( i : [1:11]){
+       out.println(i)
+       break ( i % 4 == 0 )
+    }
+
+Which would work, as well as :
+
+    i = 0 
+    while ( i < 10 ){
+      i = i + 1 
+      continue ( i % 3 == 0 ) 
+      out.println(i)
+    }
+
+The implicit word is  break *when* condition with expression value.
+It is not easy to understand when we need to return something on break, 
+but anonymous function calls are a perfect example :
+
+    (njexl)list{ break($ > 10){ $ } ; $ }([1,2,3,10,11,13,19])
+    =>[1, 2, 3, 10, 11]
+
+Same with continue :
+
+    (njexl)list{ continue($ < 10) ;  $  }([1,2,3,10,11,13,19])
+    =>[10, 11, 13, 19]
+
+And thus, it is more generic that one thinks.
+Finally, the best possible example is that of join :-
+Find two items from a list such that they add up to a number n :
+
+    (njexl)join{  break( $[0] + $[1] == 4 )  }([ 0,1,2,3],[0,2,3] )
+    =>[[1, 3]]
+
+And that should sum it up!
+
 
 # Avoiding Iteration, Using Predicate Logic 
 
@@ -183,7 +231,7 @@ The idea would be doing this :
       if ( i > 0 &&  a[i] < a[i-1] ){
         //fail!
         sorted = false
-        break; // this is not a jexl keyword 
+        break; 
         }
       i = i+1
     }      
