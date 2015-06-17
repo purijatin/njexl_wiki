@@ -64,6 +64,63 @@ Two lists are item by item almost same?
 
 Item by item. That should do it!
 
+## Permutation & Combination 
+
+A very exotic computation on lists are permutation and combination over it.
+The list permutation is a slightly tougher issue - thus we tackle the set permutation 
+and combination.  
+
+As usual, we look at the functional formulation of it, for finding Permutation up to 2 
+elements : P(n,2) what we need to do is to join the list and check if the tuple (a,b) 
+are not the same : 
+
+    (njexl)l = list(1,2,3,4)
+    =>[1, 2, 3, 4]
+    (njexl)join{ $[0] != $[1] }(l,l)
+    =>[[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], 
+       [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], 
+        [4, 2], [4, 3]]
+
+Let's try to make it generalize for item count up to r :
+
+    (njexl)join{ #|set($)| == #|$| }(l,l)
+    =>[[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], 
+       [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], 
+         [4, 2], [4, 3]]
+
+But one can see the last args are still hard coded, to remove that we need - the final script :
+
+    import 'java.lang.System.out' as out
+
+    // get the list 
+    l = list(1,2,3,4)
+    // generate the argument 
+    x = list{ l }( [0:2].list() )
+    out:printf("list : \n%s\n", x)
+    // generate the permutation   
+    p = join{ #|set($)| == #|$| }(__args__=x)
+    out:printf("permutations : \n%s\n", p)
+    // generate the combination : ideally should select over permutations 
+    c = join{ #|set($)| == #|$| and 
+        index{ _ > 0 and  $$[_-1] > $ }($) < 0 
+        }(__args__=x)
+    out:printf("combinations: \n%s\n", c )
+    // return for validation 
+    return [p,c]
+
+Note the interesting "__args__=x" syntax. That let's you overwrite the argument of the function 
+by the parameter you are passing. Thus, 
+
+    func(a,b)
+
+has the same effect has :
+
+     func( __args__ = [a,b] )
+
+Which, is by the way - not cool.
+But wait, in the case of parameterizing combination / permutation - they surely are!
+
+
 
 ## Number formatting and rounding. 
 
