@@ -120,6 +120,54 @@ has the same effect has :
 Which, is by the way - not cool.
 But wait, in the case of parameterizing combination / permutation - they surely are!
 
+### N Sum Problem 
+Given a number, and a list, is there a sub list such that the total of the sub list 
+is equals to the number or not? This is what my friend hit, and wanted bonkers.
+So, here is the nJexl equivalent solution :
+
+    def possible( n, l ){
+
+       // does it exist one level?
+       found = ( index(n,l) >= 0 )
+       // pretty clear 
+       if ( found ) { return true }
+       // start with nCc : 
+       c = 2 
+       // go deep in rabbit hole 
+       while ( c <= #|l| ){
+          
+          x = array{ l } ( [0:c].list() )
+          now = set()
+          r = join{
+              ms = set($)
+              // did i hit this before?
+              if ( ms =~ now ){ return false }
+              // need only combination 
+              if ( #|ms| != #|$|  ){ return false }
+              // yes, a combination 
+              now.add(ms)
+              
+              // add them up 
+              t = sqlmath($) 
+              // compare and find if it is ok?
+              t[2] == n 
+          }(__args__ = x)
+
+          found = not empty(r)
+
+          if ( found ) { 
+            out:println( r )
+            return true 
+          }
+          c = c + 1
+       }
+       return false 
+    }
+
+
+As we can see, the possible() function works, if there is no repetition.
+I would let you think, for allowing repetition what needs to be done!
+NOTE : It would do something with list equals.
 
 
 ## Number formatting and rounding. 
