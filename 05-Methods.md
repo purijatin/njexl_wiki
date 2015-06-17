@@ -233,4 +233,31 @@ Which basically sums up how the args should be used. Note that, one should not m
 Every function takes variable length args, and thus - null values get's assigned to parameters which are not passed. 
 People should be careful.
 
+## Argument overwriting 
+
+Sometimes kind of smart people acts in stupid ways.
+This feature is a classic example - shooting one in the feet.
+Suppose one wants to call a method - with stipulated parameters, 
+but can not pass call it, directly, how one passes the parameter then?
+
+    import 'java.lang.System.out' as out
+
+    def gte(a,b){
+       a <= b  
+    }
+    // standard way - kind of ok 
+    out:printf ( "%d < %d ? %s\n", 1, 2 , gte(1,2) )
+    a = [1,2]
+    // same with __args__ overwriting : cool! 
+    out:printf ( "%d < %d ? %s\n", a[0], a[1] , gte(__args__ = a) )
+
+Of course the result is this :
+
+    1 < 2 ? true
+    1 < 2 ? true
+
+That shows you what all can be done with this.
+Note that, once you overwrite the args, no other parameter can be passed at all.
+
+
 This concludes the method level knowledge base.
