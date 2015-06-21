@@ -19,7 +19,7 @@ or you rather add the dependency njexl.testing in your project :
 <dependency>
   <groupId>com.github.nmondal</groupId>
   <artifactId>njexl.testing</artifactId>
-  <version>0.1</version>
+  <version>0.1-SNAPSHOT</version>
 </dependency>
 ```
 
