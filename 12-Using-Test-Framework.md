@@ -220,7 +220,7 @@ The corresponding jxl script can be :
 
 	/*
 	 The kind of data it parses is :
-	 http://live-nse.herokuapp.com/?symbol=INFY
+	 http://jsonplaceholder.typicode.com/posts
 	*/
 
 	import 'java.lang.System.out' as out
