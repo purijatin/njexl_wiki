@@ -76,11 +76,14 @@ And let me know how it feels!
 
 In the dependency section : 
 
-      <dependency>
-          <groupId>com.github.nmondal</groupId>
-          <artifactId>njexl.lang</artifactId>
-          <version>0.1</version>
-       </dependency>
+```xml
+<dependency>
+  <groupId>com.github.nmondal</groupId>
+  <artifactId>njexl.lang</artifactId>
+  <version>0.1</version>
+</dependency>
+```
+
 
 That should immediately make your project a nJexl supported one. 
 
