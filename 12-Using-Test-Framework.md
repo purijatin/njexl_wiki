@@ -224,18 +224,15 @@ The corresponding jxl script can be :
 	*/
 
 	import 'java.lang.System.out' as out
-
 	// apparently this is how the result gets pushed 
 	result = _o_
-
-	//convert JSON to jexl object : use currying 
+	//convert JSON to Dictionary : use currying 
 	d = `#{result}` 
-
-	//print it 
-	out:println(d)
-
+	//print it - see that we are using data source column userId
+	out:printf("userId: %s\n result: %s\n", userId, d)
 	// this is good enough 
 	return not empty(d)
+
 
 ### The Data Sheet 
 
