@@ -226,7 +226,7 @@ The corresponding jxl script can be :
 	import 'java.lang.System.out' as out
 	// apparently this is how the result gets pushed 
 	result = _o_
-	//convert JSON to Dictionary : use currying 
+	//convert JSON to nJexl object : simple use of currying 
 	d = `#{result}` 
 	//print it - see that we are using data source column userId
 	out:printf("userId: %s\n result: %s\n", userId, d)
