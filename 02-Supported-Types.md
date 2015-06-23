@@ -31,6 +31,28 @@ Thus, it is important to know whether or not a variable is defined or not. That 
     (njexl)#def(x.y) // function form --> again
     =>false
 
+### Getting Objects Defined in the Script 
+Defined get's used as to find script objects like methods and classes.
+
+    import 'java.lang.System.out' as out
+
+    def generic(){
+       out:println("I am generic function")
+    }
+    def gen_before(){
+       out:println("I am generic before : " + __args__ )
+    }
+    m = #def( 'my:generic' )
+    out:println(m)
+
+When we run this script, we get : 
+  
+    njexl ../src/lang/samples/tmp.jxl 
+    ScriptMethod{ name='generic', instance=false}
+    
+It returned the method which got defined by the name 'generic'.
+In the same way, it can return class too.
+
 
 ## The Literals
 
