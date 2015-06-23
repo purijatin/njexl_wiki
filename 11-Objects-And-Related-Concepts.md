@@ -383,11 +383,20 @@ To support eventing one should override the methods *__before__* and *__after__*
 
 An example would explain the idea : 
 
-    /*
+        /*
      Showcases Eventing.
      The crucial methods are __before__ and __after__
     */
     import 'java.lang.System.out' as out
+
+    def generic(){
+       out:println("I am generic function")
+    }
+
+    def gen_event(){
+       event = __args__[0]
+       out:printf("I am generic %s \n", event )
+    }
 
     def  MyEventClass {
          //  before hook
@@ -404,17 +413,51 @@ An example would explain the idea :
          }
     }
     x = new ( 'MyEventClass' )
+    // get the say_hello method 
+    m = x.NClass.method.say_hello
+    out:println(m)
+    // this get's the method 
+    e = #def( 'my:gen_event' )
+    out:println(e)
+    m.before.add(e)
     // before this method __before__ would be called 
     @@x.say_hello(" I am Eventing ")
     // __after__ would be called after this 
 
+
+    m = #def( 'my:generic' )
+    out:println(m)
+
+    // add before handler 
+    m.before.add(e)
+    // call and see what happens ?
+    generic()
+    // remove before handler 
+    m.before.remove(e)
+    // add a programmatic handler with MyEventClass
+    // __before__ would be called 
+    m.before.add(x)
+    // add to after 
+    m.after.add(e)
+    // call and see what happens ?
+    generic()
+
+
 And thus, when we run it - we have :
 
-    njexl ../src/lang/samples/eventing.jexl 
-    Script imported : JexlMain@/Codes/Java/nJexl/src/lang/samples/eventing.jexl
+    ScriptMethod{ name='say_hello', instance=false}
+    ScriptMethod{ name='gen_event', instance=false}
     Before : @@ | say_hello | @[ I am Eventing ]
+    I am generic __before__ | ScriptMethod{ name='say_hello', instance=false} | @[ I am Eventing ] 
     Hello :  I am Eventing 
     After : @@ | say_hello | @[ I am Eventing ]
+    ScriptMethod{ name='generic', instance=false}
+    I am generic __before__ | ScriptMethod{ name='generic', instance=false} | @[] 
+    I am generic function
+    Before : __before__ | ScriptMethod{ name='generic', instance=false} | @[]
+    I am generic function
+    I am generic __after__ | ScriptMethod{ name='generic', instance=false} | @[]
+
 
 Thus, any class can oversee any of it's function by attaching event to them.
 
