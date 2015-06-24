@@ -14,7 +14,7 @@ Now a practical example, do we have an item in this list such that x > 5 ?
 
     (njexl)L = [1,2,3,4,5,6,8,9]
     =>@[1, 2, 3, 4, 5, 6, 8, 9]
-    (njexl)index{ $ > 5 }(L) > 0 
+    (njexl)index{ $ > 5 }(L) >= 0 
     =>true
 
 Now, is all element of a list having some property P?
