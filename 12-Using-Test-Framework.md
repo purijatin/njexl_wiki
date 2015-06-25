@@ -378,15 +378,15 @@ This designates a service method to be tested. It has multiple parameters :
 * after : The jUnit after method : this time nJexl script that would be invoked
 
 * globals : Any global variables one needs to pass to each of the test vectors 
-            In fact it is a dictionary. In this dictionary, one specifies key : value pair as :
+      In fact it is a dictionary. In this dictionary, one specifies key : value pair as :
             
                key=value
  
-             Then, the key can be accessed in the validators by :
+      Then, the key can be accessed in the validators by :
 
                _g_.key 
 
-             Which is how it works.
+      Which is how it works.
 
 
 
