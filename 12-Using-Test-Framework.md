@@ -286,7 +286,16 @@ public class NApiAnnotationSample {
 
 ```
 
-## The Data File 
+## The Data Sheets 
+
+For subtraction the data sheet is :
+
+
+
+| a  | b  | 
+|----|----|
+| 10 | 4  | 
+| 12 | 5  | 
 
 
 
@@ -297,33 +306,33 @@ The pre and post jexls are simple.
 #### Pre Validator 
 
 
-  /**
-    pre.jexl
-    A demo of before method - how to say go no-go for a method
-  */
-  import 'java.lang.System.out' as out
-  out:println("Pre Validator")
-  return _cc_ != null // this is just a place holder
+    /**
+      pre.jexl
+      A demo of before method - how to say go no-go for a method
+    */
+    import 'java.lang.System.out' as out
+    out:println("Pre Validator")
+    return _cc_ != null // this is just a place holder
 
 
 #### Post Validator 
 
 
-  /**
-    post.jexl 
-    A demo of after method - how to test a method
-  */
-  import 'java.lang.System.out' as out
+    /**
+      post.jexl 
+      A demo of after method - how to test a method
+    */
+    import 'java.lang.System.out' as out
 
-  // _cc_ stores the call container
-  actual = _cc_.result
-  // `` is the currying, allows you to operate a string as if it is a function
-  expected = `_cc_.parameters[0] #{_g_.op} _cc_.parameters[1]`
-  // note the use of _g_ to use per method global variables 
-  // access arbitrary java object as namespace
-  out:printf("Expected %s , Actual %s\n", expected, actual)
-  // return can be made implicit
-  expected == actual
+    // _cc_ stores the call container
+    actual = _cc_.result
+    // `` is the currying, allows you to operate a string as if it is a function
+    expected = `_cc_.parameters[0] #{_g_.op} _cc_.parameters[1]`
+    // note the use of _g_ to use per method global variables 
+    // access arbitrary java object as namespace
+    out:printf("Expected %s , Actual %s\n", expected, actual)
+    // return can be made implicit
+    expected == actual
 
 
 ## Performance Testing 
