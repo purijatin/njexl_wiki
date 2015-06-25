@@ -243,4 +243,96 @@ Here is how the data sheet "userId" looks like :
 | 1 | b1 | c1 |
 | 2 | b2 | c2 |
 
+
+
+## The API Testing Framework
+nJexl lets you do api testing.
+It is data driven, as you have expected, and as usual it works in this way :
+
+```java
+import com.noga.njexl.testing.api.Annotations.*;
+import com.noga.njexl.testing.api.junit.JClassRunner;
+import org.junit.runner.RunWith;
+
+
+@RunWith(JClassRunner.class)
+@NApiService(base = "samples/")
+@NApiServiceCreator  // the defaults are good enough 
+public class NApiAnnotationSample {
+
+    @NApiServiceInit // tell that this constructor to initiate 
+    public NApiAnnotationSample(){}
+    
+    // this should be pretty obvious 
+    @NApi( dataSource = "UIData.xlsx", dataTable = "add" ,
+            before = "pre.jexl", after = "post.jexl", globals = {"op=+"} )
+    @NApiThread
+    public int add(int a, int b) {
+        int r = a + b ;
+        System.out.printf("%d + %d = %d \n", a, b, r );
+        return r;
+    }
+
+    @NApi(dataSource = "UIData.xlsx", dataTable = "sub" ,
+            before = "pre.jexl", after = "post.jexl" , globals = { "op=-" } )
+    @NApiThread(use=true,performance = true) // crucial - would use for performance 
+    public int subtract(int a, int b) {
+        int r = a - b ;
+        System.out.printf("%d - %d = %d \n", a, b, r );
+        return r;
+    }
+
+}
+
+```
+
+## The Data File 
+
+
+
+### Validators
+
+The pre and post jexls are simple.
+
+#### Pre Validator 
+
+
+  /**
+    pre.jexl
+    A demo of before method - how to say go no-go for a method
+  */
+  import 'java.lang.System.out' as out
+  out:println("Pre Validator")
+  return _cc_ != null // this is just a place holder
+
+
+#### Post Validator 
+
+
+  /**
+    post.jexl 
+    A demo of after method - how to test a method
+  */
+  import 'java.lang.System.out' as out
+
+  // _cc_ stores the call container
+  actual = _cc_.result
+  // `` is the currying, allows you to operate a string as if it is a function
+  expected = `_cc_.parameters[0] #{_g_.op} _cc_.parameters[1]`
+  // note the use of _g_ to use per method global variables 
+  // access arbitrary java object as namespace
+  out:printf("Expected %s , Actual %s\n", expected, actual)
+  // return can be made implicit
+  expected == actual
+
+
+## Performance Testing 
+
+
+
+
+
+
+
+
  
