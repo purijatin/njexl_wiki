@@ -335,13 +335,84 @@ The pre and post jexls are simple.
     expected == actual
 
 
-## Performance Testing 
+### Annotations Explained 
+
+#### NApiService  
+This is to decorate a class saying : it is ready to be tested using nJexl.testing.
+It has an optional parameter - *base* which denotes the base directory for the class, 
+i.e. where all the data files and script files would reside. 
+
+#### NApiServiceCreator
+This is to state, what sort of creator should instantiate an instance of a service object, 
+i.e. the class which is to be tested.
+
+It has multiple optional parameters :
+
+* type : The class creator type (a Java Class Type) , 
+         default is : ServiceCreatorFactory.SimpleCreator.class
+* args : String[] , denoting arguments which would be parsed by JexlEngine to create 
+         the arguments of the class creator
+
+
+##### NApiServiceInit 
+This is a marker, only one is allowed to put in one of the constructors of the test class.
+This denotes that it would use this constructor to construct a service object.
+
+It has multiple optional parameters :
+
+* bean : A shame from Spring, 
+         denotes the bean name of the class in the spring context file. 
+* args : String[] , denoting arguments which would be parsed by JexlEngine to create 
+         the arguments of the class 
+         In case we are using spring, it is the paths to the context xml file
+
+##### NApi
+This designates a service method to be tested. It has multiple parameters :
+
+* dataSource :  The data location path, can be an URL, a directory, an Excel file
+
+* dataTable :  The data file name, or table index, or the sheet name 
+
+* before : The jUnit before method : this time nJexl script that would be invoked
+
+* after : The jUnit after method : this time nJexl script that would be invoked
+
+* globals : Any global variables one needs to pass to each of the test vectors 
+            In fact it is a dictionary. In this dictionary, one specifies key : value pair as :
+            
+               key=value
+ 
+             Then, the key can be accessed in the validators by :
+
+               _g_.key 
+
+             Which is how it works.
 
 
 
+##### NApiThread
 
+Optional decorator to any method - stating it is for threaded ( stress/load/perf ) testing.
+It has multiple optional parameters :
 
+* use : Shall we use the threading ? 
+        Even if one specifies the NApiThread attribute, one still needs to set it to true.
+        This is a by deign decision. Sorry (It actually makes sense).
 
+* numThreads : Number of threads to spawn - each acting as a different client.
+
+* spawnTime : The delay to incur between spawning threads. 
+        Spawning, takes time. Even you are bacterial colony. Which we are.
+
+* numCallPerThread : Per thread, how many times one needs to call the method 
+
+* pacingTime : Time delay between two subsequent call in a thread.
+
+* performance : When set to true, the performance characteristics are reported. 
+               And tests aborts if the 90% does not match the below :
+
+* ninetyPercentile : Classic 90%, global for all the test vectors.
+                You can change that by adding a column 90% in the test data sheet.              
 
 
  
