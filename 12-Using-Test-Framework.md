@@ -432,7 +432,7 @@ This does the performance testing.
               This is a short integer, between 1 to 99.
               For example to get median you should use :
 
-                    @Performance(use = true, percentile = 50 )
+              @Performance(percentile = 50 )
                 
 
 * lessThan : The value of the percentile,global for all the test vectors.
