@@ -254,7 +254,6 @@ import com.noga.njexl.testing.api.Annotations.*;
 import com.noga.njexl.testing.api.junit.JClassRunner;
 import org.junit.runner.RunWith;
 
-
 @RunWith(JClassRunner.class)
 @NApiService(base = "samples/")
 @NApiServiceCreator  // the defaults are good enough 
@@ -264,8 +263,9 @@ public class NApiAnnotationSample {
     public NApiAnnotationSample(){}
     
     // this should be pretty obvious 
-    @NApi( dataSource = "UIData.xlsx", dataTable = "add" ,
-            before = "pre.jexl", after = "post.jexl", globals = {"op=+"} )
+    @NApi(use = false, dataSource = "UIData.xlsx", dataTable = "add" ,
+            before = "pre.jexl", after = "post.jexl", 
+            globals = {"op=+"} )
     @NApiThread
     public int add(int a, int b) {
         int r = a + b ;
@@ -274,14 +274,15 @@ public class NApiAnnotationSample {
     }
 
     @NApi(dataSource = "UIData.xlsx", dataTable = "sub" ,
-            before = "pre.jexl", after = "post.jexl" , globals = { "op=-" } )
-    @NApiThread(use=true,performance = true) // crucial - would use for performance 
+            before = "pre.jexl", after = "post.jexl" , 
+            globals = { "op=-" } )
+    // crucial - would use for performance        
+    @NApiThread(performance = @Peformance())  
     public int subtract(int a, int b) {
         int r = a - b ;
         System.out.printf("%d - %d = %d \n", a, b, r );
         return r;
     }
-
 }
 
 ```
@@ -342,6 +343,13 @@ This is to decorate a class saying : it is ready to be tested using nJexl.testin
 It has an optional parameter - *base* which denotes the base directory for the class, 
 i.e. where all the data files and script files would reside. 
 
+Parameters are :
+
+* use : if false, won't use this class : default true 
+
+* base : the base dir 
+
+
 #### NApiServiceCreator
 This is to state, what sort of creator should instantiate an instance of a service object, 
 i.e. the class which is to be tested.
@@ -354,7 +362,7 @@ It has multiple optional parameters :
          the arguments of the class creator
 
 
-##### NApiServiceInit 
+#### NApiServiceInit 
 This is a marker, only one is allowed to put in one of the constructors of the test class.
 This denotes that it would use this constructor to construct a service object.
 
@@ -366,8 +374,10 @@ It has multiple optional parameters :
          the arguments of the class 
          In case we are using spring, it is the paths to the context xml file
 
-##### NApi
+#### NApi
 This designates a service method to be tested. It has multiple parameters :
+
+* use : if false, won't use this method : default true 
 
 * dataSource :  The data location path, can be an URL, a directory, an Excel file
 
@@ -390,15 +400,14 @@ This designates a service method to be tested. It has multiple parameters :
 
 
 
-##### NApiThread
+#### NApiThread
 
 Optional decorator to any method - stating it is for threaded ( stress/load/perf ) testing.
 It has multiple optional parameters :
 
-* use : Shall we use the threading ? 
-        Even if one specifies the NApiThread attribute, one still needs to set it to true.
-        This is a by deign decision. Sorry (It actually makes sense).
-
+* use : Shall we use the threading ? Default true.
+        If you want to turn it off, set it to false. 
+        
 * numThreads : Number of threads to spawn - each acting as a different client.
 
 * spawnTime : The delay to incur between spawning threads. 
@@ -408,11 +417,28 @@ It has multiple optional parameters :
 
 * pacingTime : Time delay between two subsequent call in a thread.
 
-* performance : When set to true, the performance characteristics are reported. 
-               And tests aborts if the 90% does not match the below :
+* performance : Another annotation to do performance testing.
+                Defaults to no performance testing 
 
-* ninetyPercentile : Classic 90%, global for all the test vectors.
-                You can change that by adding a column 90% in the test data sheet.              
+
+#### Performance 
+This does the performance testing.
+
+* use : When set to true, the performance characteristics are reported. Default is true.
+               And tests aborts if the experimental percentile  does not match the
+               supplied lessThan percentile value.
+
+* percentile : Classic percentile, global for all the test vectors.
+              This is a short integer, between 1 to 99.
+              For example to get median you should use :
+
+                    @Performance(use = true, percentile = 50 )
+                
+
+* lessThan : The value of the percentile,global for all the test vectors.
+              You can change that by adding a column %PERCENTILE% in the test data sheet. 
+              Defaults to 10 sec.             
 
 
  
+
