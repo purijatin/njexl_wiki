@@ -277,7 +277,7 @@ public class NApiAnnotationSample {
             before = "pre.jexl", after = "post.jexl" , 
             globals = { "op=-" } )
     // crucial - would use for performance        
-    @NApiThread(performance = @Peformance())  
+    @NApiThread( dcd = true, performance = @Peformance())  
     public int subtract(int a, int b) {
         int r = a - b ;
         System.out.printf("%d - %d = %d \n", a, b, r );
@@ -416,6 +416,12 @@ It has multiple optional parameters :
 * numCallPerThread : Per thread, how many times one needs to call the method 
 
 * pacingTime : Time delay between two subsequent call in a thread.
+
+* dcd : Stands for Different Call Different ( data row ). 
+       It has a default value of false. If one sets this to true, 
+       then every call made in threading mode would have used different data row.
+       This is very important for application caching their data per process.
+       
 
 * performance : Another annotation to do performance testing.
                 Defaults to no performance testing 
