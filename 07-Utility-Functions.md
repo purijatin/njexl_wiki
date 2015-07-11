@@ -305,10 +305,14 @@ Thus, we can have :
     =>@[{roll=3, name=C}, {roll=2, name=Z}]
 
 
-## Try and Try again 
+## Truly Exceptional Cases 
 
 As we build on Java, and Java has exceptions - sometimes we are not sure if some function would generate exception
-or not. For those scenarios - we have try() function.
+or not. 
+
+### The Try Function 
+
+For those scenarios - we have try() function.
 
     (njexl)import 'java.lang.Integer' as Integer
     =>class java.lang.Integer
@@ -320,6 +324,49 @@ or not. For those scenarios - we have try() function.
     =>java.lang.NumberFormatException: For input string: "xxx"
 
 Thus, the idea is to eat up the exception, and then give a suitable default.
+
+### Multi Valued Return 
+
+The try{}() function is a very poor remnant of C++ bad design. A better idea is to make a function return 
+multiple value. In fact, the function would always return a single value, but in case it generates error, 
+one can easily catch that by catching the function error values in a tuple.
+
+Here is how a Tuple works :
+
+    (njexl)#(a,b) = [1,2,3] // stores a = 1, b = 2
+    =>[1, 2]
+    
+Now, to store err values : 
+
+    (njexl)#(o,:e) = my_undefined_var
+    =>[null, com.noga.njexl.lang.JexlException$Variable: 
+            com.noga.njexl.lang.Main.interpret@98![11,27]: 
+           '#(o,:e)  = my_undefined_var;' undefined variable : 'my_undefined_var' ]    
+
+So you see, the syntax ":var" in the tuple actually catches the error if any occurs in evaluating the 
+expression in the right side. When you are specifying ":var", you are being explicit to the interpreter
+that exception can happen, and please catch it for me in the variable var.
+
+Tuples error return can be used in many ways: 
+
+     #(o,:e) = out:printf("%d", "xxxx" )
+     out:printf("%s\n", o )
+     out:printf("%s\n", e )
+
+Produces the output :
+
+     null
+     java.util.IllegalFormatConversionException: d != java.lang.String   
+
+Finally, the integer parsing :
+
+    (njexl)import 'java.lang.Integer' as Integer
+    =>class java.lang.Integer
+    (njexl)#(o,:e) = Integer:parseInt('32')
+    =>[32, null]
+    (njexl)#(o,:e) = Integer:parseInt('Sri 420')
+    =>[null, java.lang.NumberFormatException: For input string: "Sri 420"]
+
 
 
 ## The excess of Xml
