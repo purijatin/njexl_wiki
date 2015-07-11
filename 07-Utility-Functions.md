@@ -408,45 +408,39 @@ author="Yours Truly"
 
 In fact it is hidden in :  
 
-       (njexl)import 'org.apache.commons.jexl2.extension.dataaccess.XmlMap' as xml
-        =>class org.apache.commons.jexl2.extension.dataaccess.XmlMap
-        (njexl)xml:file2xml('sample.xml')
-        =>name='slideshow',text=''
-        attr={date=Date of publication, author=Yours Truly, title=Sample Slide Show}
-        children=[name='slide',text=''
-        attr={type=all}
-        children=[name='title',text='Wake up to WonderWidgets!'
-        attr={}
-        children=[]
-        ]
-        , name='slide',text=''
-        attr={type=all}
-        children=[name='title',text='Overview'
-        attr={}
-        children=[]
-        , name='item',text='Why  are great'
-        attr={}
-        children=[name='em',text='WonderWidgets'
-        attr={}
-        children=[]
-        ]
-        , name='item',text=''
-        attr={}
-        children=[]
-        , name='item',text='Who  WonderWidgets'
-        attr={}
-        children=[name='em',text='buys'
-        attr={}
-        children=[]
-        ]
-        ]
-        ]
-
-
+    (njexl)import 'com.noga.njexl.lang.extension.dataaccess.XmlMap' as xml
+    =>class org.apache.commons.jexl2.extension.dataaccess.XmlMap
+    (njexl)xml:file2xml('sample.xml')
+    =>{ "name" : "slideshow" , "ns" : "", "prefix" : "", "text" : "\n    \n    \n    \n    \n", 
+       "attr" : {"date" : "Date of publication","author" : "Yours Truly","title" : "Sample Slide Show"}, 
+       "children" : [ { "name" : "slide" , "ns" : "", "prefix" : "", "text" : "\n        \n    ", 
+       "attr" : {"type" : "all"}, "children" : [ 
+       { "name" : "title" , "ns" : "", "prefix" : "", "text" : "Wake up to WonderWidgets!", "attr" : {}, 
+       "children" : [  ] } ] },
+       { "name" : "slide" , "ns" : "", "prefix" : "", "text" : "\n        \n        \n        \n        \n    ", 
+        "attr" : {"type" : "all"}, "children" : [ { "name" : "title" , "ns" : "", "prefix" : "", 
+        "text" : "Overview", "attr" : {}, "children" : [  ] },
+       { "name" : "item" , "ns" : "", "prefix" : "", "text" : "Why  are great", "attr" : {}, 
+       "children" : [ { "name" : "em" , "ns" : "", "prefix" : "", "text" : "WonderWidgets", "attr" : {}, 
+       "children" : [  ] } ] },
+       { "name" : "item" , "ns" : "", "prefix" : "", "text" : "", "attr" : {}, "children" : [  ] },
+       { "name" : "item" , "ns" : "", "prefix" : "", "text" : "Who  WonderWidgets", "attr" : {}, 
+       "children" : [ { "name" : "em" , "ns" : "", "prefix" : "", "text" : "buys", "attr" : {}, 
+       "children" : [  ] } ] } ] } ] }
 
 Thus, any node can be accessed like objects straight away.
+This is the json form. Now, to convert this to an dictionary object form :
+
+    (njexl)json(x)
+     =>{ns=, children=[Ljava.util.HashMap;@506e1b77, prefix=, name=slideshow, text=
+    
+    
+    
+    
+     , attr={date=Date of publication, author=Yours Truly, title=Sample Slide Show}} 
 
 
+This is how one can convert XML to JSON objects, which is a bloated hash in nJexl.
 
 
 
