@@ -145,6 +145,59 @@ Now, then, that is it. Brings back the RC again.
 For the coder in you - no, we do not like people coding at all.
 We try to minimize the efforts - and put it back elsewhere.
 
+### A Sample Production Usage 
+The Selenium object is custom made, [source](https://github.com/nmondal/njexl/blob/master/testing/src/main/java/com/noga/njexl/testing/ui/XSelenium.java) is as always open.
+However, the cools stuff are embedded in, so probably not a good idea to copy paste it alone.
+
+Here is a sample production code for a webapp testing I did.
+See the blinding awesomeness ( in the style of Kung Fu Panda ) :
+
+
+    import 'java.lang.System.out' as out
+    /* 
+        open url - selenium is aliased with XSelenium 
+        See the source code 
+    */
+    selenium.open("/app/module/login/login.php")
+    // login 
+    @@selenium.type("id_tbx_uid", user)
+    selenium.type("id_pwd_pwd", pass)
+    selenium.click("name=submit")
+    // assert a stupid stuff - that fails 
+    assert:test{ selenium.isVisible("xxxx") }("This fails")
+    // test login -- note that isElementPresent never throws error 
+    assert:test( @@selenium.isElementPresent("menu") , "Successful Login")
+    // what is this page? -- it may choose to... so 
+    assert:test { selenium.title == 'Accounts' } ( "Login is in A/C Page" )
+    // zoom out - an awesome feature of XSelenium 
+    selenium.zoomOut(3)
+
+    // These following elements must be there 
+    options = json('ui.json')
+    // pretty standard nested for ... 
+    for ( x : options.keySet() ){
+       loc = `link=#{x}` // standard variable substitution 
+       // isVisible can always throw error, so guard it 
+       assert:test { selenium.isVisible(loc) } ( x + " : is present" )
+       x_inner = options[x] 
+       selenium.mouseOver(loc)
+       for ( ic : x_inner ){
+           loc = `link=#{ic}`
+           message = x + " > " + ic + " : is present"
+           // guard it here too 
+           assert:test { @@selenium.isVisible(loc) }( message )
+       }
+    }
+    // load data table like a piece of cake : what more do you expect of a framework?
+    (t,:e)  = selenium.table("0") // note the awesomeness -- with error check 
+    // empty never throws exception 
+    assert:test( empty(e) )("There is a data table in A/C Page" )
+    // but t might be null, so...:
+    assert:test{ not empty(t.rows) } ("There is data in A/C Page" )
+
+
+As you can see, NO framework or language can get this done in less lines than this.
+
 ### The Web Suite XML
 
 Against our better senses, we are going with XML. 
