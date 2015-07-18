@@ -145,6 +145,27 @@ Now, then, that is it. Brings back the RC again.
 For the coder in you - no, we do not like people coding at all.
 We try to minimize the efforts - and put it back elsewhere.
 
+### Browser Support 
+
+Clearly it supports everything that is supported by Selenium.
+However, Out of Box supports are there for 
+ 
+  * FireFox  
+  * Chrome / Opera 
+  * IE 
+  * Safari.
+
+To setup Chrome and Opera one needs to create environment variable, 
+and put the driver path there. 
+For Chrome the variable is "CHROME_DRIVER" .
+For Opera ( Webkit based ) the variable is "OPERA_DRIVER".
+When IE driver is in the path - it would simply run Internet Explorer too.
+
+
+
+
+
+
 ### A Sample Production Usage 
 The Selenium object is custom made, [source](https://github.com/nmondal/njexl/blob/master/testing/src/main/java/com/noga/njexl/testing/ui/XSelenium.java) is as always open.
 However, the cools stuff are embedded in, so probably not a good idea to copy paste it alone.
