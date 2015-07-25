@@ -285,5 +285,33 @@ Calculating prime numbers using [Sieve of Eratosthenes](http://en.wikipedia.org/
     [3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 2]
         
  
+## Result of Competitive Exam 
+
+Some multiple choice exams has the rule that if you are correct you would be awarded a P, 
+and if you fail it would be M ( a negative no). If you do not answer it, you get a 0.
+How do you write a scoring algorithm for such an exam?
+
+Here is how :
+
+    P = 2.0 
+    M = -0.5 
+    actual_soln = "aabccbdaba"
+    soln = "a bcd d b "
+    // now with this ...
+    (njexl)(sqlmath( 
+             list{  where( empty($) ){ return 0 }  
+                    where( $ == actual_soln[_] ){ return P }  
+                    M  
+                  } ( soln.toCharArray ) )
+                  )[2] 
+
+    =>7.5    
+
+
+
+
+
+
+
 So that should tell you about it.
  
