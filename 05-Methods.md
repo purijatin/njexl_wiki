@@ -33,6 +33,35 @@ The following command can be used to run the script file :
 It shows how it all finally works out. 
 The above sample also shows - how a method can call another method.
 
+## Global and Local Scope and Variables
+
+All global variables are read-only locals. 
+A variable declared as "var xxx" is a global variable where from local scope one can write.
+While a simple assignment is local.
+
+    import 'java.lang.System.out' as out
+    var x = 0 
+    def foo(){
+       x = x + 1
+    }
+    foo()
+    foo()
+    out:println(x)
+
+This would print 2. However, if you fail to put var, then :
+
+    import 'java.lang.System.out' as out
+    x = 0 
+    def foo(){
+       x = x + 1
+    }
+    foo()
+    foo()
+    out:println(x)
+
+would print 0. The global variable comes in local, but does not get write back to global.
+
+
 ## Recursion is Divine 
 
 As it is well said - to iterate is human, to recurse is divine, we take heart from it.
