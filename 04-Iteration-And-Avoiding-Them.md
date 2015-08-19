@@ -53,6 +53,13 @@ Produces the output :
 And that basically means - it reads the individual characters of a string.
 That should be awesome.
 
+We also support the standard *for* stuff :
+
+    for ( i = 0 ; i < 10 ; i = i + 1 ){
+        out:println(i)
+    } 
+
+
 Now, let's take a real cool example, and start calculating factorial.
     
     import 'java.lang.System.out' as out
@@ -160,6 +167,40 @@ Find two items from a list such that they add up to a number n :
 
     (njexl)join{  break( $[0] + $[1] == 4 )  }([ 0,1,2,3],[0,2,3] )
     =>[[1, 3]]
+
+
+### The Infamous GOTO
+
+nJexl supports GOTO : the [harmful one](http://david.tribble.com/text/goto.html). 
+The syntax is simple :
+
+     goto  #label_id  [condition] 
+     // many random code lines 
+     #label_id
+     // here is some useful stuff 
+ 
+The condition is optional, that is if one eliminates it, then, true is assumed.
+The following example demonstrates it :
+
+    import 'java.lang.System.out' as out
+
+    goto #label  
+    out:println("xxxx")
+
+    #label
+    out:println("yyy")
+
+This prints :
+
+    >yyy
+
+The following rules are applied for the goto statements:
+
+* The label must be in the main script, not in any other blocks ( can not be used in functions body ) 
+* Labels are identifiers
+* goto can, then, be however called from anywhere to a global script label
+* You may use same label as variable identifier, at your own risk
+* You should never use it, unless you are automatically generating code
 
 And that should sum it up!
 

@@ -43,7 +43,7 @@ The default one looks like this :
 So basically you get the idea. Every connection has an ID kind of thing - the one we would use is called "noga".
 And then someone needs to init the DB connectivity. Those are done like this : 
 
-      import 'org.apache.commons.jexl2.extension.dataaccess.DBManager' as db  
+      import 'com.noga.njexl.extension.dataaccess.DBManager' as db  
       // which connection profile ? 
       db:init('../samples/db.json')
       Successfully Loaded DB Config
