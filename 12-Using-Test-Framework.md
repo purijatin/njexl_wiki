@@ -145,9 +145,9 @@ Now, then, that is it. Brings back the RC again.
 For the coder in you - no, we do not like people coding at all.
 We try to minimize the efforts - and put it back elsewhere.
 
-### Browser Support 
+### Local Browser Support 
 
-Clearly it supports everything that is supported by Selenium.
+Clearly it locally supports everything that is supported by Selenium.
 However, Out of Box supports are there for 
  
   * FireFox  
@@ -161,9 +161,12 @@ For Chrome the variable is "CHROME_DRIVER" .
 For Opera ( Webkit based ) the variable is "OPERA_DRIVER".
 When IE driver is in the path - it would simply run Internet Explorer too.
 
+### Remote Browser Support 
 
-
-
+I personally recommend BrowserStack. 
+See the list of browsers and systems supported by them :
+[BrowserStack Documentation](https://www.browserstack.com/automate/java)
+That should get the ball rolling.
 
 
 ### A Sample Production Usage 
@@ -225,8 +228,16 @@ Against our better senses, we are going with XML.
 Typically, the suite explains the whole test :
 
 ```xml
-<!--  The browser to use for  -->
-<testSuite version="4.2" browser="FIREFOX">
+<!--  
+    browser : The browser to use for in case locally 
+    remoteConfig : In case you want to use BrowserStack.com ;
+    Then, that is the configuration file location :
+    Supported file types are :
+      [1] XML 
+      [2] JSON 
+      [3] Property Files  
+-->
+<testSuite version="4.2" browser="FIREFOX"  remoteConfig="samples/browserStackConfig.xml" >
     <!-- From where to load data -->
     <dataSources>
         <!--  
@@ -263,6 +274,25 @@ Typically, the suite explains the whole test :
     </webApp>
 </testSuite>
 ```
+
+#### Sample BrowserStack configuration file 
+
+A sample BrowserStack file would look like this :
+
+```xml
+<BSConfig>
+    <user>your user name here</user>
+    <key>your key in here</key>
+    <browser>Opera</browser>
+    <browserVersion>12.16</browserVersion>
+    <os>Windows</os>
+    <osVersion>7</osVersion>
+</BSConfig>
+```
+Take a look around [BrowserStackDriver](https://github.com/nmondal/njexl/blob/master/testing/src/main/java/com/noga/njexl/testing/ui/BrowserStackDriver.java) to see what all other properties 
+one can use from here. To know what all options are supported refer to :
+[BrowserStack Documentation](https://www.browserstack.com/automate/java)
+
 
 ### Web API Testing : REST 
 
