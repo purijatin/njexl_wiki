@@ -58,7 +58,7 @@ Should do the job fine.
 Now, if you want to experience the nJexl, go to the target folder, and type in : 
 
 
-       java -jar njexl.lang-0.1-SNAPSHOT.jar 
+       java -jar njexl.lang-0.3-SNAPSHOT.jar 
 
 
 And you would be in the nJexl command prompt.
@@ -74,13 +74,13 @@ And let me know how it feels!
 
 # How to include it in your project
 
-In the dependency section : 
+In the dependency section (latest release is 0.2 ) : 
 
 ```xml
 <dependency>
   <groupId>com.github.nmondal</groupId>
   <artifactId>njexl.lang</artifactId>
-  <version>0.1</version>
+  <version>0.2</version>
 </dependency>
 ```
 
@@ -91,11 +91,11 @@ That should immediately make your project a nJexl supported one.
 You can download the latest released ( snapshot ) one-jar from here : 
 [SNAPSHOTS](https://oss.sonatype.org/content/repositories/snapshots/com/github/nmondal/njexl.lang/0.2-SNAPSHOT/)
 
-It would look like : njexl.lang-0.2-<time-stamp>-onejar.jar.
+It would look like : njexl.lang-<version>-onejar.jar.
 Once downloaded, put this back in your PATH, in *nix like environment : 
 
 
-    alias njexl='java -jar /<location>/njexl.lang-0.2-<time-stamp>.one-jar.jar'
+    alias njexl='java -jar /<location>/njexl.lang-<version>.one-jar.jar'
  
 
 And you are pretty much ready to go. Now type "njexl" from anywhere in the command prompt - and you are ready inside the njexl prompt.

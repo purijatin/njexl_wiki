@@ -14,12 +14,13 @@ using njexl.testing.
 
 To do so, either you need to have the executable jar, 
 or you rather add the dependency njexl.testing in your project :
+(The release version as of now is 0.2 )
 
 ```xml
 <dependency>
   <groupId>com.github.nmondal</groupId>
   <artifactId>njexl.testing</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <version>0.2</version>
 </dependency>
 ```
 
