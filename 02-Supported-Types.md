@@ -668,4 +668,27 @@ Curiously, date/time range also has many interesting fields :
 
 Thus, this becomes a very important tool for business side of programming.
 
+### String or Alphabet Range 
+
+Another type of range is String range, this is defined as :
+
+    (njexl)ci = ['a':'z']
+    =>[a:z:1]
+
+Now, to see what it actually contains, do the yielding :
+
+     (njexl)ci.list()
+      =>[a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z]
+
+Now, most of the time we need to use a compressed format, hence :
+
+     (njexl)ci.str
+     =>abcdefghijklmnopqrstuvwxyz
+
+Obviously it takes spacing element, thus:
+
+    (njexl)ci = ['a':'z':3]
+    =>[a:z:3]
+    (njexl)ci.str
+    =>adgjmpsvy
 

@@ -19,7 +19,7 @@ In fact you have already met with some of them:
 * select
 * partition -> simultaneously partition elements into match and no match 
 * shuffle -> shuffles a list/array 
-* random -> selects an element from a list/array randomly
+* random -> selects element[s] from a list/array/enums/string  randomly
 * sorta --> sort a list in ascending order 
 * sortd --> sort a list in descending order 
 * read --> read from standard input or a location completely, returns a string 
@@ -290,6 +290,60 @@ But, now with the expression on :
 
 Thus, the return values are *true* / *false* based on whether the condition met before timeout
 happened or not. That solves the problem of waiting in general.
+
+
+## The power of Randomness : using random function
+
+Most of the time we need to select one from a set of choices.
+To do so, we use random :
+
+    (njexl)x = [1,2,3,4,5]
+    =>@[1, 2, 3, 4, 5]
+    (njexl)random(x)
+    =>4
+    (njexl)random(x)
+    =>4
+    (njexl)random(x)
+    =>1
+    (njexl)random(x)
+    =>4
+    (njexl)random(x)
+    =>2
+
+But then, sometimes we need to select *k* items randomly from a list of *n* items :
+
+    (njexl)random(x,10)
+    =>[4, 2, 3, 3, 1, 3, 5, 5, 4, 2]
+    (njexl)random(x,10)
+    =>[5, 3, 2, 5, 4, 2, 5, 4, 2, 3] 
+
+That should explain the tactics.
+However, a more interesting stuff happens with string :
+
+     (njexl)random("I am a Good Boy!")
+    => 
+    (njexl)random("I am a Good Boy!")
+    =>y
+    (njexl)random("I am a Good Boy!")
+    =>m
+    (njexl)random("I am a Good Boy!")
+    =>!
+    (njexl)random("I am a Good Boy!")
+    =>y
+    (njexl)random("I am a Good Boy!")
+    =>o
+
+While, this is seamless :
+    
+    (njexl)random("I am a Good Boy!", 10)
+    =>yoyy m! y 
+
+Thus, suppose, as an practical example - I need to select strings using alphabet and numbers:
+
+     (njexl)random(['a':'z'].str + ['0':'9'].str , 10)
+     =>m1onldd5s0
+
+That is easy, right? It is, for sure!
 
 
 ## Using JSON
