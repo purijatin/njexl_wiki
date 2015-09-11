@@ -59,34 +59,6 @@ In general, testing requires shuffling of data values. Thus, the function comes 
     (njexl)cards
     =>@[D, A, C, B]
 
-## Random 
-With no argument, it returns you a Java 
-[SecureRandom](https://docs.oracle.com/javase/8/docs/api/java/security/SecureRandom.html) object.
-That is : 
-   
-    (njexl)r = random()
-    =>java.security.SecureRandom@7106e68e
-    (njexl)r.nextInt()
-    =>580069037
-    (njexl)r.nextBoolean()
-    =>true
-    (njexl)r.nextBoolean()
-    =>true
-    (njexl)r.nextBoolean()
-    =>false
-    (njexl)r.nextDouble()
-    =>0.0420150972829294
-
-But, it can also be used to random-ly select an element from a collection: 
-
-    (njexl)cards
-    =>@[D, A, C, B]
-    (njexl)random(cards)
-    =>C
-    (njexl)random(cards)
-    =>B
-    (njexl)random(cards)
-    =>C
 
 ## Sorting 
 Sorting is trivial: 
@@ -294,8 +266,25 @@ happened or not. That solves the problem of waiting in general.
 
 ## The power of Randomness : using random function
 
+With no argument, it returns you a Java 
+[SecureRandom](https://docs.oracle.com/javase/8/docs/api/java/security/SecureRandom.html) object.
+That is : 
+   
+    (njexl)r = random()
+    =>java.security.SecureRandom@7106e68e
+    (njexl)r.nextInt()
+    =>580069037
+    (njexl)r.nextBoolean()
+    =>true
+    (njexl)r.nextBoolean()
+    =>true
+    (njexl)r.nextBoolean()
+    =>false
+    (njexl)r.nextDouble()
+    =>0.0420150972829294
+
 Most of the time we need to select one from a set of choices.
-To do so, we use random :
+To do so, we use random with a parameter :
 
     (njexl)x = [1,2,3,4,5]
     =>@[1, 2, 3, 4, 5]
