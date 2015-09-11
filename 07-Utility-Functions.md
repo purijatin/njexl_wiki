@@ -306,6 +306,26 @@ But then, sometimes we need to select *k* items randomly from a list of *n* item
     (njexl)random(x,10)
     =>[5, 3, 2, 5, 4, 2, 5, 4, 2, 3] 
 
+
+Same holds true with dictionary objects :
+
+    (njexl)x = { 1:1 , 2:2 , 3:3 , 4:4 }
+    =>{1=1, 2=2, 3=3, 4=4}
+    (njexl)
+    (njexl)random(x)
+    =>@[3, 3]
+
+And moreover :
+
+
+    (njexl)random(x,2)
+    =>{2=2, 4=4}
+    (njexl)random(x,2)
+    =>{2=2}
+    (njexl)random(x,2)
+    =>{4=4}
+
+
 That should explain the tactics.
 However, a more interesting stuff happens with string :
 
