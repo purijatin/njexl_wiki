@@ -32,7 +32,8 @@ In fact you have already met with some of them:
 * load --> load arbitrary jars from a directory location, recursively
 * system --> make arbitrary system calls
 * thread --> makes and starts a thread, with parameters 
-
+* clock --> This is to tune method calls, how much time was taken for a piece of code 
+* until --> A polling based waiter, waits till a duration till a condition is true 
 
 Thus, we would be familiarizing you guys with some of them.
 
@@ -227,6 +228,68 @@ Note the curious "$$" usage, which signifies the arguments passed to the thread(
 This is accessible in the anonymous method block.
 The standard variable "$" contains the thread object itself, while "_" has the thread id.
 
+### Tuning Code Snippets : clocking it 
+
+Sometimes you need to find how much time a particular method or code snippet is taking.
+Fear not, there is this clock function who would cater to your need.
+
+
+    import 'java.lang.System.out' as out
+
+    def long_method(){
+       for ( i : [1:10000]){
+          x = 0 // just ensuring the code snippet runs 
+       }
+    }
+
+    /*  
+     now i need to clock this method 
+     The idea is it would pass the time in nanosec 
+     or an error if any as an array: 
+    */
+    #(t,e) = clock{
+       long_method()
+    }()
+    out:println(t)
+
+
+The result this would be :
+    
+    prompt$ njexl tmp.jxl 
+    13742064
+
+
+### Waiting for Good Things to Happen : Until
+
+Many times we need to write this custom waiter, where 
+the idea is to wait till a condition is satisfied.
+Of course we need to have a timeout, and of course we need a polling interval
+
+To make this work easy, we have *until*.
+The syntax is :
+
+    until [ { condition-body-of-function } ]
+           ( [ timeout-in-ms = 3000, [ polling-interval-in-ms = 100] ]) 
+
+As all the stuff are optional, to get a 3 sec wait, just use :
+
+     until() // this is cool 
+     until (4000) // should be cool too !
+     until (4000, 300 ) // not cool : 300 is rejected 
+
+But, now with the expression on :
+
+     i = 3 
+     until { i = i - 1 ; i == 0 }( 1000, 200 ) // induce a bit of wait 
+     // this returns true : the operation did not timeout 
+
+     i = 100 
+     until { i = i - 1 ; i == 0 }( 1000, 200 ) // induce a bit of wait 
+     // this returns false : timeout happened  
+
+Thus, the return values are *true* / *false* based on whether the condition met before timeout
+happened or not. That solves the problem of waiting in general.
+ 
 
 ## Using JSON
 
