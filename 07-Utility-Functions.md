@@ -14,8 +14,8 @@ In fact you have already met with some of them:
 * DEC -> converts to big decimal
 * list
 * dict
-* array
-* index
+* array --> creates an array from arguments 
+* index --> finds item in an indexable collection return the index 
 * select
 * partition -> simultaneously partition elements into match and no match 
 * shuffle -> shuffles a list/array 
@@ -24,8 +24,9 @@ In fact you have already met with some of them:
 * sortd --> sort a list in descending order 
 * read --> read from standard input or a location completely, returns a string 
 * write --> to a file or standard output 
-* json --> read json file and return a hash
-* type 
+* json --> read json file or a string and return a hash
+* xml --> read xml from file or string and returns an XmlMap data structure 
+* type --> type of a container 
 * minmax --> finds min, max of a list in a single pass, for those who are non scalar
 * sqlmath --> finds min, Max, sum of a list in a single pass, for scalars
 * try --> guards a native Java function call to ensure it does not throw exceptions
@@ -289,7 +290,7 @@ But, now with the expression on :
 
 Thus, the return values are *true* / *false* based on whether the condition met before timeout
 happened or not. That solves the problem of waiting in general.
- 
+
 
 ## Using JSON
 
@@ -440,8 +441,7 @@ Xml was, is, and always will be a [very bad idea](http://harmful.cat-v.org/softw
     > “XML combines the efficiency of text files with the readability of binary files” – unknown
 
 
-But thanks to many *big* enterprise companies - it became a norm to be abused human intellect - the last are obviously Java EE usage in Hibernate, Springs and Struts. Notwithstanding the complexity and loss of precise network bandwidth - it is a very popular format. Thus - against my better judgment I could not avoid Xml.
-And yes, it is hidden.
+But thanks to many *big* enterprise companies - it became a norm to be abused human intellect - the last are obviously Java EE usage in Hibernate, Springs and Struts. Notwithstanding the complexity and loss of precise network bandwidth - it is a very popular format. Thus - against my better judgment I could not avoid XML.
 
 First let me show the xml : 
 
@@ -467,13 +467,9 @@ author="Yours Truly"
 </slideshow>
 ```
 
+Now how to use it :
 
-
-In fact it is hidden in :  
-
-    (njexl)import 'com.noga.njexl.lang.extension.dataaccess.XmlMap' as xml
-    =>class org.apache.commons.jexl2.extension.dataaccess.XmlMap
-    (njexl)xml:file2xml('sample.xml')
+    (njexl)x = xml('sample.xml')
     =>{ "name" : "slideshow" , "ns" : "", "prefix" : "", "text" : "\n    \n    \n    \n    \n", 
        "attr" : {"date" : "Date of publication","author" : "Yours Truly","title" : "Sample Slide Show"}, 
        "children" : [ { "name" : "slide" , "ns" : "", "prefix" : "", "text" : "\n        \n    ", 
@@ -504,7 +500,28 @@ This is the json form. Now, to convert this to an dictionary object form :
 
 
 This is how one can convert XML to JSON objects, which is a bloated hash in nJexl.
+The object container *x* is of type XmlMap - and there one can use xpath expressions straight away.
+For example :
+ 
+     (njexl)x.xpath('//title[1]')
+     =>Wake up to WonderWidgets!
 
+Now finding elements:
+
+     (njexl)es = x.elements('//title')
+        =>[{ "name" : "title" , "ns" : "", "prefix" : "", "text" : "Wake up to WonderWidgets!", "attr" : {}, "children" : [  ] }, { "name" : "title" , "ns" : "", "prefix" : "", "text" : "Overview", "attr" : {}, "children" : [  ] }]
+
+To take a closer look :
+
+      (njexl)es[0]
+        =>{ "name" : "title" , "ns" : "", "prefix" : "", "text" : "Wake up to WonderWidgets!", "attr" : {}, "children" : [  ] }
+        (njexl)es[1]
+        =>{ "name" : "title" , "ns" : "", "prefix" : "", "text" : "Overview", "attr" : {}, "children" : [  ] }
+
+Accessing properties would be :
+
+    (njexl)es[1].text
+    =>Overview
 
 
 
