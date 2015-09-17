@@ -12,11 +12,11 @@ In fact you have already met with some of them:
 * float
 * double 
 * DEC -> converts to big decimal
-* list
-* dict
+* list --> creates a list from an existing one 
+* dict --> creates a dictionary 
 * array --> creates an array from arguments 
 * index --> finds item in an indexable collection return the index 
-* select
+* select --> selects items from a list matching a predicate 
 * partition -> simultaneously partition elements into match and no match 
 * shuffle -> shuffles a list/array 
 * random -> selects element[s] from a list/array/enums/string  randomly
@@ -29,6 +29,7 @@ In fact you have already met with some of them:
 * type --> type of a container 
 * minmax --> finds min, max of a list in a single pass, for those who are non scalar
 * sqlmath --> finds min, Max, sum of a list in a single pass, for scalars
+* fold ( lfold or rfold ) --> [fold](https://en.wikipedia.org/wiki/Fold_(higher-order_function)) functions, important on collection traversal 
 * try --> guards a native Java function call to ensure it does not throw exceptions
 * load --> load arbitrary jars from a directory location, recursively
 * system --> make arbitrary system calls
@@ -430,6 +431,45 @@ Thus, we can have :
     =>@[{roll=1, name=X}, {roll=3, name=C}, {roll=2, name=Z}]
     (njexl)minmax{ $[0].name < $[1].name }(students)
     =>@[{roll=3, name=C}, {roll=2, name=Z}]
+
+
+## Functional idea : Folding a structure 
+
+One can notice a pattern from the list(), the select() and the minmax().
+All we are trying to do, is to recursively apply some function to *transform* the original list.
+Can we generalize it? Yes, we can, and that brings to the folding part.
+The syntax of fold is :
+
+     <lfold|rfold> [ anonymous function ] ( list-argument [, initial-seed ] )
+
+The *lfold* folds left wise, while *rfold* folds right.
+Now, an example is needed, finding the sum of all numbers in a list :
+
+
+     (njexl)a = [0,1,2,3]
+     =>@[0, 1, 2, 3]
+     (njexl)lfold{ _$_ = _$_ + $ }(a,0) // note the seed element is 0 
+     =>6
+
+Now, finding product of all items in a list :
+     
+     (njexl)a = [1:6].list()
+      =>[1, 2, 3, 4, 5]
+     (njexl)lfold{ _$_ = _$_ * $ }(a,1)
+     =>120
+
+Finding maximum of a list :
+
+     (njexl)rfold{ continue( _$_  < $ ) ; _$_ = $ ;  }(a,100)
+     =>1 
+
+Note that the curious 
+
+    _$_  
+
+signifies and stores the partial result of the fold. 
+
+
 
 
 ## Truly Exceptional Cases 
