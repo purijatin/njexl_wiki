@@ -448,17 +448,17 @@ Now, an example is needed, finding the sum of all numbers in a list :
 
      (njexl)a = [0,1,2,3]
      =>@[0, 1, 2, 3]
-     (njexl)lfold{ _$_ = _$_ + $ }(a,0) // note the seed element is 0 
+     (njexl)lfold{ _$_ + $ }(a,0) // note the seed element is 0 
      =>6
 
 Now, finding product of all items in a list :
      
      (njexl)a = [1:6].list()
       =>[1, 2, 3, 4, 5]
-     (njexl)lfold{ _$_ = _$_ * $ }(a,1)
+     (njexl)lfold{  _$_ * $ }(a,1)
      =>120
 
-Finding maximum of a list :
+Finding minimum of a list (oh yes, we do have a problem here with hard coding ) :
 
      (njexl)rfold{ continue( _$_  < $ ) ; _$_ = $ ;  }(a,100)
      =>1 
