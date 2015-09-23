@@ -238,6 +238,8 @@ Thus, to append a variable to the current execution context would be :
 
      __current__.map['var_name' ] =  var_value 
      __current__.map.var_name  =  var_value // both are same !
+     __current__.var_name  =  var_value // even this is the same as above !
+     
 
 
 Now, inside the script, one can use the variable :
