@@ -223,6 +223,51 @@ See the blinding awesomeness ( in the style of Kung Fu Panda ) :
 
 As you can see, NO framework or language can get this done in less lines than this.
 
+### Looking for Context : Before being data driven 
+
+It is good to be driven by data, but before that you need to make sure 
+that the scripts are ready to be data driven. How do you do that?
+
+There is this nice little thing akin to pythons globals().
+This is called :
+
+     __current__ //  defines the current execution context 
+     __current__.map // defines the variable map of the current context 
+
+Thus, to append a variable to the current execution context would be :
+
+     __current__.map['var_name' ] =  var_value 
+     __current__.map.var_name  =  var_value // both are same !
+
+
+Now, inside the script, one can use the variable :
+
+     out:println(var_name)
+
+which of course would use the vars value!
+
+Such a demonstration can be taken to extreme - thus we can use :
+
+     // this is first level of abstraction - before data source 
+     data = { 'word' : "talentsprint" ,
+              'name' : "ezeetra" ,
+              'email' : "support@ezeetra.com" ,
+              'phone' : "99999999" }
+
+    // connect to automatic variables : caution, should not do it in prod 
+    __current__.map.putAll(data)
+
+    // and finally use it:
+    @@selenium.type("habla_pre_chat_name_input" , name )
+    selenium.type("habla_pre_chat_email_input" , email )
+    selenium.type("habla_pre_chat_phone_input" , phone )
+
+This is the last step before getting into fully productized test automation.
+That would be done using external data sources, using something : implicit data sources.
+That is a TestSuite abstraction, which follows next.
+
+
+
 ### The Web Suite XML
 
 Against our better senses, we are going with XML. 
