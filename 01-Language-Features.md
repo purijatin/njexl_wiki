@@ -284,7 +284,7 @@ The usual & operator is used, e.g.
     ~33
     ~0010 0001 = 1101 1110 = -34.
 
-#### Ternary conditional ?:  
+#### Ternary conditional ?:  null coalescing operator
 
 The usual ternary conditional operator condition ? if_true : if_false operator can be used as well as the abbreviation value ?: if_false which returns the value if its evaluation is defined, non-null and non-false, e.g.
 
@@ -299,6 +299,19 @@ are equivalent.
 
 NOTE: The condition will evaluate to false when it refers to an undefined variable or null for all JexlEngine flag combinations. 
 This allows explicit syntactic leniency and treats the condition 'if undefined or null or false' the same way in all cases.
+
+That means : 
+    
+    x = 10 
+    y = x?:5 // sets y = 10
+    x = null 
+    y = x?:5 // sets y = 5 
+
+Which is also known as null coalescing operator. In fact it is slightly better, given 'z' does not even exist in the context :
+
+    y = z?:15 // sets y = 15 - if z does not even exist!
+
+Thus, it is also an undefined coaleasing operator. 
 
 #### Equality:
 
