@@ -288,5 +288,58 @@ Of course the result is this :
 That shows you what all can be done with this.
 Note that, once you overwrite the args, no other parameter can be passed at all.
 
+## First Class Citizen : Assignment to Variables
+
+Methods are first class citizen, hence, one can assing a method to a variable.
+Hence, this is perfectly legal :
+
+    def z(){
+       out:println("Yes!")
+    }
+    x = z // assignment of a function into a variable 
+    x() // call that function using the variable
+
+Thus one can have anonymous functions written as such :
+
+    x = def (){ // this is an anonymous function 
+        out:println("Yes!")
+    }
+    x() // call the function 
+
+One can also assign a function to a dictionary to give it a *class* like feel as in JavaScript:
+
+    (njexl)df = { 'sum' : _ = def(a,b){a+b} , 'sub' : _ = def(a,b){a-b} } 
+    =>{sub=ScriptMethod{ name='', instance=false}, sum=ScriptMethod{ name='', instance=false}}
+
+And thus, one can call it appropriately:
+
+    (njexl)f = df.sum
+    =>ScriptMethod{ name='', instance=false}
+    (njexl)f(4,2)
+    =>6
+
+If a method belongs to a collection, i.e Set, List, or Hash, then when it gets invoked, 
+through the collections accessor, it would have the *me* reference.
+
+
+    import 'java.lang.System.out' as out
+
+    def z(){
+       out:println("Yes!")
+       if ( #def me ){ 
+           out:printf("me exists and me is %s\n",me)
+       }
+    }
+    d = { 'fp' : z }
+    d.fp()
+
+Which produces the output :
+
+    $ njexl tmp.jxl 
+    Yes!
+    {fp=ScriptMethod{ name='z', instance=false}}
+    nogamacpro:njexl noga$ njexl tmp.jxl 
+    Yes!
+    me exists and me is {fp=ScriptMethod{ name='z', instance=false}}
 
 This concludes the method level knowledge base.

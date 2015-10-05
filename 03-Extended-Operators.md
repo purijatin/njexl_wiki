@@ -233,6 +233,38 @@ Thus,
 Thus, it works as it should work. That is what normally known as re-usable code.
 One guy writes it - and the others use it. No more random coding!
 
+## Operations over a Dictionary 
+
+Sometimes it is of important to do the same operations over dictionary.
+Thus, we have :
+
+    (njexl)d = {'a' : 0 , 'b' : 1 }
+    =>{a=0, b=1}
+    (njexl)d - 'a' // minus the key 
+    =>{b=1}
+    (njexl)d - { 'a' : 0 } // minus the dictionary proper 
+    =>{b=1}
+    (njexl)d - { 'a' : 2 } // try again, fails 
+    =>{a=0, b=1}
+
+Same with intersection and union :
+
+    (njexl)d | { 'c' : 3 , 'b' : 0 }
+    =>{a=0, b=(1,0), c=3}
+    (njexl)d & { 'c' : 3 , 'b' : 1 }
+    =>{b=1}
+        
+### Division over a Dict 
+
+There is one interesting operation - division over a dict.
+That is :
+
+    (njexl)d = {'a' : 0 , 'b' : 1 , 'c' : 0 }
+    =>{a=0, b=1, c=0}
+    (njexl)d/0 // finds the keys which has a value 0.
+    =>S{ a,c }
+
+
 ## The idea of General Multiplication 
 People like this : 
 
