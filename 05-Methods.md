@@ -342,4 +342,33 @@ Which produces the output :
     Yes!
     me exists and me is {fp=ScriptMethod{ name='z', instance=false}}
 
+
+### For the Jargon Guys : Closures in nJexl 
+
+Closures are defined as This way in [WikiPedia](https://en.wikipedia.org/wiki/Closure_(computer_programming))
+As the first class citizen - this is easy for us here:
+
+    import 'java.lang.System.out' as out
+    // this shows the nested function 
+    def func(a){
+        // here it is :
+        r = def(b){
+           out:printf("%s + %s ==> %s\n", a,b,a+b)
+        }
+        return r // returning a function 
+    }
+    // get the partial function returned 
+    x = func(4)
+    // now, call the partial function 
+    x(2)
+    //finally, the answer to life, universe and everything :
+    x = func("4")
+    x("2")
+
+This generates what it suppsoed to do : 
+
+    4 + 2 ==> 6
+    4 + 2 ==> 42
+
 This concludes the method level knowledge base.
+
