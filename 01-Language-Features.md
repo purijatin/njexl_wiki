@@ -284,7 +284,7 @@ The usual & operator is used, e.g.
     ~33
     ~0010 0001 = 1101 1110 = -34.
 
-#### Ternary conditional ?:  null coalescing operator
+#### Ternary conditional 
 
 The usual ternary conditional operator condition ? if_true : if_false operator can be used as well as the abbreviation value ?: if_false which returns the value if its evaluation is defined, non-null and non-false, e.g.
 
@@ -307,9 +307,10 @@ That means :
     x = null 
     y = x?:5 // sets y = 5 
 
-Which is also known as null coalescing operator. In fact it is slightly better, given 'z' does not even exist in the context :
+There is also a null coalescing operator. 
+In fact it is slightly better, given 'z' does not even exist in the context :
 
-    y = z?:15 // sets y = 15 - if z does not even exist!
+    y = z??15 // sets y = 15 - if z does not even exist!
 
 Thus, it is also an undefined coaleasing operator. 
 
@@ -402,8 +403,9 @@ are equivalent.
 
 The syntactically Perl inspired !~ operator can be used to check that a string does not match a regular expression (expressed either a Java String or a java.util.regex.Pattern). For example "abcdef" !~ "abc.* returns false. It also checks whether any collection, set or map (on keys) does not contain a value; in that case, it behaves as "not in" operator. Note that it also applies to arrays as well as "duck-typed" collection, ie classes exposing a "contains" method. 
 
-     "a" !~ ["a","b","c","d","e",f"] //returns true.
-
+     "a" !~ ["a","b","c","d","e", "f" ] // returns false 
+     "a" !~ [ "b","c","d","e", "f" ] // returns true 
+     
 #### Addition:  
 
   The usual + operator is used. For example
@@ -521,10 +523,10 @@ We start with the proverbial - "Hello World".
 This is easy :- 
 
       (njexl)import 'java.lang.System.out' as out
-      =>class java.lang.System
+      =>java.io.PrintStream@6d21714c  // the PrintStream object instance 
       (njexl)out:println('Hello,World!')
-      Hello,World!
-      =>null
+      Hello,World! // the output of the function 
+      =>null // the return of the function : void
 
 
 ## Imports
@@ -773,7 +775,7 @@ More of this in the threading section.
 ## Why NO Exception Handling ?
 
 I toyed with the idea, and then found that : 
-[Why Exception Handling is Bad?](http://stackoverflow.com/questions/1736146/why-is-exception-handling-bad)
+[Why Exception Handling is Bad?](http://stackoverflow.com/questions/1736146/why-is-exception-handling-bad) ; 
 GO does not have exception handling.
 And I believe it is OK not to have exceptions.
 
