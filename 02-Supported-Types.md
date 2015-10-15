@@ -692,3 +692,23 @@ Obviously it takes spacing element, thus:
     (njexl)ci.str
     =>adgjmpsvy
 
+## Range in Reverse 
+
+Ranges in general are in forward, but soemtimes one needs a decreasing range.
+For example :
+
+     (njexl)[9:0:-1].list()
+     =>[9, 8, 7, 6, 5, 4, 3, 2, 1] // python like 
+     (njexl)[9:0:-1].reverse // am I in reverse?
+     =>true
+     (njexl)[9:0:-1].reverse()
+     =>[1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+### Range Checking 
+
+Ranges ensures that the range when yielded would not be infinite.
+
+    (njexl)[9:0:1]
+    Error : Invalid Range! : at line 1, cols 1:7
+    Caused By : java.lang.IllegalArgumentException: Sorry, can not make the loop infinite by range!
+
