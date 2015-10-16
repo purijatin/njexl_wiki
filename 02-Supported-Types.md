@@ -712,3 +712,21 @@ Ranges ensures that the range when yielded would not be infinite.
     Error : Invalid Range! : at line 1, cols 1:7
     Caused By : java.lang.IllegalArgumentException: Sorry, can not make the loop infinite by range!
 
+### Collection Object Splicing 
+
+Generally people expect that sublist and subarray operations to be hastle free.
+Yea, they are :
+
+    (njexl)s="abcdef"
+    =>abcdef
+    (njexl)s[[0:3]] // notice using the range inside array access
+    =>abc
+
+In the same way :
+
+    (njexl)s = [1,2,3,4,5,6]
+    =>@[1, 2, 3, 4, 5, 6]
+    (njexl)s[[0:3]]
+    =>@[1, 2, 3]
+
+
