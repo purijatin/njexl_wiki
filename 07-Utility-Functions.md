@@ -66,11 +66,11 @@ In general, testing requires shuffling of data values. Thus, the function comes 
 ## Sorting 
 Sorting is trivial: 
 
-    (njexl)sorta(cards)
+    (njexl)sorta(cards) // ascending 
     =>[A, B, C, D]
     (njexl)cards
     =>@[D, A, C, B]
-    (njexl)sortd(cards)
+    (njexl)sortd(cards) //descending 
     =>[D, C, B, A]
 
 Now, sorting is anonymous block ( function ) ready, hence we can sort on specific attributes.
@@ -691,5 +691,22 @@ Accessing properties would be :
     (njexl)es[1].text
     =>Overview
 
+## Generating Unique stamp : Using hash function
+
+Sometimes it is important to generate *hash* from a string.
+To do so : 
+
+    (njexl)hash('abc')
+    =>900150983cd24fb0d6963f7d28e17f72
+
+It defaults to "MD5", so :
+
+    (njexl)hash( 'MD5' ,'abc')
+    =>900150983cd24fb0d6963f7d28e17f72
+
+They are the same.
+One can obviously change the algorithm used :
+
+     hash([algo-string , ] <string> )
 
 

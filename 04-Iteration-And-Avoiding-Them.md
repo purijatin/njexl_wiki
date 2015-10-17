@@ -131,7 +131,11 @@ Generally people use "break" and "continue" with the following pattern :
 Thus, lot's of code can be avoided if we use the extension of break and continue :
 
     break ( condition ){ statements ...  }
-    continue ( condition )
+    continue ( condition ){ statements ...   }
+
+It should be read as :
+ > break|continue when condition is true, *only* after executing the statements ... 
+
 
 Hence, the loop can be well written as : 
 
@@ -167,6 +171,24 @@ Find two items from a list such that they add up to a number n :
 
     (njexl)join{  break( $[0] + $[1] == 4 )  }([ 0,1,2,3],[0,2,3] )
     =>[[1, 3]]
+
+While the return result from the statements from *break* gets added 
+to the collection being generated, for *continue* that does not happen.
+Hence, one needs to be careful with that.
+
+    import 'java.lang.System.out' as out
+
+    s = '11,12,31,34,78,90'
+    tmp = ''
+    l = select{ 
+        continue ( $ != ',' ){  tmp = tmp + $ } 
+        $ = int(tmp) ; tmp = '' ; true  }(s.toCharArray() )
+    l = l + int(tmp) 
+    out:println(l)
+
+This would produce :
+    
+    [11, 12, 31, 34, 78, 90]
 
 
 ### The Infamous GOTO
