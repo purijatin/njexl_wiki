@@ -36,6 +36,8 @@ In fact you have already met with some of them:
 * thread --> makes and starts a thread, with parameters 
 * clock --> This is to tune method calls, how much time was taken for a piece of code 
 * until --> A polling based waiter, waits till a duration till a condition is true 
+* hash --> Generates md5 hash from string data 
+* tokens --> tokenizes a String 
 
 Thus, we would be familiarizing you guys with some of them.
 
@@ -263,6 +265,69 @@ But, now with the expression on :
 
 Thus, the return values are *true* / *false* based on whether the condition met before timeout
 happened or not. That solves the problem of waiting in general.
+
+### Tokenizing : using tokens
+
+In some scenarioes, one needs to read from a stream of characters (String)
+and then do something about it.
+
+One such typical problem is to take CSV data, and process it. 
+Suppose one needs to parse CSV into a list of integers.
+e.g. 
+  
+      s = '11,12,31,34,78,90' // CSV integers 
+      (njexl)l = select{ where ( ($ = int($) ) !=null ){ $ } }(s.split(','))
+      =>[11, 12, 31, 34, 78, 90] // above works
+
+But then, the issue here is : the code iterates over the string once to 
+generate the split array, and then again over that array to generate the list of integers, selecting only when it is applicable.
+
+Clearly then, a better approach would be to do it in a single pass, so :
+
+    import 'java.lang.System.out' as out
+
+    s = '11,12,31,34,78,90'
+    tmp = ''
+    l = list()
+    for ( c : s ){
+        if ( c == ',' ){
+            l = l + int(tmp) ; tmp = '' ; continue 
+        }
+        tmp = tmp + c
+    }
+    l = l + int(tmp) 
+    out:println(l)
+
+Which produces this :
+
+    >[11, 12, 31, 34, 78, 90]
+
+Thus, it works. However, this is a problem, because we are using too much coding.
+Fear not, we can reduce it :
+
+    tmp = ''
+    l = select{ 
+        if ( $ == ',' ){  $ = int(tmp) ; tmp = '' ; return true } 
+        tmp = tmp + $ ; false  }(s.toCharArray() )
+    l = l + int(tmp) 
+
+Ok, goodish, but still too much code. Real developers abhor extra coding.
+The idea is to generate a state machine model based on lexer, in which case,
+the best idea is to use the *tokens* function :
+
+     tokens( <string> , <regex> , match-case = [true|false] ) 
+     // returns a matcher object 
+     tokens{ anon-block }( <string> , <regex> , match-case = [true|false] ) 
+     // calls the anon-block for every  matching group  
+     
+Thus, using this, we can have:
+
+    l = tokens{ int($) }(s, '\d+')
+    // what to do : string : regex 
+
+
+And this is now : cool. That works.
+That is what the people wants, attain more with very less.
 
 
 ## The power of Randomness : using random function
