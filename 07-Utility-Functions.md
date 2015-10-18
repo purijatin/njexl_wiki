@@ -17,7 +17,8 @@ In fact you have already met with some of them:
 * array --> creates an array from arguments 
 * index --> finds item in an indexable collection return the index 
 * select --> selects items from a list matching a predicate 
-* partition -> simultaneously partition elements into match and no match 
+* partition --> simultaneously partition elements into match and no match 
+* join --> [Join](https://en.wikipedia.org/wiki/Join_(SQL))s two or more lists, based on condition
 * shuffle -> shuffles a list/array 
 * random -> selects element[s] from a list/array/enums/string  randomly
 * sorta --> sort a list in ascending order 
@@ -26,7 +27,7 @@ In fact you have already met with some of them:
 * write --> to a file or standard output 
 * json --> read json file or a string and return a hash
 * xml --> read xml from file or string and returns an XmlMap data structure 
-* type --> type of a container 
+* type --> Get's the type of a variable 
 * minmax --> finds min, max of a list in a single pass, for those who are non scalar
 * sqlmath --> finds min, Max, sum of a list in a single pass, for scalars
 * fold ( lfold or rfold ) --> [fold](https://en.wikipedia.org/wiki/Fold_(higher-order_function)) functions, important on collection traversal 
@@ -34,7 +35,7 @@ In fact you have already met with some of them:
 * load --> load arbitrary jars from a directory location, recursively
 * system --> make arbitrary system calls
 * thread --> makes and starts a thread, with parameters 
-* clock --> This is to tune method calls, how much time was taken for a piece of code 
+* clock --> This is to tune method calls| code blocks, to check how much time was taken to run for a piece of code 
 * until --> A polling based waiter, waits till a duration till a condition is true 
 * hash --> Generates md5 hash from string data 
 * tokens --> tokenizes a String 
@@ -328,6 +329,76 @@ Thus, using this, we can have:
 
 And this is now : cool. That works.
 That is what the people wants, attain more with very less.
+
+## Join and Division 
+
+We have come to realize that list multiplication is easy :
+
+     (njexl)l=[0,1]
+     =>@[0, 1]
+     (njexl)l*l
+     =>[[0, 0], [0, 1], [1, 0], [1, 1]]
+
+But what about when while selecting tuples, we choose what sort of tuples needs to be selected? Clearly it can be done with the '*' operator, followed by a select, but
+that would be too much in absolute time complexity. What about we do it in a single pass?
+Based on that thinking, *join* exists :
+
+### Join 
+
+Suppose I need to find out all *combinations* of size 2 from a list :
+
+    (njexl)l=[1,2,3,4]
+    =>@[1, 2, 3, 4]
+    (njexl)join{ $[0] < $[1] }(l,l)
+    =>[[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]]
+
+Now join comes in handy.
+Thus, the syntax is :
+
+     join {  when-select-condition }( list1, list2 [ (,list)+ ]) )
+
+Many other cases of join would be given later, note that there  is no implicit join, 
+one always needs to specify the codition.
+
+### Unjoin : Division operator 
+
+Given we have two lists, which can actually be multiplied togather ( join{true} ),
+can we unjoin them again? The short answer is yes, we can :
+
+    (njexl)l=[1,2,3,4]
+    =>@[1, 2, 3, 4]
+    (njexl)m = ['a', 'b' ]
+    =>@[a, b]
+    (njexl)x = l * m
+    =>[[1, a], [1, b], [2, a], [2, b], [3, a], [3, b], [4, a], [4, b]]
+    (njexl)x / l  
+    =>[] ## because, the order of multiplication matters, so does division
+    (njexl)x / m 
+    =>[1, 2, 3, 4] ## this is fine...
+
+
+Notice that the division x / l did not yield a result, because unline a scalar multiplication where :
+
+      a * b = b * a 
+
+Vectored multiplications are not that way, simply because :
+
+    (njexl)x = l * m 
+    =>[[1, a], [1, b], [2, a], [2, b], [3, a], [3, b], [4, a], [4, b]]
+    (njexl)y = m * l
+    =>[[a, 1], [a, 2], [a, 3], [a, 4], [b, 1], [b, 2], [b, 3], [b, 4]]
+
+The generated tuples are simply of different order.
+Hence :
+
+    a * b != b * a //in general 
+
+And thus, to recover the multiplicand, we need to reverse the tuples in the list :
+
+    (njexl)y = x.map{ list( $[1], $[0] ) }()
+    =>[[a, 1], [b, 1], [a, 2], [b, 2], [a, 3], [b, 3], [a, 4], [b, 4]]
+    (njexl)y / l
+    =>[a, b] ## This is 'm'
 
 
 ## The power of Randomness : using random function
