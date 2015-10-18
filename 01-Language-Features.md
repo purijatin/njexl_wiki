@@ -462,6 +462,18 @@ and
 
 are equivalent!
 
+Negative indices are supported, so : 
+
+    (njexl)s="abcdef"
+    =>abcdef
+    (njexl)s[0]
+    =>a
+    (njexl)s[-1] // treats from the back 
+    =>f
+    (njexl)s[-2]
+    =>e
+
+
 #### HashMap access:
 
   Map elements are accessed using square brackets, e.g.

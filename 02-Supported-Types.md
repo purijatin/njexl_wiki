@@ -729,4 +729,11 @@ In the same way :
     (njexl)s[[0:3]]
     =>@[1, 2, 3]
 
+Negative ranges are also supported in splicing:
+
+    (njexl)s="abcdef"
+    =>abcdef
+    (njexl)s[[-4:0]]
+    =>cdef
+
 
