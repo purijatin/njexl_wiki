@@ -89,7 +89,7 @@ That should immediately make your project a nJexl supported one.
 
 ## Setting it up for use
 You can download the latest released ( snapshot ) one-jar from here : 
-[SNAPSHOTS](https://oss.sonatype.org/content/repositories/snapshots/com/github/nmondal/njexl.lang/0.2-SNAPSHOT/)
+[SNAPSHOTS](https://oss.sonatype.org/content/repositories/snapshots/com/github/nmondal/njexl.lang/0.3-SNAPSHOT/)
 
 It would look like : njexl.lang-<version>-onejar.jar.
 Once downloaded, put this back in your PATH, in *nix like environment : 
@@ -101,7 +101,7 @@ Once downloaded, put this back in your PATH, in *nix like environment :
 And you are pretty much ready to go. Now type "njexl" from anywhere in the command prompt - and you are ready inside the njexl prompt.
 
 ### The IDE debacle
-IDEs are good - and that is why we have minimal editor support, [Sublime Text ](http://www.sublimetext.com) is my favourite one. You also have access to the syntax highlight file for jexl and a specially made theme for jexl editing - ( ES ) both of them can be found :   [here](https://github.com/nmondal/njexl/tree/master/doc).
+IDEs are good - and that is why we have minimal editor support, [Sublime Text](http://www.sublimetext.com) is my favourite one. You also have access to the syntax highlight file for jexl and a specially made theme for jexl editing - ( ES ) both of them can be found :   [here](https://github.com/nmondal/njexl/tree/master/doc).
 
 
 If you use them with your sublime text editor - then typical jexl script file looks like this : 

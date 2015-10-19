@@ -370,5 +370,46 @@ This generates what it suppsoed to do :
     4 + 2 ==> 6
     4 + 2 ==> 42
 
-This concludes the method level knowledge base.
+## Eventing 
+
+Events are what triggers a [state machine](https://en.wikipedia.org/wiki/Finite-state_machine) to change states. In functional paradigm, a state is encompassed by a function - or state change is encompassed by a function thereof.
+
+Thus, an event is triggered when a function is executed.
+Therefore, it is same to hook up before and after a function and call it eventing, 
+which is essentially what it all means.
+
+
+### Implementation 
+
+In nJexl, functions are first class objects, hence, they carry their own execution information in bags, thus, one can add hooks before and after :
+
+    import 'java.lang.System.out' as out
+
+    def add(a,b){ out:println( a + b )}
+    before = def(){ out:printf("Before! %s \n" , __args__ ) }
+    after = def(){ out:printf("After! %s \n" , __args__ ) }
+    add.before.add( before )
+    add.after.add( after )
+    add(3,4)
+    add("Hi " , "Hello!", "Extra param - ignored")
+    
+
+The defined *add* method ( or rather any method ) has bags of *before* hooks, 
+and *after* hooks. Adding a method to the set of methods deemed to execute before/after
+ensures a proper state based handling of behaviour :
+
+    Before! __before__ | ScriptMethod{ name='add', instance=false} | @[3, 4] 
+    7
+    After! __after__ | ScriptMethod{ name='add', instance=false} | @[3, 4] 
+    nogamacpro:njexl noga$ njexl tmp.jxl 
+    Before! __before__ | ScriptMethod{ name='add', instance=false} | @[3, 4] 
+    7
+    After! __after__ | ScriptMethod{ name='add', instance=false} | @[3, 4] 
+    Before! __before__ | ScriptMethod{ name='add', instance=false} | @[Hi , Hello!, Extra param - ignored] 
+    Hi Hello!
+    After! __after__ | ScriptMethod{ name='add', instance=false} | @[Hi , Hello!, Extra param - ignored] 
+
+Other sort of eventing will be discussed when we would be discussing Objects.  
+
+This concludes the generic method level knowledge base.
 
