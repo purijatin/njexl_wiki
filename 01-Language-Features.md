@@ -740,7 +740,29 @@ That is very good for testing related activities.
 The logical operators are "||" : "or"  and "&&" : "and" and "!" : "not".
 The english and the symbolic both works.
 
-## Set & List Operations.
+### Additive Assignments
+
+One key operator group what was missing : '+='' and '-=' in jexl.
+nJexl supports them, so :
+
+     (njexl)s = "hello"
+     =>hello
+     (njexl)s += " and hi!"
+     =>hello and hi!
+     (njexl)s
+     =>hello and hi!
+
+Same with minus :
+
+    (njexl)s = 100
+    =>100
+    (njexl)s-= 42
+    =>58
+    (njexl)s
+    =>58
+
+
+### Set & List Operations
 Almost all the operators are overloaded to handle some tricky stuff - "+" can add lists.
 In the same way "-" can do a set minus. It also can do a multi set minus popularly known as list minus.
 The special operator "@" defines "in" it extends "=~" . That is : 
@@ -754,7 +776,7 @@ The closest of x @ y is y.contains(x) in some sense.
 But then clearly one needs to do null check, string type check etc.
 
 
-## Anonymous Functions and Lambda's.
+## Anonymous Functions and Lambda's
 
 Do not worry. We are not geeks. We are way too practical - and hence we actually use it in a way people understand what it is. Inside any for-loop one generally runs a condition and does something extra. It would be good if the for loop becomes implicit and then one can only write the condition and the extra thing.
 
@@ -770,9 +792,21 @@ For the set operations we are using int() of every value as the key.
 ## List operations
 Various list operations are demonstrated - with some interesting power operations.
 
+
+    (njexl)l = [1,2,3]
+    =>@[1, 2, 3]
+    (njexl)l**-1
+    =>[3, 2, 1]
+
 Note that the power operator "**" works on String as well as lists.
-To reverse a string use <string>^-1. That should be awesome.
-Now just like python : <string>*n catenated. Here,  <string>**n catenated the string n times.
+To reverse a string use string^-1. That should be awesome.
+Now just like python : string*n catenated. Here,  string ** n catenated the string n times.
+
+    (njexl)s = "njexl"
+    =>njexl
+    (njexl)s**-1
+    =>lxejn
+
 
 ## Threading support
 nJexl has full threading support! That is to say, one can simply create thread by calling the function :
@@ -791,7 +825,7 @@ I toyed with the idea, and then found that :
 GO does not have exception handling.
 And I believe it is OK not to have exceptions.
 
-Code for everything, never ever eat up.
+Code for everything, never ever eat up error like situations.
 In particular - the multi part arguments and the return story - should ensure that there is really no exceptional thing that happens. After all, trying to build a fool-proof solution is never full-proof.
 
 Just like GO, however, there is a concept of returning tuples.
