@@ -634,21 +634,34 @@ The try{}() function is a very poor remnant of C++ bad design. A better idea is 
 multiple value. In fact, the function would always return a single value, but in case it generates error, 
 one can easily catch that by catching the function error values in a tuple.
 
+#### Using Tuples
 Here is how a Tuple works :
 
     (njexl)#(a,b) = [1,2,3] // stores a = 1, b = 2
-    =>[1, 2]
+    =>[1, 2] // splits the array/list
+    (njexl)#(a,b,c,d) = [1,2,3]
+    =>@[1, 2, 3, null] // excess will be filled in null.
     
-Now, to store err values : 
+
+Just like one can splice it from left, one can splice it from right:
+
+    (njexl)#(:a,b) = [1,2,3]
+    =>@[2, 3] // from right 
+    (njexl)#(:a,b,c,d) = [1,2,3]
+    =>@[null, 1, 2, 3] // follows the same protocol 
+
+Hence, Tuples can be used to splice through an array/list.
+
+#### Using Tuple to Catch Errors
+
+Now, to store err values one must use a tupe of size 2 with ":error_holder" in the right: 
 
     (njexl)#(o,:e) = my_undefined_var
     =>[null, com.noga.njexl.lang.JexlException$Variable: 
             com.noga.njexl.lang.Main.interpret@98![11,27]: 
            '#(o,:e)  = my_undefined_var;' undefined variable : 'my_undefined_var' ]    
 
-So you see, the syntax ":var" in the tuple actually catches the error if any occurs in evaluating the 
-expression in the right side. When you are specifying ":var", you are being explicit to the interpreter
-that exception can happen, and please catch it for me in the variable var.
+So you see, the syntax ":var" in the tuple actually catches the error if any occurs in evaluating the expression in the right side. When you are specifying ":var", you are being explicit to the interpreter that exception can happen, and please catch it for me in the variable var.
 
 Tuples error return can be used in many ways: 
 
