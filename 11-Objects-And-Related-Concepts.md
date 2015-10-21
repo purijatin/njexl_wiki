@@ -554,6 +554,41 @@ When one runs this, the result is :
 Note the usage of *my:* directive to get the defined classes in the current module.
 Also note that instance type is made to be false.
 
+## A bit of Reflection  
+
+Reflection is built-in, because it is a dynamic language.
+Look at the below code :
+
+    import 'java.lang.System.out' as out
+
+    def MyClass{
+        // just a constructor 
+        def __new__(me, v=42){
+           me.v = v 
+        }
+        // an instance method 
+        def instance_func(me){
+            out:println(me.v += 42 )
+        }
+    }
+    obj = new('MyClass', 11)
+    // call normally 
+    obj.instance_func()
+    // some dynmaic stuff 
+    f_name = 'instance_func' // store name 
+    f = obj[f_name] // this is good enough 
+    // now we can call it 
+    f()
+    // same with variables
+    v_name = 'v' // usage is simple 
+    out:println( obj[v_name])
+
+When we run it, we get this response :
+
+    53
+    95
+    95
+
 
 # Java Interoperability
 

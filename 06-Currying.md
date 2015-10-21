@@ -188,6 +188,32 @@ This works, as expected.
     $ java -jar njexl-0.1-SNAPSHOT.jar ../samples/curry_sample.jexl
     hello!
 
+## Reflection 
+If currying is too hard to comprehend, then reflection is relatively simpler.
+To start with we first need to find the name of the methods defined 
+in a script :
+
+    import 'java.lang.System.out' as out
+    // import from another script 
+    import  '_/src/lang/samples/dummy.jexl' as dummy
+    //call a function  
+    dummy:some_func("Hello, World!")
+    // now find all functions in dummy?
+    methods = dummy:methods()
+    // printing methods
+    out:println(methods)
+    // now call same method:
+    m_name = 'some_func'
+    method = methods[m_name]
+    method("Hello, Again!")
+
+When one executes this, the results are what is expected :
+
+    Hello, World!
+    {some_func=ScriptMethod{ name='some_func', instance=false}, void_func=ScriptMethod{ name='void_func', instance=false}}
+    Hello, Again!
+
+So, iterating over methods of a script are easy.
 
 
 
