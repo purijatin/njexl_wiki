@@ -461,6 +461,98 @@ And thus, when we run it - we have :
 
 Thus, any class can oversee any of it's function by attaching event to them.
 
+## Instance methods as Method Closure
+
+It is known that the instance methods are static methods, with 
+first argument being the instance object pointer.
+Hence, it is reasonable to assume that one instance of an instance method 
+would be bound to the instance, in some way.
+
+Suppose here is the script :
+
+    var count = 0 
+    def MyClass{
+        def __new__ (me,v=10){
+            me.v = v
+        }
+        def my_before(me){
+            out:println(me.v)
+            count += me.v 
+        }
+    }
+    mc1 = new ( 'MyClass' , 42 )
+    mc2 = new ( 'MyClass' , 24 )
+
+Now, given this, what would be the behaviour of the method "mc1.my_before" ?
+This is a problem. The solution is non trivial, it assumes that the 
+instance of the instance method is bounded to the instance, 
+Hence, it is legal to have the following:
+
+
+    b1 = mc1.my_before  // b1 is a closure of my_before(mc1) 
+    b2 = mc2.my_before  // b2 is a closure of my_before(mc2)  
+
+And now, it is perfectly legal to call them :
+
+    b1() // prints 42
+    b2() // prints 24
+
+Running this gets :
+
+    42
+    24
+
+So, the idea is that instance methods can be made bound to variable, 
+when it is done, one can use that as a closure, and then call like anything.
+
+## Static Method
+
+One doees not need static methods, because as of now there are
+no static variables. But in any case, this should explain static stuff :
+
+
+    import 'java.lang.System.out' as out
+    var count = 0 
+
+    def MyClass{
+        // This is a static method 
+        def my_static(){
+            out:println(" I am static!")
+            // there are no static variables, 
+            //but global var
+            count += 42 
+        }
+    }
+    // this is how you get the classes
+    cs = my:classes()
+    out:println(cs)
+    // to access one class out of many 
+    my_class = cs.MyClass
+    out:println(my_class)
+    // to find one method 
+    m = my_class.methods.my_static
+    out:println(m)
+    // now call the method 
+    m()
+    // see count increased 
+    out:println(count)
+    // now a simple way to call, again 
+    MyClass:my_static()
+    // see count increased, again 
+    out:println(count) 
+
+When one runs this, the result is :
+
+    {MyClass=nClass JexlMain:MyClass}
+    nClass JexlMain:MyClass
+    ScriptMethod{ name='my_static', instance=false}
+     I am static!
+    42
+     I am static!
+    84
+
+Note the usage of *my:* directive to get the defined classes in the current module.
+Also note that instance type is made to be false.
 
 
 # Java Interoperability
