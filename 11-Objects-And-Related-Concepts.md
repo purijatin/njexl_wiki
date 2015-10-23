@@ -132,7 +132,7 @@ This can be made pretty clear by :
 
 Which, of course generates  : 
 
-       MyClass field "y" is valued [10]
+      MyClass field "y" is valued [10]
       ChildClass field "y" is valued [100]
       MyClass field "y" is valued [42]
       100
@@ -216,9 +216,9 @@ These whole discussion becomes kind of moot, if we add the do_print() method to 
 In this case, the result is pretty boring : 
 
 
-     Complex!
-     Some1!
-     Some2!
+    Complex!
+    Some1!
+    Some2!
 
 
 Which is boring, because it is supposed to be that way.
@@ -284,8 +284,8 @@ As an example, two Objects might be equal, but not comparable, i.e. there might 
 
 This generates the reasonable output : 
     
-       Script imported : JexlMain@/Codes/Java/njexl/target/../samples/class_demo2.jexl
-       xxx == xxx ? true
+     Script imported : JexlMain@/Codes/Java/njexl/target/../samples/class_demo2.jexl
+     xxx == xxx ? true
  
 This showcase very interesting things, that *str* is the one used for converting the object into string, and then *eq* is the one which compares two objects. 
 
@@ -313,10 +313,10 @@ The function is demonstrated here :
 
 When we add it to the class MyClass, we see the following : 
 
-       10 < 120 ? true
-       10 > 120 ? false
-       10 <= 120 ? true
-       10 >= 120 ? false
+     10 < 120 ? true
+     10 > 120 ? false
+     10 <= 120 ? true
+     10 >= 120 ? false
  
 And that is pretty good, should we say?
 Note that the equal() and compareTo() == 0 ideally should match. If they do not, it is your problem, not mine.
@@ -359,13 +359,13 @@ It is customary to define them as is, with Complex number as an example, sans th
 
 This generates, as expected : 
 
-       Script imported : JexlMain@/Codes/Java/njexl/target/../samples/class_demo2.jexl
-       c1 : (1.000000,i 2.000000)
-       c2 : (2.000000,i 1.000000)
-       c1 + c2 : (3.000000,i 3.000000)
-       c1 - c2 : (-1.000000,i 1.000000)
-       c1 * c2 : (0.000000,i 5.000000)
- 
+     Script imported : JexlMain@/Codes/Java/njexl/target/../samples/class_demo2.jexl
+     c1 : (1.000000,i 2.000000)
+     c2 : (2.000000,i 1.000000)
+     c1 + c2 : (3.000000,i 3.000000)
+     c1 - c2 : (-1.000000,i 1.000000)
+     c1 * c2 : (0.000000,i 5.000000)
+
 And that tells you something about Arithmetics.
 
 
@@ -589,6 +589,77 @@ When we run it, we get this response :
     95
     95
 
+### Know Thyself 
+
+How an instance knows that it is what type?
+That requires knowing oneself, and that is done by :
+
+    import 'java.lang.System.out' as out
+    def Super{
+        def __new__(me, svar=0){
+            me.svar = svar
+            out:printf("new %s : %s\n", me.$.name, me.svar )
+        }
+        def __str__(me){
+            str:format("Super : (%d)", me.svar)
+        }
+    }
+    s = new ('Super')
+    out:println(s.$)
+
+This prints :
+
+    new Super : 0
+    nClass JexlMain:Super
+
+This tells that the type of the class is 'Super' and it is defined 
+in the main Script.
+
+Now, how to find list of all functions defined in here?
+
+     out:println(s.$.methods)
+
+Does the trick :
+
+    {__new__=ScriptMethod{ name='__new__', instance=true}}
+
+One can obviously find the superclass informtions too:
+
+    def Child : Super {
+        def __new__(me,cvar=11){
+            me.cvar = cvar
+        }
+        def __str__(me){
+            str:format("Child : (%d%d)", me.cvar , me.svar)
+        }
+    }
+    c = new ( 'Child' )
+    out:println(c)
+    // find supers?
+    out:println(c.$.supers)
+
+This generates :
+
+    new Super : 0
+    Child : (110)
+    {Super=nClass JexlMain:Super, JexlMain:Super=nClass JexlMain:Super}
+
+Notice the duplicate binding of the name 'Super'.
+It has bounded to the same class, essentially unique values are what matters.
+So, we can replace that with :
+
+    // find unique supers?
+    out:println(set(c.$.supers.values()))
+    // find the supers instances?
+    out:println(set(c.supers.values()))
+
+Which produces :
+
+    new Super : 0
+    Child : (110)
+    S{ nClass JexlMain:Super }
+    S{ Super : (0) }
+
 
 # Java Interoperability
 
@@ -657,4 +728,69 @@ Clearly with a language in multiple inheritance, there has to be a way to call s
 
 
 This is how any superclass and upwards *constructor* can be *called*, with desired parameters.
+
+## Multiple Inheritence , with Java and nJexl 
+
+    import 'java.lang.System.out' as out
+    import 'java.lang.String' as String
+    // a super class  
+    def Super{
+        def __new__(me, svar=0){
+            me.svar = svar
+            out:printf("new %s : %s\n", me.$.name, me.svar )
+        }
+        def __str__(me){
+            str:format("Super : (%d)", me.svar)
+        }
+    }
+    // multiple inheritence from nJexl and Java 
+    def Child : Super,String{
+        def __new__(me, cvar=4, svar=2, my_str = 'I am a string' ){
+            me.__anc__('Super',svar)
+            me.__anc__('String', my_str )
+            me.cvar = cvar 
+            out:printf("new %s : %s\n", me.$.name, me.cvar )
+        }
+        def __str__(me){
+            str:format("%s : (%d%d)", me.supers['String'] , me.cvar , me.svar)
+        }
+        def my_hash(me){
+            me.svar + me.cvar + #|me.supers['String']|
+        }
+    }
+    count = 0 
+    child = new('Child')
+    count += child.my_hash()
+    out:println(child)
+    child = new ('Child',5)
+    count += child.my_hash()
+    out:println(child)
+    child = new ('Child',5,3)
+    count += child.my_hash()
+    out:println(child)
+    child = new ('Child',5,3, "Hello, World")
+    count += child.my_hash()
+    out:println(child)
+    l = child.length()
+    count += l
+    out:printf( "I can call String's methods! .lenght() ==> %d\n" ,l)
+    out:println(count)
+    count 
+
+The result is as follows :
+
+    new Super : 2
+    new Child : 4
+    I am a string : (42)
+    new Super : 2
+    new Child : 5
+    I am a string : (52)
+    new Super : 3
+    new Child : 5
+    I am a string : (53)
+    new Super : 3
+    new Child : 5
+    Hello, World : (53)
+    I can call String's methods! .lenght() ==> 12
+    92
 
