@@ -773,7 +773,7 @@ This is how any superclass and upwards *constructor* can be *called*, with desir
     out:println(child)
     l = child.length()
     count += l
-    out:printf( "I can call String's methods! .lenght() ==> %d\n" ,l)
+    out:printf( "I can call String's methods! .length() ==> %d\n" ,l)
     out:println(count)
     count 
 
@@ -791,6 +791,56 @@ The result is as follows :
     new Super : 3
     new Child : 5
     Hello, World : (53)
-    I can call String's methods! .lenght() ==> 12
+    I can call String's methods! .length() ==> 12
     92
+
+### Cross Referencing Classes from Other Files 
+Suppose that we have to call a class from another source file
+where it was defined.
+To make it simplier, suppose that we have these definitions in another.jxl :
+
+    // in another.jxl
+    def XClass{
+        def __new__(me,s=''){
+            me.s = s
+        }
+        def __str__(me){
+           str:format("%s", me.s)
+        }
+        def static_method(x,y){ x - y }
+    }
+    // a method 
+    def my_random_method(a,b){ a + b }
+
+And we want to call them from our main.jxl. How to call?
+
+    import 'java.lang.System.out' as out
+    // notice the import : no extension required "_" defines from current dir
+    import '_/another' as AN  
+    xs = new( AN.XClass , 'Hello Cross Ref Class!')
+    out:println(xs)
+
+This would print :
+
+    Hello Cross Ref Class!
+
+Now, suppose we need to call a static method of the XClass :
+
+    out:println( AN.XClass.static_method(1,2) )
+
+Would print :
+
+    -1
+
+One can call the method *my_random_method* also : 
+
+     out:println(AN.my_random_method(1,2))
+
+But a better bet is to call it :
+
+    out:println(AN:my_random_method(1,2))
+
+Which leads to cleaner, more readable approach : ":" means from a namespace.
+
+
 
