@@ -1,7 +1,21 @@
 # Object Oriented Programming 
 
-Please try to avoid it. Objects are inherently harmful, and more harmful if you are no experienced enough, which is probably never. In any case, nJexl supports full object oriented paradigm, if one choose to mess with the structure of nature i.e. software testing.
+Please try to avoid it. Objects are inherently [harmful](http://www.iwriteiam.nl/AoP_OOCH.html), and it is [more harmful](http://harmful.cat-v.org/software/OO_programming/) if you are not experienced enough, that is probably always. In any case, nJexl supports full object oriented paradigm, if one choose to mess with the structure of nature i.e. software design and testing.
 
+A fairly interesting essay and summary can be found [here](http://harmful.cat-v.org/software/OO_programming/why_oo_sucks) :
+
+>Why OO was popular?
+Reason 1 - It was thought to be easy to learn.
+Reason 2 - It was thought to make code reuse easier.
+Reason 3 - It was hyped.
+Reason 4 - It created a new software industry.
+I see no evidence of 1 and 2. Reasons 3 and 4 seem to be the driving force behind the technology. If a language technology is so bad that it creates a new industry to solve problems of its own making then it must be a good idea for the guys who want to make money.
+This is is the real driving force behind OOPs. 
+
+Thus nJexl is NOT OO. It has lots of code written to make it OO-like, 
+but it is not OO, and like JavaScript hashes works perfectly for all cases of OO-hood
+anywhere it is needed. However, if you still want to indulge into the bandwagon of OO, 
+here it starts:
 
 ## Defining Objects
 

@@ -8,7 +8,7 @@ All I wanted is a language where I can write my test automation freely - i.e. us
 The standard book, and there is only one for formal software testing is 
 that of [Beizer](http://www.amazon.com/Software-Testing-Techniques-2nd-Edition/dp/1850328803).
 
-There was no language available which lets me intermingle with Java POJOs and let me write my test automation. 
+There was no language available which lets me intermingle with Java POJOs and let me write my test automation (validation and verifications). 
 Worse still - one can not write test automation freely using Java. 
 As almost all of modern enterprise application are written using Java, it is impossible to avoid Java 
 and write test automation : in many cases you would need to call appropriate Java methods to automate APIs.
@@ -109,3 +109,17 @@ If you use them with your sublime text editor - then typical jexl script file lo
 ![Sample Editing in Sublime Text ](http://s12.postimg.org/5dmcutp59/Screen_Shot_2015_05_02_at_6_23_45_pm.png)
 
 Happy Coding!
+
+# Final Words from Ryan Dahl
+
+My experience in Industry is aptly summarized by [Ryan Dahl](https://en.wikipedia.org/wiki/Node.js) 
+in [here](http://harmful.cat-v.org/software/node.js) , the creator of Node.js :
+
+>I hate almost all software. It’s unnecessary and complicated at almost every layer. At best I can congratulate someone for quickly and simply solving a problem on top of the shit that they are given. The only software that I like is one that I can easily understand and solves my problems. The amount of complexity I'm willing to tolerate is proportional to the size of the problem being solved...(continued)...
+Those of you who still find it enjoyable to learn the details of, say, a programming language - being able to happily recite off if NaN equals or does not equal null - you just don’t yet understand how utterly fucked the whole thing is. If you think it would be cute to align all of the equals signs in your code, if you spend time configuring your window manager or editor, if put unicode check marks in your test runner, if you add unnecessary hierarchies in your code directories, if you are doing anything beyond just solving the problem - you don’t understand how fucked the whole thing is. No one gives a fuck about the glib object model.
+*The only thing that matters in software is the experience of the user.*
+– Ryan Dahl, creator of Node.js
+
+Amen to that. 
+Hope, the people eventually understands it.
+It will make the world a better place.

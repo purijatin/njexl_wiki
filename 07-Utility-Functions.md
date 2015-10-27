@@ -38,6 +38,7 @@ In fact you have already met with some of them:
 * until --> A polling based waiter, waits till a duration till a condition is true 
 * hash --> Generates md5 hash from string data 
 * tokens --> tokenizes a String 
+* fopen --> opens a file for read/write/append 
 
 Thus, we would be familiarizing you guys with some of them.
 
@@ -791,4 +792,16 @@ One can obviously change the algorithm used :
 
      hash([algo-string , ] <string> )
 
+## File Operations 
+*fopen* lets one do file operations.
+With no arguments it lets one return a BufferedReader over system input.
+With one argument it returns a BufferedReader.
+With 2 arguments, it is like this :
 
+     fopen('path', mode )
+
+With mode parameters are :
+
+* "r" --> read only, file must exist 
+* "w" --> write only, file will be created if not there, truncated to 0 size if exists 
+* "a" --> append mode, file will be created if not there, start append to the last  
