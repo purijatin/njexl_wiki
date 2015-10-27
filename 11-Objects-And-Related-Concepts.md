@@ -16,16 +16,15 @@ Thus, this *MyClass* is a class. That is all there is to define one.
 ### new, and using Members of Class 
 
 Fields are what makes the class as a state-machine, and thus, class may have fields. As always, it is meaningless to have fields declaration, because it is a dynamic language. Thus, any method, like this : 
-
-
-	import 'java.lang.System.out' as out 
+ 
 	def  MyClass{
-	    def  member(me, y){
+	    def member(me, y){
 	        me.y = y 
-	        out:printf('My field "y" is valued [%s]\n', me.y )
+	        write('My field "y" is valued [%s]\n', me.y )
 	    }
 	}
-	mc = new ( 'MyClass')
+	mc = new ( 'MyClass') // reflective -- use string name  
+  mc = new ( MyClass ) // relfective -- use a fixed name, but it is still variable 
 	mc.member(10)
 
 
@@ -36,31 +35,26 @@ We also understood that member functions can be called using x.member() syntax.
 
 The Python *self* becomes *me* in here. Why *me* ? Because it is smaller to type in.
 This is *only* a keyword if used inside a method, and as a first parameter.
-Else it is an ordinary literal.
-
+Else it is an ordinary literal, non reserved.
 The result of the earlier code would be: 
 
      My field "y" is valued [10]
 
 And that demonstrates the class creation and using members.
-Clearly new can take parameter args - and those parameters are instance initialiser arguments.
-Note that class does not get created here, they merely gets initialised. 
+Clearly new can take parameter args - and those parameters are instance initialiser arguments. Note that class does not get created here, (i.e memory allocated)
+the allocated memory in Java merely gets initialised. 
 
 
 ## Inheritance & Polymorphism
 
 Nothing is as dangerous as a battle of inheritance. Thus, learning from history, I found that not allowing multiple inheritance was a terrible idea. One, should, have multiple parents. Even bacterium can have multiple parents.
-And the language users are (mostly) human, and I fail to see one of their parents being an interface.
-
-
-Thus, nJexl supports multiple inheritance.
+And the language users are (mostly) human, and I fail to see one of their parents being an interface.Hence, nJexl supports multiple inheritance.
 The syntax of inheritance is simple : 
 
-	import 'java.lang.System.out' as out 
 	def  MyClass{
 	    def  member(me, y){
 	        me.y = y 
-	        out:printf('MyClass field "y" is valued [%s]\n', me.y )
+	        write('MyClass field "y" is valued [%s]\n', me.y )
 	    }
 	}
 	mc = new ( 'MyClass')
@@ -69,20 +63,18 @@ The syntax of inheritance is simple :
 	}
 	cc = new ( 'ChildClass')
 	cc.member(100)
-	
+
 And as a result : 
-     
-        MyClass field "y" is valued [10]
-        MyClass field "y" is valued [100]
+
+    MyClass field "y" is valued [10]
+    MyClass field "y" is valued [100]
 
 Amen to that. Importantly, as one can see, we have *polymorphism*, another terribly bad idea - waiting to go wrong : 
 
-
-	import 'java.lang.System.out' as out 
 	def  MyClass{
 	    def  member(me, y){
 	        me.y = y 
-	        out:printf('MyClass field "y" is valued [%s]\n', me.y )
+	        write('MyClass field "y" is valued [%s]\n', me.y )
 	    }
 	}
 	mc = new ( 'MyClass')
@@ -90,7 +82,7 @@ Amen to that. Importantly, as one can see, we have *polymorphism*, another terri
 	def ChildClass : MyClass{
 		def  member(me, y){
 	        me.y = y 
-	        out:printf('ChildClass field "y" is valued [%s]\n', me.y )
+	        write('ChildClass field "y" is valued [%s]\n', me.y )
 	    }
 	}
 	cc = new ( 'ChildClass')
@@ -110,8 +102,8 @@ Now, suppose I need to use the parents member(), how should I do it?
 
 	cc = new ( 'ChildClass')
 	cc.member(100)
-	cc.supers['MyClass'].member(42)
-	
+	cc.supers.MyClass.member(42)
+
 And this diligently generate : 
 
       MyClass field "y" is valued [10]
@@ -125,10 +117,9 @@ This can be made pretty clear by :
 
 	cc = new ( 'ChildClass')
 	cc.member(100)
-	cc.supers['MyClass'].member(42)
-	out:println(cc.y)
-	out:println(cc.supers['MyClass'].y)
-
+	cc.supers.MyClass.member(42)
+	write(cc.y)
+	write(cc.supers.MyClass.y)
 
 Which, of course generates  : 
 
@@ -141,10 +132,10 @@ Which, of course generates  :
 That is that. And, no, parent has no idea about child's members, but child has total knowledge about parents members. Inverting, then : 
 
      cc = new ( 'ChildClass')
-     cc.supers['MyClass'].member(42) // create parent member - before child
+     cc.supers.MyClass.member(42) // create parent member - before child
      out:println(cc.y)
-     out:println(cc.supers['MyClass'].y)
-	
+     out:println(cc.supers.MyClass.y)
+
 Would work, as *expected* and thus : 
 
     MyClass field "y" is valued [10]

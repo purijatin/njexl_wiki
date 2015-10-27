@@ -185,7 +185,7 @@ The "equals" in previous section shows it. However, the idea can go much deep.
 
 This works, as expected.
 
-    $ java -jar njexl-0.1-SNAPSHOT.jar ../samples/curry_sample.jexl
+    $ njexl ../samples/curry_sample.jexl
     hello!
 
 ## Reflection 

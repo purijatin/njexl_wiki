@@ -33,18 +33,17 @@ Thus, it is important to know whether or not a variable is defined or not. That 
 
 ### Getting Objects Defined in the Script 
 Defined get's used as to find script objects like methods and classes.
-
-    import 'java.lang.System.out' as out
-
+    
     def generic(){
-       out:println("I am generic function")
+       write("I am generic function")
     }
     def gen_before(){
-       out:println("I am generic before : " + __args__ )
+       write("I am generic before : " + __args__ )
     }
     m = #def( 'my:generic' )
-    out:println(m)
+    write(m)
 
+Note that the *write* function writes back to the console, more about it later.
 When we run this script, we get : 
   
     njexl ../src/lang/samples/tmp.jxl 
@@ -566,6 +565,12 @@ How cool is that? At the same time - we can start using it even :
     =>null
 
 Thus, we can access any field of any class instance as this O['field name'] syntax!
+More *normal* stuff works too :
+
+    (njexl)SYS.out.println("Hello, Awesome nJexl!")
+    Hello, Awesome nJexl!
+    =>null
+
 
 ### The String operation on Collections
 

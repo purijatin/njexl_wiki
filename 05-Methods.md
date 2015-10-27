@@ -1,17 +1,17 @@
 # Methods
 
 No matter how much you want to avoid them, methods are needed.
-They are first class entities in here, in the realm of nJexl.
-They are of course, to be passed by names, and are defined as such.
+They are first-class entities in here, in the realm of nJexl.
+They are of course, to be passed by names, or as variables 
+and are defined to work as such.
 
 ## Defining Methods 
 
-"def" is used to define methods ( as well as class, which we would talk later ).
+*def* is used to define methods ( as well as class, which we would talk later ).
 
-    import 'java.lang.System.out' as out
-     
+    // dummy.jexl
     def some_func(s){
-        out:println(s)
+        write(s)
         my:void_func() // my: ensures we always call this scripts void_func.
         true  ## makes it perl like
     }
@@ -27,7 +27,7 @@ Note that curious "my" syntax. It basically tells nJexl that the method call sho
 ( read script files ) void_func() -- not any other random script files. As one can import modules from other locations, this becomes of very importance.
 The following command can be used to run the script file : 
 
-    $ java -jar njexl-0.1-SNAPSHOT.one-jar.jar ../samples/dummy.jexl 
+    $ njexl dummy.jexl 
     Hello, World!
 
 It shows how it all finally works out. 
@@ -39,27 +39,26 @@ All global variables are read-only locals.
 A variable declared as "var xxx" is a global variable where from local scope one can write.
 While a simple assignment is local.
 
-    import 'java.lang.System.out' as out
-    var x = 0 
+    var x = 0 // script global variable 
     def foo(){
-       x = x + 1
+       x += 1 // global update 
     }
     foo()
     foo()
-    out:println(x)
+    write(x)
 
 This would print 2. However, if you fail to put var, then :
 
-    import 'java.lang.System.out' as out
     x = 0 
     def foo(){
-       x = x + 1
+       x += 1 // use the global name to create a local var!
     }
     foo()
     foo()
-    out:println(x)
+    write(x)
 
-would print 0. The global variable comes in local, but does not get write back to global.
+would print 0. The global variable comes in local copy, 
+but does not get write back to the original global one.
 
 
 ## Recursion is Divine 
@@ -67,7 +66,6 @@ would print 0. The global variable comes in local, but does not get write back t
 As it is well said - to iterate is human, to recurse is divine, we take heart from it.
 We showcase the factorial program : 
 
-    import 'java.lang.System.out' as out
     /*
       The iterative version of the factorial
     */
@@ -78,9 +76,9 @@ We showcase the factorial program :
         x = 1
         while ( n > 0 ){
             x = x * n
-            n = n - 1  
+            n -= 1  
         }
-        return x
+        x // implicit return 
     }
     /*
        Recursive version of the factorial
@@ -105,28 +103,32 @@ We showcase the factorial program :
 As usual, this also showcase the curious *args* construct. This is basically the arguments array passed to a method, or a script. Every method gets it's own *args*. If we try to run it, we get : 
 
 
-    $ java -jar njexl-0.1-SNAPSHOT.jar ../samples/factorial_sample.jexl 
+    $ njexl factorial_sample.jexl 
     @[usage : ../samples/factorial_sample.jexl  <number> [-r : recursively]]
 
 This is a pretty simplistic command line usage, and let's try it : 
 
 
-    $ java -jar njexl-0.1-SNAPSHOT.jar ../samples/factorial_sample.jexl 5
+    $ njexl factorial_sample 5
     120
-    $ java -jar njexl-0.1-SNAPSHOT.jar ../samples/factorial_sample.jexl 10
+    $ njexl factorial_sample 10
     3628800
-    $ java -jar njexl-0.1-SNAPSHOT.jar ../samples/factorial_sample.jexl 100
+    $ njexl factorial_sample 100
     933262154439441526816992388562667004907159682643816214685929638952175999 // next line
     932299156089414639761565182862536979208272237582511852109168640000000000 // next line 
     00000000000000
 
 
+You can ommit the file name extension.
+Default it would automatically look for 
+
+     \.[jJ]([eE])?[xX][lL] // as a regex 
+
 Hope that it is right? It is. In fact the automatic widening of number is something that is a feature of nJexl. One need not worry about *bounds*, after all, mind is [limitless!](http://www.imdb.com/title/tt1219289/)
 
 Now, it is high time checking the recursive code: 
 
-
-    $ java -jar njexl-0.1-SNAPSHOT.jar ../samples/factorial_sample.jexl 410 -r
+    $ njexl factorial_sample 410 -r
     7695091858866763366263438655668964498487195079235007091374790577795004189593254064
     4009028242721648765009379053940741552827255513576622685582156113545461753231364849
     9197738578570523818012538201385063090285424460199611481778391852796001105110093584
@@ -140,8 +142,7 @@ Now, it is high time checking the recursive code:
     000000000000000000000000000000000000000000000000000000000000000000000000000
 
 
-Good enough, I suppose. Beware of recursion in nJexl. As it is divine, it is not well implemented, and it would eventually fail you. It does not handle a depth of 420+ well. While I would like to work on optimising it, premature optimisation is the root of many evils, so ....
-
+Good enough, I suppose. Beware of recursion in nJexl. As it is divine, it is not well implemented by a human like me, and thus like all divine stuff, it would eventually fail you. It does not handle a depth of 420+ well. While I would like to work on optimising it, *premature optimisation is the root of many evils* , so ....
 
 ## Functional Support
 
@@ -180,7 +181,7 @@ Here you go :
 
 Notice that we are showcasing that args return backs to original - after function execution is over.
 
-    $ java -jar njexl-0.1-SNAPSHOT.jar ../samples/functional_sample.jexl 
+    $ njexl  functional_sample.jexl 
     Script imported : dummy@/Codes/Java/njexl/samples/dummy.jexl
     Ignoring re-import of [out] from [java.lang.System.out] 
     ../samples/functional_sample.jexl
@@ -267,10 +268,9 @@ People should be careful.
 Sometimes kind of smart people acts in stupid ways.
 This feature is a classic example - shooting one in the feet.
 Suppose one wants to call a method - with stipulated parameters, 
-but can not pass call it, directly, how one passes the parameter then?
+but can not pass it, directly. How one passes the parameters then?
 
     import 'java.lang.System.out' as out
-
     def gte(a,b){
        a <= b  
     }
@@ -288,21 +288,21 @@ Of course the result is this :
 That shows you what all can be done with this.
 Note that, once you overwrite the args, no other parameter can be passed at all.
 
-## First Class Citizen : Assignment to Variables
+## Constitutional Right for First Class Citizens : Assignment to Variables
 
-Methods are first class citizen, hence, one can assing a method to a variable.
+Methods are first class citizen, hence, one can pass a method to a variable.
 Hence, this is perfectly legal :
 
     def z(){
-       out:println("Yes!")
+       write("Yes! I am booked now!")
     }
     x = z // assignment of a function into a variable 
     x() // call that function using the variable
 
-Thus one can have anonymous functions written as such :
+Thus one can have anonymous functions written w/o a name but binding to a variable :
 
     x = def (){ // this is an anonymous function 
-        out:println("Yes!")
+        write("Yes!")
     }
     x() // call the function 
 
@@ -391,8 +391,8 @@ In nJexl, functions are first class objects, hence, they carry their own executi
     add.before.add( before )
     add.after.add( after )
     add(3,4)
-    add("Hi " , "Hello!", "Extra param - ignored")
-    
+    add("Hi " , "Hello!", "Extra param - ignored")    
+
 
 The defined *add* method ( or rather any method ) has bags of *before* hooks, 
 and *after* hooks. Adding a method to the set of methods deemed to execute before/after

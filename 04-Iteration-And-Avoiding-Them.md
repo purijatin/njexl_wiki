@@ -7,7 +7,7 @@ Simplistic way to look at an iteration is :
     i = 0 
     while ( i < 3 ){
        out:println(i)
-       i = i + 1
+       i += 1 
     }
 
 This of course produce the output :  
@@ -25,26 +25,26 @@ If you are using "i" , it is meaningless to do all the housekeeping by yourself,
 
 Does produce the same output! You think it is good to be verbose?
 [Enterprisification](http://projects.haykranen.nl/java/) is for you then. 
-It is kind of bad to be verbose, according to me.
-We want to get things done, with minimal talk - and maximal work. 
-But wait. Anything array like is iterable, anything list like is iterable. Anything set like, if they are sets created by nJexl - are iterable too. And even dictionaries are default iterable. 
+Jokes apart, it is kind of bad to be verbose, according to me.
+I want to get things done, with minimal talk - and maximal work. 
+But wait. Anything *array like* are iterable, anything *list like* are iterable. Anything set like, if they are sets created by nJexl - are iterable too. And even dictionaries are default iterable. 
 
     for ( i  :  [0,1,2] ){
-        out:println(i)
+        write(i)
     } 
 
 This is fine. So is  : 
 
     for ( i  :  {0:'0' , 1:'1' , 2:'2' } ){
-        out:println(i)
+        write(i)
     } 
 
 And finally this is fairly interesting : 
 
     for ( i  :  "Smartest might survive" ){
-        out:print( str:format("%s ", i ) ) 
+        write("%s ", i ) ) 
     } 
-    out:println()
+    write()
 
 Produces the output : 
 
@@ -55,21 +55,20 @@ That should be awesome.
 
 We also support the standard *for* stuff :
 
-    for ( i = 0 ; i < 10 ; i = i + 1 ){
-        out:println(i)
+    for ( i = 0 ; i < 10 ; i += 1 ){
+        write(i)
     } 
 
 
 Now, let's take a real cool example, and start calculating factorial.
     
-    import 'java.lang.System.out' as out
     n = 200 
     x = 1 
     while ( n > 1 ){
         x = x*n
-        n = n - 1  
+        n -= 1  
     }
-    out:println(x)
+    write(x)
 
 And the output comes : 
     
@@ -92,15 +91,15 @@ We do have "continue" and "break". Which works as expected :
     
     i = 0 
     while ( i < 10 ){
-      i = i + 1 
+      i += 1 
       if ( i % 3 == 0 ){ continue }
-      out.println(i)
+      write(i)
     }
 
-    out.println('Now for loop')
+    write('Now for loop')
     
     for ( i : [1:11]){
-       out.println(i)
+       write(i)
        if ( i % 4 == 0 ){ break }
     }
 
@@ -148,7 +147,7 @@ Which would work, as well as :
 
     i = 0 
     while ( i < 10 ){
-      i = i + 1 
+      i += 1 
       continue ( i % 3 == 0 ) 
       out.println(i)
     }
@@ -176,15 +175,13 @@ While the return result from the statements from *break* gets added
 to the collection being generated, for *continue* that does not happen.
 Hence, one needs to be careful with that.
 
-    import 'java.lang.System.out' as out
-
     s = '11,12,31,34,78,90'
     tmp = ''
     l = select{ 
-        continue ( $ != ',' ){  tmp = tmp + $ } 
+        continue ( $ != ',' ){  tmp += $ } 
         $ = int(tmp) ; tmp = '' ; true  }(s.toCharArray() )
-    l = l + int(tmp) 
-    out:println(l)
+    l += int(tmp) 
+    write(l)
 
 This would produce :
     
@@ -224,8 +221,8 @@ The following rules are applied for the goto statements:
 * You may use same label as variable identifier, at your own risk
 * You should never use it, unless you are automatically generating code
 
-And that should sum it up!
-
+And that should sum it up! This was added as backward compatiblity
+from the predecessaor language of nJexl : CHAITIN.
 
 # Avoiding Iteration, Using Predicate Logic 
 
@@ -250,7 +247,6 @@ Does any element exist in the list which is 1?
     (njexl)s.contains(1)
     =>true
 
-
 At the same time  : 
       
     (njexl)s = list([1,2,3,3,4,5])
@@ -267,7 +263,7 @@ One needs to understand the looping:
     l = list()
     for ( i : [ 1 , 2, 3, 4, 5 ] ){
       if ( i >= 2 and i <= 4 ){
-        l = l + i
+        l += i
         }
     }
     // use l here.

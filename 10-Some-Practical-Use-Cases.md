@@ -126,7 +126,6 @@ is equals to the number or not? This is what my friend hit, and wanted bonkers.
 So, here is the nJexl equivalent solution :
 
     def possible( n, l ){
-
        // does it exist one level?
        found = ( index(n,l) >= 0 )
        // pretty clear 
@@ -135,7 +134,6 @@ So, here is the nJexl equivalent solution :
        c = 2 
        // go deep in rabbit hole 
        while ( c <= #|l| ){
-          
           x = array{ l } ( [0:c].list() )
           now = set()
           r = join{
@@ -145,30 +143,25 @@ So, here is the nJexl equivalent solution :
               // need only combination 
               if ( #|ms| != #|$|  ){ return false }
               // yes, a combination 
-              now.add(ms)
-              
+              now += ms
               // add them up 
               t = sqlmath($) 
               // compare and find if it is ok?
               t[2] == n 
           }(__args__ = x)
-
           found = not empty(r)
-
           if ( found ) { 
-            out:println( r )
+            write( r )
             return true 
           }
-          c = c + 1
+          c += 1
        }
        return false 
     }
 
-
 As we can see, the possible() function works, if there is no repetition.
 I would let you think, for allowing repetition what needs to be done!
 NOTE : It would do something with list equals.
-
 
 ## Number formatting and rounding. 
 
@@ -192,7 +185,6 @@ Now, all of these can be easily accomplished in a line by:
 
 Hence, comparing doubles upto arbitrary precision values are easy.
 
-
 ## Summing them up : 
 
 You want to add individual items for a list.
@@ -209,7 +201,6 @@ But it also takes anonymous function so :
     =>@[0.1, 0.2, 0.3]
     (njexl)sqlmath{float($)}(L1)
     =>@[0.1, 0.3, 0.6000000000000001]
-
 
 ## On Manipulating Time
 
@@ -231,7 +222,7 @@ So:
 
 # Some One Liners 
 
-From here :  [10 scala one liners ](https://mkaz.com/2011/05/31/10-scala-one-liners-to-impress-your-friends/)
+From here  [10 scala one liners ](https://mkaz.com/2011/05/31/10-scala-one-liners-to-impress-your-friends/) ; plenty of so called *awesome* stuff?
 I thought that I should just monkey it. So I mon-keyed it : 
 
 ## Multiple Each Item in a List by 2
@@ -243,16 +234,18 @@ I thought that I should just monkey it. So I mon-keyed it :
 
      (njexl)sqlmath ( list{ 2*$ }([0:10].list() ) )
      =>@[0, 18, 90] // the last one is the sum!
+     (njexl)lfold { _$_ += 2*$  } ( [0:10].list() , 0 ) // (l|r)fold works too
+     =>90 
 
 ## Verify if Exists in a String 
  
      (njexl)line =  "Individuals are brilliant,  but people,  people are inherently stupid!"
      =>Individuals are brilliant,  but people,  people are inherently stupid!
-     (njexl)bag = [ "but" , "stupid" , "are" , "people"  ]
+     (njexl)bag = [ "but" ,  "people" , "are" , "stupid" ]
      =>@[but, stupid, are, people]
      (njexl)index{ $ @ bag }(line.split( "\W" )) >= 0
      =>true
- 
+
 ## Filter list of numbers
   
      (njexl)nos = [ 10, 20, 60, 10, 90, 34, 56, 91, 24 ]
@@ -260,17 +253,18 @@ I thought that I should just monkey it. So I mon-keyed it :
      (njexl)partition{ $> 30 }(nos)
      =>@[[60, 90, 34, 56, 91], [10, 20, 10, 24]] 
 
-
 ## Find minimum (or maximum) in a List
-    
+
     (njexl)sqlmath ( list{ 2*$ }([0:10].list() ) )
     =>@[0, 18, 90] // the first one is the min, second one is the max!
-    
+    (njexl)rfold { _$_ = _$_>$ ? $:_$_  } ( [0:10].list() , 10 )
+    =>0
+
 ## Sieve of Eratosthenes
 
-Calculating prime numbers using [Sieve of Eratosthenes](http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) : 
+Calculating prime numbers using 
+[Sieve of Eratosthenes](http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) : 
 
-    import 'java.lang.System.out' as out 
 	def soe( n ){
 	    select {
 	        x = $ // set the current iterate variable 
@@ -278,7 +272,9 @@ Calculating prime numbers using [Sieve of Eratosthenes](http://en.wikipedia.org/
 	        where ( index{ x % $ == 0 }( _$_ + 2 ) < 0 ){ $ = x }    
 	    }([3:n+1].list()) + 2  // adding 2 in the end list of primes 
     }
-    out:println( soe(31) )
+    write( soe(31) )
+
+When we run it :
 
     $ njexl soe.jexl 
     Script imported : JexlMain@/Users/noga/soe.jexl
@@ -305,13 +301,9 @@ Here is how :
                   } ( soln.toCharArray ) )
                   )[2] 
 
+And the result comes out to be:
+
     =>7.5    
-
-
-
-
-
-
 
 So that should tell you about it.
  

@@ -394,10 +394,19 @@ are equivalent.
 
 #### (item) In  or Match=~ :
 
-   The syntactically Perl inspired =~ operator can be used to check that a string matches a regular expression (expressed either a Java String or a java.util.regex.Pattern). For example "abcdef" =~ "abc.* returns true. It also checks whether any collection, set or map (on keys) contains a value or not; in that case, it behaves as an "in" operator. Note that it also applies to arrays as well as "duck-typed" collection, i.e classes exposing a "contains" method. 
+The syntactically Perl inspired =~ operator can be used to check that a string matches a regular expression (expressed either a Java String or a java.util.regex.Pattern). For example "abcdef" =~ "abc.* returns true. It also checks whether any collection, set or map (on keys) contains a value or not; in that case, it behaves as an "in" operator. Note that it also applies to arrays as well as "duck-typed" collection, i.e classes exposing a "contains" method. 
 
       "a" =~ ["a","b","c","d","e",f"] // returns true.
 
+When both left and right side of the operator are collections, then it finds 
+whether the left collection is embedded in the right collection :
+
+      [1,2,3] =~ [1, 2, 3 ]  // true 
+      [1,2] =~ [1, 2, 3 ]  // true 
+      [3,4] =~ [1, 2, 3 ]  // false
+      [3,4] =~ [1, 2, 3 , 4 ]  // true
+      [3,4] =~ [1, 2, 3 , ,5, 4 ]  // false
+ 
 
 #### (item) Not-In or Not-Match!~ :
 
@@ -629,15 +638,13 @@ That would destroy compression if need be. I do not want it. Note that Blocks do
 as one would have expected.
 
 ## Loops
-goto is not there. I am sorry for that. I love goto, but EwDijkstra did not. I do not know why.
-In any case - fear not, we are Turing Complete by introducing the very new : 
-while(condition){ statements } and for ( var : iterable ) { statements }.
-Totally works.
-       
-    import 'java.lang.System.out' as out
 
-    my_arr = [1,2,3,4]
-    for ( i : my_arr ){
+In any case - fear not, we are Turing Complete by introducing the very new : 
+while(condition){ statements } and for ( var = init < condition> <change> ) 
+{ statements }.
+Totally works.
+
+    for ( i = 0 ; i < 10 ;  i+= 1 ){
         out:println(i)
     }
 
@@ -712,9 +719,8 @@ In fact, if you do not even say it - the outcome of the last executed statement 
 
 defining methods are easy.
   
-	import 'java.lang.System.out' as out
 	def some_func(s){
-	    out:println(s)
+	    write(s)
 	    my:void_func()
 	    return true
 	}
@@ -724,9 +730,10 @@ defining methods are easy.
 	some_func("Hello, World!")
 
 
-It also introduces you to "true" "false" two constants. They are Boolean types named after John Boole.
-Also note the interesting "my:". That is important. In a complete dynamic environment - if you do not specify the "my:" it might call another method from another module with the same name. So that does not happen - we have my.
-No cross calling of functions.
+It also introduces you to "true" / "false" the two constants. 
+They are Boolean types named after [George Boole](https://en.wikipedia.org/wiki/George_Boole).
+Also note the interesting "my:". That is important. In a complete dynamic environment - if you do not specify the "my:" it might call another method from another module with the same name. To avoid such things, we have my.
+No cross calling (connection) of functions.
 
 ## Operators
 Generally the operations like "=" , "==" , "!" ,  "<" , ">" , "<=" , "=>" , "!=" have same meaning.
@@ -812,7 +819,7 @@ Now just like python : string*n catenated. Here,  string ** n catenated the stri
 nJexl has full threading support! That is to say, one can simply create thread by calling the function :
 thread() with suitable parameters which to be passed to the anonymous function block.
 
-     t = thread{  out:println("I am a thread!") } ()
+     t = thread{  write("I am a thread!") } ()
 
 Creates a thread - which just calls the out:println() call.
 More of this in the threading section.

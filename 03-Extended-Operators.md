@@ -2,6 +2,15 @@
 This is where we talk about all sort of operators, 
 extended, and default and what not.
 
+
+## Definition Coaleasing Operator
+
+The special operator "??" is to be used as a quick short hand for :
+
+     y = x??0
+     if ( not #def(x) or x eq null ) {  y = 0 } else { y = x }
+
+
 ## Arithmetic Operators 
 Generally we start with Arithmetic: 
 
@@ -162,7 +171,6 @@ Empty list, arrays and stuffs are always everyones sub-thing:
 
 If two things are essentially non-comparable - that is, a is not a proper sub-thing of b, then : 
 
-
      (njexl)[3] <  [1]
      =>false
      (njexl)[3] >  [1]
@@ -178,10 +186,7 @@ If two things are essentially non-comparable - that is, a is not a proper sub-th
      (njexl){1:2, 2:3 } == {1:2,2:4}
      =>false
 
-
 But wait, that is not the only cool thing!
-
-
 
 ### Overlaps, Difference, Merger 
 In the colourful language of set theory they are called 
@@ -189,12 +194,12 @@ In the colourful language of set theory they are called
 * Intersection 
      Can be easily done by : 
 
-           (njexl) a = list(1,2,3)
-           =>[1, 2, 3]
-           (njexl)b = list(1,2)
-           =>[1, 2]
-           (njexl)a&b // AND is Intersection 
-           =>[1, 2]
+            (njexl) a = list(1,2,3)
+            =>[1, 2, 3]
+            (njexl)b = list(1,2)
+            =>[1, 2]
+            (njexl)a&b // AND is Intersection 
+            =>[1, 2]
 
 * Set Difference 
       Easily done : 
@@ -213,10 +218,12 @@ In the colourful language of set theory they are called
            (njexl)a|b   // OR is Union
            =>[1,2,3]
  
-These works on list and sets.
+These works on list and sets and dictionaries.
 
 ## On the matter of Order
-*"Order matters Not" - Noga *
+
+   >"Order matters Not, because nature is chaotic." - Noga
+
 Thus, 
 
     (njexl)a = list(1,2,3,4,5,6)
@@ -230,7 +237,7 @@ Thus,
     (njexl)a&b
     =>[1, 2, 6]
 
-Thus, it works as it should work. That is what normally known as re-usable code.
+Thus, it works as it should. This is what normally known as re-usable code.
 One guy writes it - and the others use it. No more random coding!
 
 ## Operations over a Dictionary 
@@ -306,4 +313,3 @@ And the list exponentiation :
     =>[[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 1, 1], [1, 0, 0], [1, 0, 1], [1, 1, 0], [1, 1, 1]]
 
 Yes, you guessed it right - the join operation is '*'. 
-   

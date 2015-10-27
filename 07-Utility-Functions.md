@@ -21,10 +21,9 @@ In fact you have already met with some of them:
 * join --> [Join](https://en.wikipedia.org/wiki/Join_(SQL))s two or more lists, based on condition
 * shuffle -> shuffles a list/array 
 * random -> selects element[s] from a list/array/enums/string  randomly
-* sorta --> sort a list in ascending order 
-* sortd --> sort a list in descending order 
+* sort ( sorta | sortd ) --> sort a list in ascending|descending order 
 * read --> read from standard input or a location completely, returns a string 
-* write --> to a file or standard output 
+* write --> to a file or PrintStream 
 * json --> read json file or a string and return a hash
 * xml --> read xml from file or string and returns an XmlMap data structure 
 * type --> Get's the type of a variable 
@@ -48,8 +47,13 @@ one that matches the criterion, and another that does not match.
    
     (njexl)marks = [ 34, 45, 23 , 66, 89, 91 , 25, 21, 40  ]
     =>@[34, 45, 23, 66, 89, 91, 25, 21, 40]
-    (njexl)p = partition{ $ > 30 }(marks)
+    (njexl)#(pass, fail) = partition{ $ > 30 }(marks)
     =>@[[34, 45, 66, 89, 91, 40], [23, 25, 21]]
+    (njexl)pass
+    =>[34, 45, 66, 89, 91, 40]
+    (njexl)fail
+    =>[23, 25, 21]
+
 
 What we are doing here is partitioning the marks using the criterion, if anything is over 30, it is pass else fail.
 
@@ -100,12 +104,10 @@ The big issue with Java is CLASSPATH. To remedy, we have load() function call.
 It can load arbitrary jars from a directory, recursively - and then instantiate and call
 arbitrary classes. 
 
-
 ### Creating Java Classes
 
 new() creates Java classes. Obviously, the class has to be in the class path.
 To demonstrate - take a look around the following code sample :
-
 
     (njexl)load('/Users/noga/.m2/repository/xerces/xercesImpl')
     =>true
@@ -175,11 +177,10 @@ for most parts - and we rely on Java to do it's job, as of now.
 Let's understand threading by using the sample : 
 
 
-    import 'java.lang.System.out' as out 
     // this is the function to call inside a thread 
     def thread_func( a, b){
        c = a + b 
-       out:printf("hello! : %s\n" , c )
+       write("hello! : %s\n" , c )
        return c // unlike my ancestor java, I can return value 
     }
 
@@ -227,7 +228,7 @@ Fear not, there is this clock function who would cater to your need.
     #(t,e) = clock{
        long_method()
     }()
-    out:println(t)
+    write(t)
 
 
 The result this would be :
@@ -240,8 +241,7 @@ The result this would be :
 
 Many times we need to write this custom waiter, where 
 the idea is to wait till a condition is satisfied.
-Of course we need to have a timeout, and of course we need a polling interval
-
+Of course we need to have a timeout, and of course we need a polling interval.
 To make this work easy, we have *until*.
 The syntax is :
 
@@ -257,11 +257,11 @@ As all the stuff are optional, to get a 3 sec wait, just use :
 But, now with the expression on :
 
      i = 3 
-     until { i = i - 1 ; i == 0 }( 1000, 200 ) // induce a bit of wait 
+     until { i-= 1 ; i == 0 }( 1000, 200 ) // induce a bit of wait 
      // this returns true : the operation did not timeout 
 
      i = 100 
-     until { i = i - 1 ; i == 0 }( 1000, 200 ) // induce a bit of wait 
+     until { i-= 1 ; i == 0 }( 1000, 200 ) // induce a bit of wait 
      // this returns false : timeout happened  
 
 Thus, the return values are *true* / *false* based on whether the condition met before timeout
@@ -285,18 +285,16 @@ generate the split array, and then again over that array to generate the list of
 
 Clearly then, a better approach would be to do it in a single pass, so :
 
-    import 'java.lang.System.out' as out
-
     s = '11,12,31,34,78,90'
     tmp = ''
     l = list()
     for ( c : s ){
         if ( c == ',' ){
-            l = l + int(tmp) ; tmp = '' ; continue 
+            l += int(tmp) ; tmp = '' ; continue 
         }
-        tmp = tmp + c
+        tmp += c
     }
-    l = l + int(tmp) 
+    l += int(tmp) 
     out:println(l)
 
 Which produces this :
@@ -309,8 +307,8 @@ Fear not, we can reduce it :
     tmp = ''
     l = select{ 
         if ( $ == ',' ){  $ = int(tmp) ; tmp = '' ; return true } 
-        tmp = tmp + $ ; false  }(s.toCharArray() )
-    l = l + int(tmp) 
+        tmp += $ ; false  }(s.toCharArray() )
+    l += int(tmp) 
 
 Ok, goodish, but still too much code. Real developers abhor extra coding.
 The idea is to generate a state machine model based on lexer, in which case,
