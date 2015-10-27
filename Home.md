@@ -21,6 +21,14 @@ After cloning JEXL - and modifying it real heavy - a public release in a public 
 seemed a better approach. There, multiple people can look into it, rather than one lone ranger working from his den.
 And hence nJexl was born. The *n* stands for Neo, not Noga, which is, by the way, my nick name.
 
+Another note, this actually was an open challenge [here](http://steve-yegge.blogspot.in/2006/03/execution-in-kingdom-of-nouns.html)
+
+>A noted PhD from Sun, read this essay, and had this to say: 
+"hmm, chuckle :) This guy has too much time on his hands ! he should be doing useful work, or inventing a new language to solve the problems. Its easy to throw stones - harder to actually roll up your sleeves and fix an issue or two, or write/create a whole new language, and then he should be prepared to take the same criticism from his peers the way he's dishing it out for others. Shame - I thought developers were constructive guys and girls looking to make the lives of future software guys and girls easier and more productive, not self enamouring pseudo-intellectual debaters, as an old manager of mine used to say in banking IT - 'do some work' !"
+
+And I just did. That too, while at home, in vacation time, and in night time ( from 8 PM to 3 AM. - see the check-ins.)
+Alone.
+
 ## About the Language 
 
 It is an interpreted language. It is asymptotically as fast as python, with a general lag of 200 ms of reading and parsing files, where native python is faster. After that the speed is the same.
