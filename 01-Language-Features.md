@@ -1,4 +1,4 @@
-# Original Language Features 
+# General Language Features 
 
 ## Comments 
 They are line : "//" or "##" or block "/*  */".
@@ -11,6 +11,20 @@ Thus :
       // while this is a single line comment 
       ## and so is this.
 
+
+### Shebang support
+Like shell scripts, nJexl supports [SheBang](https://en.wikipedia.org/wiki/Shebang_(Unix).
+Thus, a script :
+
+    #!/usr/bin/java -jar /Codes/java/njexl/src/lang/target/njexl.lang-0.3-SNAPSHOT.one-jar.jar
+    write('Hello, World')
+
+Will produce the desired output :
+
+    Hello, World
+
+Note that although the character "#" is not of comment, but for a script, if first 2 characters
+are "#!" it treats that line differently.
 
 ## Identifiers 
    
@@ -91,6 +105,13 @@ Calls a method of an object, e.g.
 will call the hashCode method of the "hello world" String.
 In case of multiple arguments and overloading, Jexl will make the best effort to find the most appropriate non ambiguous method to call.
 
+In most cases, when there is no confusion between fields and methods existence, 
+a method call can be done just like a field access:
+
+    (njexl)"hello world".hashCode
+    =>1794106052
+
+
 ### Literals
 
 #### Integer Literals  
@@ -170,7 +191,7 @@ Furthermore, if all entries in the array literal are of the same class and that 
 
 This syntax creates a HashMap<Object,Object>.
 
-## Functions
+## Functions which are Keywords 
 
 
 ### empty 
@@ -202,6 +223,10 @@ As an example :
     size("Hello")
 
 returns 5.
+A null gets a size -1, to distinct it from anything size 0, null is uninitialized :
+
+    (njexl)size(null)
+    =>-1
 
 ### new 
 
@@ -569,9 +594,6 @@ That lets people know - yes, that is a function I am calling from an IMPORTED MO
      (njexl)sys:getProperty("user.dir")
      =>/Codes/Java/njexl/target
 
-
-
-
 ### Scope of Variables
 
 Variables are global in the script - unless they are declared within the method definitions.
@@ -598,28 +620,22 @@ I understand that is a bit too much, so for normal operation like concatenating 
 Thus, 
   
     import  'java.lang.System.out' as out
-
     s = true || 
          false   
     out:println(s)
-
     s = true and  
          false   
     out:println(s)
-
-
     s = " "  + 
        "aaa aa "  + 
        "xxxx" + 
        "z"
     out:println(s)
-
     s = 10 -   
          2
     out:println(s)
 
 works as expected.
-
 Special consideration is also being given to comma : "," so that : 
 
     out:printf("%s,%s,%s\n", 1 ,  // note the new line after ","
@@ -631,7 +647,7 @@ works as expected too!
 Like eternal rule "{ inside }" is a block. Space and tabs are bad idea to indent anything.
 That would destroy compression if need be. I do not want it. Note that Blocks does not - and I repeat - does not nest variables - does not take them in or out of scope. That is currently a flaw in the design - which we may or may to fix later. Thus, 
 
-    (njexl){ i = 0 ; {  j = 1 }  out:println(i+j) } // works.
+    (njexl){ i = 0 ; {  j = 1 }  write(i+j) } // works.
     1
     =>null
 
@@ -698,7 +714,6 @@ Fear not, you can cast an array to list straight by : list(). That gives you a m
 They are always modifiable. You can create a dictionary by dict() and pass two lists, first one is key list, 
 second one is value list. It would marry them up.
 
-
     (njexl){:}
     =>{}
     (njexl)d = {:}
@@ -707,7 +722,8 @@ second one is value list. It would marry them up.
     =>0
     (njexl)d
     =>{0=0}
-
+    (njexl)dict([1,2],[3,4]) // key list , value list 
+    =>{1=3, 2=4} // dictionary 
 
 ## Return
 
@@ -794,11 +810,9 @@ That thing is called anonymous function.
        
 We are filtering  everything that is (>= 2) within the list specified.
 For the set operations we are using int() of every value as the key.
- 
 
 ## List operations
 Various list operations are demonstrated - with some interesting power operations.
-
 
     (njexl)l = [1,2,3]
     =>@[1, 2, 3]
@@ -813,7 +827,6 @@ Now just like python : string*n catenated. Here,  string ** n catenated the stri
     =>njexl
     (njexl)s**-1
     =>lxejn
-
 
 ## Threading support
 nJexl has full threading support! That is to say, one can simply create thread by calling the function :
