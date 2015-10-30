@@ -544,6 +544,23 @@ are equivalent.
         y = 2;
     }
 
+#### else-if
+
+The syntactical sugar of if-else-if-else is also supported, 
+but due to a design flaw in parser, it has to be formatted well :
+
+    // note the __args__ : arguments to the script ; 
+    // bye ( perl die function, more soothing)
+    size(__args__) >= 1 or bye('Sorry, must have an arg!')
+    x = int( __args__[1] , 0 )
+    if ( x < 5 ){
+        write('less than 5')
+    } else if ( x < 10 ){
+        write('greater than or equal to 5 but less than 10')
+    } else {
+        write('greater than or equal to 10')
+    }
+
 
 #### for:  
  
