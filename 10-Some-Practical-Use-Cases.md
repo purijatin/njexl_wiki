@@ -6,6 +6,40 @@
 
 Thus, we showcase how a good theory can be used practically.
 
+## Restful API Calls 
+
+First one is shooting data back in JSON formt :
+
+    /* Example 1 : How darn easy it is to run restful */
+    _url_ = 'http://jsonplaceholder.typicode.com'
+    data = 'posts/1'
+    response = read( str:format("%s/%s", _url_ , data ) )
+    ro = json(response)
+    write(ro)
+
+This bugger sends data back in XML formt :
+
+    /*  Example 2 : How darn easy is to parameteraized stuff */
+    _url_ = 'http://www.thomas-bayer.com/sqlrest'
+    data = 'CUSTOMER/1'
+    response = read( str:format("%s/%s", _url_ , data ) )
+    ro = xml(response)
+    write(ro)
+
+Finally, I could not avoid showing this, this probably is cool :
+
+    /* Example 3, JSON with parameter passing */
+    _url_ = 'https://httpbin.org/get'
+    params = { 'foo' : 'bar' , 'complexity' : 'sucks'  }
+    data = lfold { _$_ + str:format("%s=%s&", $.key , $.value )  }(params, '' )
+    data = data[[0:size(data)-1]]
+    response = read( str:format("%s?%s", _url_ , data ) )
+    ro = json(response)
+    write(ro)
+
+It does tell you how easy it is to get things done, agreed?
+
+
 ## List Comprehension Examples 
 
 We start with : is a particular item in a list with property P, exist?
