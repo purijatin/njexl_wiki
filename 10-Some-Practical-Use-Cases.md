@@ -31,8 +31,7 @@ Finally, I could not avoid showing this, this probably is cool :
     /* Example 3, JSON with parameter passing */
     _url_ = 'https://httpbin.org/get'
     params = { 'foo' : 'bar' , 'complexity' : 'sucks'  }
-    data = lfold { _$_ + str:format("%s=%s&", $.key , $.value )  }(params, '' )
-    data = data[[0:size(data)-1]]
+    data = str{  str:format( "%s=%s" , $.key, $.value )  }( params.entrySet() , '&' )
     response = read( str:format("%s?%s", _url_ , data ) )
     ro = json(response)
     write(ro)
