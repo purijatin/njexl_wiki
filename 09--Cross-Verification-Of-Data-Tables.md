@@ -16,22 +16,18 @@ Suppose I have a file like this :
 
 To load the file in data matrix : 
 
-     		(njexl)import 'com.noga.njexl.lang.extension.dataaccess.DataMatrix' as matrix
-		=>class com.noga.njexl.lang.extension.dataaccess.DataMatrix
-		(njexl)matrix
-		=>class com.noga.njexl.lang.extension.dataaccess.DataMatrix
-		(njexl)m1 = matrix:file2matrix('../samples/test.tsv')
+		(njexl)m1 = matrix('../samples/test.tsv')
 		=>< S{ Number,First Name,Last Name,Points } , [[1, Eve, Jackson, 94], [2, John, Doe, 80], [3, Adam, Johnson, 67], [4, Jill, Smith, 50]] >
 
 ## Comparing with Other Tables 
 
 Suppose we want to find the diff of the same file with itself : 
 
-	(njexl)m1 = matrix:file2matrix('../samples/test.tsv')
+	(njexl)m1 = matrix('../samples/test.tsv')
 	=>< S{ Number,First Name,Last Name,Points } , [[1, Eve, Jackson, 94], [2, John, Doe, 80], [3, Adam, Johnson, 67], [4, Jill, Smith, 50]] >
-	(njexl)m2 = matrix:file2matrix('../samples/test.tsv')
+	(njexl)m2 = matrix('../samples/test.tsv')
 	=>< S{ Number,First Name,Last Name,Points } , [[1, Eve, Jackson, 94], [2, John, Doe, 80], [3, Adam, Johnson, 67], [4, Jill, Smith, 50]] >
-	(njexl)diff = matrix:diff(m1,m2)
+	(njexl)diff = m1.diff(m1,m2)
 	=>false : < [] [] []>
 
 This false basically says that the diff is *false*, i.e. the matrices are not different.
