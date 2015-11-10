@@ -370,6 +370,60 @@ This generates what it suppsoed to do :
     4 + 2 ==> 6
     4 + 2 ==> 42
 
+
+## More Jargons: Lambdas 
+
+From the theory perspective, lambdas are defined in [Lambda Calculus](https://en.wikipedia.org/wiki/Lambda_calculus). As usual, the jargon guys made a fuss out of it, but as of now, 
+we are using lambdas all along, for example :
+
+     list{ $** 2 }(1,2,3,4)
+
+The { $**2 } is a lambda. The parameter is implicit albeit, because it is meaningful that way.
+However, sometimes we need to pass named parameters.
+Suppose I want to create a 
+[function composition](https://en.wikipedia.org/wiki/Function_composition), first step 
+would be to apply it to a single function :
+
+     def  apply ( param , a_function ){
+         a_function(param)
+     }
+
+So, suppose we want to now apply aribitrary function :
+
+     apply( 10, def(a){ a** 2 }  )
+
+And now, we just created a lambda! The result of such an application would make
+apply function returing 100.
+
+Now, we can move on to :
+
+### Function Composition 
+
+    def compose (param,  a_function , b_function ){
+        // first apply a to param, then apply b to the result 
+        // b of a 
+        b_function ( a_function( param ) )
+     }
+
+Now the application :
+
+     compose( 10, def(a){ a ** 2 } ,  def(b){ b - 58 } )
+
+As usual, the result would be 42!
+
+Now, composition can be taken to extreme ... this is possible due to the arbitrary 
+length argument passing :
+
+    def compose (){
+        p = __args__  ; n = size( p ) 
+        n < 2 or bye('min 2 args are required!') 
+        i = p[0] ; p = p[[1:n-1]]
+        lfold{  $(_$_) }( p, i) 
+     }
+
+Formally this is a potential infinite function composition!
+
+
 ## Eventing 
 
 Events are what triggers a [state machine](https://en.wikipedia.org/wiki/Finite-state_machine) to change states. In functional paradigm, a state is encompassed by a function - or state change is encompassed by a function thereof.
