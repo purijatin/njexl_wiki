@@ -416,7 +416,7 @@ length argument passing :
 
     def compose (){
         p = __args__  ; n = size( p ) 
-        n < 2 or bye('min 2 args are required!') 
+        n >= 2 or bye('min 2 args are required!') 
         i = p[0] ; p = p[[1:n]]
         lfold{  $(_$_) }( p, i) 
      }
