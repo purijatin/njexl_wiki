@@ -13,7 +13,7 @@ Thus :
 
 
 ### Shebang support
-Like shell scripts, nJexl supports [SheBang](https://en.wikipedia.org/wiki/Shebang_(Unix).
+Like shell scripts, nJexl supports [SheBang](https://en.wikipedia.org/wiki/Shebang_(Unix)).
 Thus, a script :
 
     #!/usr/bin/java -jar /Codes/java/njexl/src/lang/target/njexl.lang-0.3-SNAPSHOT.one-jar.jar
@@ -430,7 +430,7 @@ whether the left collection is embedded in the right collection :
       [1,2] =~ [1, 2, 3 ]  // true 
       [3,4] =~ [1, 2, 3 ]  // false
       [3,4] =~ [1, 2, 3 , 4 ]  // true
-      [3,4] =~ [1, 2, 3 , ,5, 4 ]  // false
+      [3,4] =~ [1, 2, 3 , 5, 4 ]  // false
  
 
 #### (item) Not-In or Not-Match!~ :
@@ -516,10 +516,11 @@ Negative indices are supported, so :
 
 Note that
 
-    map['7']
+    map['7'] // map.get('7') : as in character 
 
 and
-     map[7]
+
+     map[7] // map.get(7) : as in integer 
 
 refer to different elements.
 Map elements with a numeric key may also be accessed using a dotted numeral, e.g.
@@ -567,7 +568,7 @@ but due to a design flaw in parser, it has to be formatted well :
  Loop through items of an Array, Collection, Map, Iterator or Enumeration, e.g.
 
     for(item : list) {
-        x = x + item; 
+        x += item; 
     }
 
 Where item and list are variables.
@@ -577,7 +578,7 @@ Where item and list are variables.
 Loop until a condition is satisfied, e.g.
 
     while (x lt 10) {
-        x = x + 2; 
+        x += 2; 
     }
 
 
@@ -836,9 +837,9 @@ Various list operations are demonstrated - with some interesting power operation
     (njexl)l**-1
     =>[3, 2, 1]
 
-Note that the power operator "**" works on String as well as lists.
+Note that the power operator "\*\*" works on String as well as lists.
 To reverse a string use string^-1. That should be awesome.
-Now just like python : string*n catenated. Here,  string ** n catenated the string n times.
+Now just like python : string \* n catenated. Here,  string \*\* n catenated the string n times.
 
     (njexl)s = "njexl"
     =>njexl
@@ -846,12 +847,13 @@ Now just like python : string*n catenated. Here,  string ** n catenated the stri
     =>lxejn
 
 ## Threading support
+
 nJexl has full threading support! That is to say, one can simply create thread by calling the function :
 thread() with suitable parameters which to be passed to the anonymous function block.
 
      t = thread{  write("I am a thread!") } ()
 
-Creates a thread - which just calls the out:println() call.
+Creates a thread - which just calls the write call.
 More of this in the threading section.
 
 
