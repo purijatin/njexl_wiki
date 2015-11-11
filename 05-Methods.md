@@ -424,10 +424,11 @@ length argument passing :
 Formally this is a potential infinite function composition!
 Thus, this call :
 
-    r = compose(6, def x(a){ a** 2} , def y(b){ b + 6 } )
+    // note the nameless-ness :)
+    r = compose(6, def (a){ a** 2} , def (b){ b + 6 } )
     write(r)
 
-Generates, the [answer to life, universe, and everything](https://www.google.co.in/search?client=safari&rls=en&q=the+answer+to+life+the+universe+and+everything&ie=UTF-8&oe=UTF-8&gfe_rd=cr&ei=EBhCVrPlAvPI8AeFm4GADA), as expected.
+generates, the [answer to life, universe, and everything](https://www.google.co.in/search?client=safari&rls=en&q=the+answer+to+life+the+universe+and+everything&ie=UTF-8&oe=UTF-8&gfe_rd=cr&ei=EBhCVrPlAvPI8AeFm4GADA), as expected.
 
 
 ## Eventing 
