@@ -322,12 +322,10 @@ If a method belongs to a collection, i.e Set, List, or Hash, then when it gets i
 through the collections accessor, it would have the *me* reference.
 
 
-    import 'java.lang.System.out' as out
-
     def z(){
-       out:println("Yes!")
+       write("Yes!")
        if ( #def me ){ 
-           out:printf("me exists and me is %s\n",me)
+           write("me exists and me is %s\n",me)
        }
     }
     d = { 'fp' : z }
@@ -348,12 +346,11 @@ Which produces the output :
 Closures are defined as This way in [WikiPedia](https://en.wikipedia.org/wiki/Closure_(computer_programming))
 As the first class citizen - this is easy for us here:
 
-    import 'java.lang.System.out' as out
     // this shows the nested function 
     def func(a){
         // here it is :
         r = def(b){
-           out:printf("%s + %s ==> %s\n", a,b,a+b)
+           write("%s + %s ==> %s\n", a,b,a+b)
         }
         return r // returning a function 
     }
@@ -444,11 +441,9 @@ which is essentially what it all means.
 
 In nJexl, functions are first class objects, hence, they carry their own execution information in bags, thus, one can add hooks before and after :
 
-    import 'java.lang.System.out' as out
-
-    def add(a,b){ out:println( a + b )}
-    before = def(){ out:printf("Before! %s \n" , __args__ ) }
-    after = def(){ out:printf("After! %s \n" , __args__ ) }
+    def add(a,b){ write( a + b )}
+    before = def(){ write("Before! %s \n" , __args__ ) }
+    after = def(){ write("After! %s \n" , __args__ ) }
     add.before.add( before )
     add.after.add( after )
     add(3,4)
