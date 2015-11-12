@@ -140,6 +140,29 @@ This is bad. What if you really want a fallback - when one can not type convert?
       (njexl)int('xx',42)
       =>42
 
+### Special Boolean Conversions 
+
+For boolean, sometime it is important to do a conditional matching:
+
+     x == o1 ? true : false 
+
+A pure form this can be put into conditional statement:
+
+     if ( x == o1 ) return true 
+     if ( x == o2 ) return true 
+     return null ;
+
+This can be attained simply by :
+      
+     x = 'boom'
+     bool( x , [ 'boom' , 'baam' ]  ) // returns true 
+     x = 'baam'
+     bool( x , [ 'boom' , 'baam' ]  ) // returns false 
+     x = 'foo'
+     bool( x , [ 'boom' , 'baam' ]  ) // returns null 
+
+### Big Types 
+
 Same with any other types. The functions DEC() and INT() can be used to convert things into big decimal and big integers. 
 
      (njexl)x=DEC(0.1)
@@ -163,7 +186,6 @@ Generally this is to be used to type promotion ( upward ) :
     =>class java.math.BigDecimal
 
 
-     
 ## Date & Time
 Simplification of date & time are premium from a testing perspective.
 Thus, we have much easier functions   
