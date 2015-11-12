@@ -188,6 +188,38 @@ This works, as expected.
     $ njexl ../samples/curry_sample.jexl
     hello!
 
+## Curry expressions as Referencs
+
+Let's see how the reference behaviour is in nJexl.
+
+    (njexl)x = [1,2]
+    =>@[1, 2]
+    (njexl)y = { 'x' : x }
+    =>{x=[I@5b37e0d2}
+    (njexl)x = [1,3,4]
+    =>@[1, 3, 4]
+    (njexl)y.x // x is not updated 
+    =>@[1, 2]
+
+Suppose you want a different behaviour, and that can be achived using Pointers/References.
+What you want is this :
+
+    (njexl)x = [1,2]
+    =>@[1, 2]
+    (njexl)y = { 'x' : 'x'  }
+    =>{x=x}
+    (njexl)`#{y.x}` // access as in currying stuff
+    =>@[1, 2]
+    (njexl)x = [1,3,4]
+    =>@[1, 3, 4]
+    (njexl)`#{y.x}` // as currying stuff, always updated 
+    =>@[1, 3, 4]
+
+So, in effect I am using a dictionary to hold *name* of a variable, instead of having 
+a hard variable reference, thus, when I am dereferencing it, I would get back the value
+if such a value exists! 
+
+
 ## Reflection 
 If currying is too hard to comprehend, then reflection is relatively simpler.
 To start with we first need to find the name of the methods defined 
