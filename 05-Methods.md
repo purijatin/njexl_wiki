@@ -427,6 +427,56 @@ Thus, this call :
 
 generates, the [answer to life, universe, and everything](https://www.google.co.in/search?client=safari&rls=en&q=the+answer+to+life+the+universe+and+everything&ie=UTF-8&oe=UTF-8&gfe_rd=cr&ei=EBhCVrPlAvPI8AeFm4GADA), as expected.
 
+## Operators on Functions 
+
+Functions support two operators :
+
+*  The '\*' operator for function composition 
+*  The  '\*\*' operator for exponentiation ( fixed point iteration )
+
+Let's have a demonstration :
+
+    // predecessor function 
+    def p(){ int( __args__[0] ) - 1 }
+    // successor function 
+    def s(){  int( __args__[0] ) + 1 }
+    // now use them 
+    write( list( s(0) , s(1) , s(2) ) )
+    write( list( p(3) , p(2) , p(1) ) )
+    I = s * p // identity function !
+    write( list( I(0) , I(1) , I(2) ) )
+    // power?
+    add_ten = s**10 
+    write( add_ten(0))
+    write( add_ten(10))
+
+The result is :
+
+    [1, 2, 3]
+    [2, 1, 0]
+    [0, 1, 2]
+    10
+    20
+
+### A nice way to Recursion  
+
+A fancy way fix recursion is with this operators, for example, 
+here is factorial :
+
+    def f(){ n = __args__[0] + 1 ; r = n * int ( __args__[1] ) ; [ n, r ] }
+    n = 5 // factorial 5 ?
+    factorial_n = f**n 
+    r = factorial_n(0,1)
+    write ( r[1] ) // prints 120 
+
+And here is fibonacci sequence :
+
+    def f( ) { p = __args__ ; n = __args__[0] + __args__[1] ; [ __args__[1] , n ] }
+    n = 5 
+    fibonacci_n = f**n 
+    r = fibonacci_n(0,1)
+    write ( r[1] ) // prints 8 
+
 
 ## Eventing 
 
