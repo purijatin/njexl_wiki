@@ -8,8 +8,8 @@
 * [Data Types](#data-types)
 * [Variables](#variables) 
 * [Operators](#operators)  
-* If/Elses 
-* Loops 
+* [If/Elses](#if-and-else) 
+* [Loops](#loops) 
 * Functions 
 * Closures 
 * Classes & Objects 
@@ -275,3 +275,151 @@ Method parameters are variables, which are used to pass the value inside a metho
 ##### Local Variables
 
 Local variables are variables declared inside a method. Local variables are only accessible from inside the method, but the objects you create may escape the method if you return them from the method. 
+
+## Operators
+
+An operator is a symbol that tells the compiler to perform specific mathematical or logical manipulations. nJexl is rich in built-in operators and provides following type of operators:
+
+* Arithmetic Operators
+
+* Relational Operators
+
+* Logical Operators
+
+* Bitwise Operators
+
+* Assignment Operators
+
+This chapter will examine the arithmetic, relational, logical, bitwise, assignment and other operators one by one.
+
+#### Arithmetic Operators
+
+There are following arithmetic operators supported :
+Assume variable A holds 10 and variable B holds 20, then:
+
+
+    +   Adds two operands   A + B will give 30
+    -   Subtracts second operand from the first A - B will give -10
+    *   Multiplies both operands    A * B will give 200
+    /   Divides numerator by de-numerator   B / A will give 2
+    %   Modulus Operator and remainder of after an integer division B % A will give 0
+
+#### Relational Operators
+
+    == or eq Checks if the values of two operands are equal or not, if yes then condition becomes true.  (A == B) is not true.
+    !=  or ne  Checks if the values of two operands are equal or not, if values are not equal then condition becomes true. (A != B) is true.
+    >  or gt Checks if the value of left operand is greater than the value of right operand, if yes then condition becomes true. (A > B) is not true.
+    <  or lt Checks if the value of left operand is less than the value of right operand, if yes then condition becomes true.    (A < B) is true.
+    >=  or ge Checks if the value of left operand is greater than or equal to the value of right operand, if yes then condition becomes true. (A >= B) is not true.
+    <=  or le Checks if the value of left operand is less than or equal to the value of right operand, if yes then condition becomes true.    (A <= B) is true.
+
+#### Logical Operators
+
+There are following logical operators supported:
+Assume variable A holds _true_ and variable B holds _false_ , then:
+
+
+    &&  or and  Called Logical AND operator. If both the operands are non zero then condition becomes true. (A && B) is false.
+    ||  or or Called Logical OR Operator. If any of the two operands is non zero then condition becomes true. (A || B) is true.
+    ! or not  Called Logical NOT Operator. Use to reverses the logical state of its operand. If a condition is true then Logical NOT operator will make false.    !(A && B) is true.
+
+
+#### Assignment Operators
+
+     =     C = A + B will assign value of A + B into C.
+     +=    C += A is equivalent to C = C + A
+     -=    C -= A is equivalent to C = C - A
+
+## If and Else
+
+Following is the general form of a typical decision making IF...ELSE structure found in most of the programming languages:
+
+![Conditional](http://www.tutorialspoint.com/scala/images/scala_decision_making.jpg)
+
+
+#### The if Statement
+An if statement consists of a Boolean expression followed by one or more statements.
+
+##### Syntax
+The syntax of an if statement is:
+
+    if ( Boolean_expression ) {
+       // Statements will execute if the Boolean expression is true
+    }
+
+If the boolean expression evaluates to true then the block of code inside the if statement will be executed. If not, the first set of code after the end of the if statement (after the closing curly brace) will be executed.
+
+##### Example
+
+      x = 10
+      if( x < 20 ){
+         write("This is if statement")
+      }
+
+This would produce following result:
+
+     This is if statement
+
+
+#### The if...else Statement
+
+An if statement can be followed by an optional else statement, which executes when the Boolean expression is false.
+
+##### Syntax
+The syntax of a if...else is:
+
+    if( Boolean_expression ) {
+       //Executes when the Boolean expression is true
+    } else {
+       //Executes when the Boolean expression is false
+    }
+
+##### Example:
+
+      var x = 30;
+      if( x < 20 ){
+         write("This is if statement");
+      }else{
+         write("This is else statement");
+      }
+
+This would produce the following result:
+
+    This is else statement
+
+#### The if...else if...else Statement:
+
+An if statement can be followed by an optional else if...else statement, which is very useful to test various conditions using single if...else if statement.
+When using if , else if , else statements there are few points to keep in mind.
+
+* An if can have zero or one else's and it must come after any else if's.
+
+* An if can have zero to many else if's and they must come before the else.
+
+* Once an else if succeeds, none of he remaining else if's or else's will be tested.
+
+##### Syntax
+
+    if(Boolean_expression 1){
+       //Executes when the Boolean expression 1 is true
+    }else if(Boolean_expression 2){
+       //Executes when the Boolean expression 2 is true
+    }else if(Boolean_expression 3){
+       //Executes when the Boolean expression 3 is true
+    }else {
+       //Executes when the none of the above condition is true.
+    }
+
+##### Example 
+
+      var x = 30;
+      if( x == 10 ){
+         write("Value of X is 10");
+      }else if( x == 20 ){
+         write("Value of X is 20");
+      }else if( x == 30 ){
+         write("Value of X is 30");
+      }else{
+         write("This is else statement");
+      }
+
