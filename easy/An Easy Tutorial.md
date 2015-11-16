@@ -3,14 +3,17 @@
 ## Contents 
 
 * [Overview](#overview) 
+    *[About nJexl](#about-njexl)
+    *[nJexl Vs. Java](#njexl-vs-java)
 * [Environment Setup](#environment-setup)
 * [Basic Syntax](#basic-syntax) 
+    * [First Program](#first-program)
 * [Data Types](#data-types)
 * [Variables](#variables) 
 * [Operators](#operators)  
 * [If/Elses](#if-and-else) 
 * [Loops](#loops) 
-* Functions 
+* [Functions](#functions) 
 * Closures 
 * Classes & Objects 
 * I/O 
@@ -23,28 +26,30 @@ in mind.
 
 nJexl smoothly integrates features of object-oriented and functional languages and is interpreted to run on the Java Virtual Machine. 
 
+### About nJexl
+
 Here is the important list of features, which make nJexl a first choice of the business developers.
 
-### nJexl is Embeddable in Java Code
+#### nJexl is Embeddable in Java Code
 
 nJexl scripts are easy to be invoked as stand alone scripts, also from withing java code, 
 thus making integration of external logic into proper code base easy.
 
-### nJexl is functional:
+#### nJexl is functional:
 nJexl is also a functional language in the sense that every function is a value and because every value is an object so ultimately every function is an object.
 
 nJexl provides a lightweight syntax for defining anonymous functions, it supports higher-order functions, it allows functions to be nested, and supports [currying](https://en.wikipedia.org/wiki/Currying). 
 
-### nJexl is dynamically typed:
+#### nJexl is dynamically typed:
 nJexl, unlike other statically typed languages, does not expect you to provide type information. You don't have to specify a type in most cases, and you certainly don't have to repeat it.
 
-### nJexl gets interpreted on the JVM:
+#### nJexl gets interpreted on the JVM:
 nJexl is interpreted by a Java runtime. This means that nJexl and Java have a common runtime platform. You can easily move from Java to nJexl and vice versa.
 
-### nJexl can Execute any exisiting Java Code:
+#### nJexl can Execute any exisiting Java Code:
 nJexl enables you to use all the classes of the Java SDK's in nJexl, and also your own, custom Java classes, or your favourite Java open source projects.
 
-### nJexl vs Java:
+### nJexl vs Java
 
 nJexl has a set of features, which differ from Java. Some of these are:
 
@@ -240,6 +245,18 @@ The characters are either printable unicode character or are described by escape
 
 _null_ is a specific literal, equivalent to C,C++ NULL and Java's null.
 
+##### List Literal 
+
+A list / array literal is defined as :
+
+     l  = [ 1 , 2, 3, 4 , 'foo' , x ]
+
+##### Dict Literal 
+
+A Dict literal is defined as :
+
+     h  = { 1 : 2, 3 : 4 , 'foo' :  x }
+
 
 ## Variables 
 
@@ -422,4 +439,183 @@ When using if , else if , else statements there are few points to keep in mind.
       }else{
          write("This is else statement");
       }
+
+
+## Loops
+
+There may be a situation, when you need to execute a block of code several number of times. In general, statements are executed sequentially: The first statement in a function is executed first, followed by the second, and so on.
+
+Programming languages provide various control structures that allow for more complicated execution paths.
+
+A loop statement allows us to execute a statement or group of statements multiple times and following is the general from of a loop statement in most of the programming languages:
+
+![Loop Structure](http://www.tutorialspoint.com/scala/images/loop_architecture.jpg)
+
+nJexl provides three types of loops to handle looping requirements. 
+
+#### Go To Statement 
+
+The syntax of _goto_ is very simple to understand :
+
+
+    // initialize 
+    x = 10 
+    #start // start of the loop, labels are marked with #
+    x -= 1 // decrement 
+    write(x) 
+    goto  #start x > 0 // condition 
+    write('out of loop')
+
+Note that _goto_ can be unconditional too. 
+
+#### While 
+
+The same loop can be represented with while loop,
+it is very simple to understand. 
+
+##### Syntax of While 
+ 
+      while ( boolean-condition-true ){
+           // execute this body 
+      }
+
+##### Example 
+
+    // initialize 
+    x = 10 
+    while ( x > 0 ) { // start of the loop
+        x -= 1 // decrement 
+        write(x) 
+    }
+    write('out of loop')
+
+#### For 
+
+The same loop can be represented with for loops : 
+
+##### Syntax of for with conditions   
+ 
+      for ( init-statement ; condition ; post-statement ){
+           // execute this body if condition is true
+           // then execute post statement 
+      }
+
+##### Example 
+
+    for ( x = 10 ; x > 0 ; x-= 1 ){ 
+        write(x) 
+    }
+    write('out of loop')
+
+##### The Range type 
+
+In nJexl a range is a kind of lazy [iterator](https://en.wikipedia.org/wiki/Iterator).
+This is defined as :
+
+      (njexl)r = [10:0]
+      =>[10:0:-1]
+
+This shows that the iterator starts at 10, takes a step -1, and ends by reaching 0.
+For loops in nJexl can take iterators, hence : 
+
+##### Syntax of for with iterator  
+ 
+      for ( item  : iterator ){
+           // execute this body 
+      }
+
+##### Example 
+
+    for ( x : [10:0] ){ 
+        write(x) 
+    }
+    write('out of loop')
+
+#### Continue
+
+Sometimes it is needed to skip the rest of the loop body, when some condition 
+gets satisfied. For example, take the [FizzBuzz](https://en.wikipedia.org/wiki/Fizz_buzz) problem.
+
+A very unoptimal solution would be :
+
+    for ( i : range ){
+        if ( i % 15 ) { 
+             write ( 'FizzBuzz' )
+        } else if ( i % 5 )  { 
+             write ( 'Buzz' )
+        } else if ( i % 3 ){
+            write ( 'Fizz' )
+        } else {
+            write (i)
+        }
+    }
+
+Notice that too many else-if one needs to code.
+A slightly more optimal solution would be :
+
+    for ( i : range ){
+        div_by_3 = i % 3 
+        div_by_5 = i % 5 
+        
+        if ( !div_by_3 and !div_by_5 ) { 
+             write ( i )  
+             continue // do not execute code below
+        } 
+        if ( div_by_3 )  { 
+             write ( 'Fizz' )
+        } 
+        if ( div_by_5 ) {
+            write ( 'Buzz' )
+        } 
+    }
+
+Now if one notices that continue, it is like the _if_ is added to the continue, 
+so more succint way one can write it :
+
+    for ( i : range ){
+        
+        div_by_3 = i % 3
+        div_by_5 = i % 5 
+        // skip code - when - after executing this ( optional )
+        continue ( !div_by_3 and !div_by_5 ) { write ( i ) }  
+         
+        if ( div_by_3 ) write ( 'Fizz' )
+    
+        if ( div_by_5 ) write ( 'Buzz' )
+        
+    }
+
+#### Break
+
+It is sometimes needed to find some item with matching characteristics, 
+for example, find the element in a list which is greater than a specified one :
+    
+    x = null 
+    l = [ 1, 10, 98, 4, 23 ,21 , 0 ]
+    for ( i : l ){
+        if ( i > 50 ) { 
+            x = i 
+            break // breaks the loop
+        } 
+    }
+    if ( x != null ){
+        write ( "found item : %d \n" , x )
+    }
+
+This can also be written in succint way :
+    
+    x = null 
+    l = [ 1, 10, 98, 4, 23 ,21 , 0 ]
+    for ( i : l ){
+        // break - when - after executing the block (optional ) 
+        break ( i > 50 ) { x = i } 
+    }
+    if ( x != null ){
+        write ( "found item : %d \n" , x )
+    }
+
+
+## Functions 
+
+
 
