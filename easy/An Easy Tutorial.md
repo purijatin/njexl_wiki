@@ -13,6 +13,12 @@
 * [Operators](#operators)  
 * [If/Elses](#if-and-else) 
 * [Loops](#loops) 
+     * [Goto](#goto)
+     * [While](#while)
+     * [For](#for)
+     * [Continue](#continue)
+     * [Break](#break)
+
 * [Functions](#functions) 
 * Closures 
 * Classes & Objects 
@@ -63,6 +69,7 @@ nJexl has a set of features, which differ from Java. Some of these are:
 
 * Closures.
 
+[Back to Contents](#contents)
 
 ## Environment Setup
 
@@ -105,6 +112,9 @@ Open a comamnd prompt, and type :
 
 It should produce the prompt (njexl).
 
+[Back to Contents](#contents)
+
+
 ## Basic Syntax 
 
 If you have some understanding on C,C++, Java, then it will be very easy for you to learn nJexl. The biggest syntactic difference between nJexl and other languages is that the ';'' statement end character is optional. When we consider a nJexl program it can be defined as a collection of objects that communicate via invoking each others methods. 
@@ -145,7 +155,9 @@ Save this as a file "hello.jxl" and run :
     Hello, nJexl!
     C:\>
 
-### Basic Syntax
+[Back to Contents](#contents)
+
+## Basic Syntax
 
 #### Case Sensitivity 
 nJexl is case-sensitive, which means identifier Hello and hello would have different meaning.
@@ -195,6 +207,8 @@ nJexl is a line-oriented language where statements may be terminated by semicolo
 A semicolon at the end of a statement is usually optional. You can type one if you want but you don't have to if the statement appears by itself on a single line. On the other hand, a semicolon is required if you write multiple statements on a single line:
 
     s = "hello"; write(s)
+
+[Back to Contents](#contents)
 
 ## Data Types
 
@@ -257,6 +271,7 @@ A Dict literal is defined as :
 
      h  = { 1 : 2, 3 : 4 , 'foo' :  x }
 
+[Back to Contents](#contents)
 
 ## Variables 
 
@@ -292,6 +307,8 @@ Method parameters are variables, which are used to pass the value inside a metho
 ##### Local Variables
 
 Local variables are variables declared inside a method. Local variables are only accessible from inside the method, but the objects you create may escape the method if you return them from the method. 
+
+[Back to Contents](#contents)
 
 ## Operators
 
@@ -347,12 +364,13 @@ Assume variable A holds _true_ and variable B holds _false_ , then:
      +=    C += A is equivalent to C = C + A
      -=    C -= A is equivalent to C = C - A
 
+[Back to Contents](#contents)
+
 ## If and Else
 
 Following is the general form of a typical decision making IF...ELSE structure found in most of the programming languages:
 
 ![Conditional](http://www.tutorialspoint.com/scala/images/scala_decision_making.jpg)
-
 
 #### The if Statement
 An if statement consists of a Boolean expression followed by one or more statements.
@@ -440,6 +458,7 @@ When using if , else if , else statements there are few points to keep in mind.
          write("This is else statement");
       }
 
+[Back to Contents](#contents)
 
 ## Loops
 
@@ -614,6 +633,7 @@ This can also be written in succint way :
         write ( "found item : %d \n" , x )
     }
 
+[Back to Contents](#contents)
 
 ## Functions 
 
