@@ -471,7 +471,7 @@ here is factorial :
 
 And here is fibonacci sequence :
 
-    def f( ) { p = __args__ ; n = __args__[0] + __args__[1] ; [ __args__[1] , n ] }
+    def f( ) { p = __args__ ; n = p[0] + p[1] ; [ p[1] , n ] }
     n = 5 
     fibonacci_n = f**n 
     r = fibonacci_n(0,1)

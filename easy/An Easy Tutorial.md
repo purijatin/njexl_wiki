@@ -2,12 +2,12 @@
 
 ## Contents 
 
-* [Overview](#Overview) 
-* [Environment Setup](#Environment%20Setup)
-* Basic Syntax 
-* Data Types 
-* Variables 
-* Operators 
+* [Overview](#overview) 
+* [Environment Setup](#environment-setup)
+* [Basic Syntax](#basic-syntax) 
+* [Data Types](#data-types)
+* [Variables](#variables) 
+* [Operators](#operators)  
 * If/Elses 
 * Loops 
 * Functions 
@@ -99,3 +99,179 @@ Open a comamnd prompt, and type :
      (njexl)
 
 It should produce the prompt (njexl).
+
+## Basic Syntax 
+
+If you have some understanding on C,C++, Java, then it will be very easy for you to learn nJexl. The biggest syntactic difference between nJexl and other languages is that the ';'' statement end character is optional. When we consider a nJexl program it can be defined as a collection of objects that communicate via invoking each others methods. 
+
+#### Methods 
+A method is basically a behavior. A class can contain many methods. It is in methods where the logics are written, data is manipulated and all the actions are executed.
+
+#### Object 
+ Objects have states and behaviors. Example: A dog has states - color, name, breed as well as behaviors - wagging, barking, eating. An object is an instance of a class.
+
+#### Class 
+A class can be defined as a template/blueprint that describes the behaviors/states that object of its type support.
+
+#### Fields 
+Each object has its unique set of instant variables, which are called fields. An object's state is created by the values assigned to these fields.
+
+### First Program:
+
+#### Interactive Mode Programming
+Invoking the interpreter without passing a script file as a parameter brings up the following prompt:
+
+    C:\>njexl
+    (njexl)write("Hello, nJexl!")
+    Hello, nJexl!
+    =>null
+    (njexl)
+
+#### Script Mode Programming
+
+    /* This is my first nJexl program.  
+    * This will print 'Hello World' as the output
+    */
+    write('Hello, nJexl!')
+
+Save this as a file "hello.jxl" and run :
+
+    C:\>njexl tmp.jxl
+    Hello, nJexl!
+    C:\>
+
+### Basic Syntax
+
+#### Case Sensitivity 
+nJexl is case-sensitive, which means identifier Hello and hello would have different meaning.
+
+#### Method & Class 
+Are defined with "_def_"  keyword.
+
+#### Identifiers
+
+All nJexl components require names. Names used for objects, classes, variables and methods are called identifiers. A keyword cannot be used as an identifier and identifiers are case-sensitive. There are following four types of identifiers supported :
+
+##### Alphanumeric identifiers
+An alphanumeric identifier starts with a letter or underscore, which can be followed by further letters, digits, or underscores. The '$' character is a reserved keyword in nJexl and should not be used in identifiers. Following are legal alphanumeric identifiers:
+
+     age, salary, _value,  __1_value
+
+Following are illegal identifiers:
+
+123abc, -salary
+
+##### Operator identifiers
+An operator identifier consists of one or more operator characters. Operator characters are printable ASCII characters such as +, :, ?, ~ or #. Following are legal operator identifiers:
+
+     + ++ ::: <?> :>
+
+#### Keywords:
+
+Some are reserved words, and can not be used as identifiers.
+Some are semi reserved, and can be used as identifiers.
+
+##### Reserved Kewords
+
+     if  else where while for import as continue break size empty #def def 
+
+
+#### Comments 
+
+    /* This is my first nJexl program.  
+    * This will print 'Hello World' as the output
+    */
+    write('Hello, nJexl!') // writes the string back , line comment 
+    ## This is also another line comment 
+
+
+#### Newline Characters:
+nJexl is a line-oriented language where statements may be terminated by semicolons (;) or newlines. 
+A semicolon at the end of a statement is usually optional. You can type one if you want but you don't have to if the statement appears by itself on a single line. On the other hand, a semicolon is required if you write multiple statements on a single line:
+
+    s = "hello"; write(s)
+
+## Data Types
+
+nJexl is untyped in most cases. That actually means that the interpreter handles the type for you,
+and you dont need to bother about it, for 99.999999% of the cases. But for some cases you need types, 
+hence some types can be converted :
+
+     byte, char, short, int, long, float, double, big int, big decimal, string, method , class 
+
+Are the types supported. There is no way one can be sure about the type assigned, and there is no type.
+
+#### Basic Literals 
+
+The rules nJexl uses for literals are simple and intuitive. 
+This section explains all basic Literals.
+
+##### Integer Literals
+Integer literals are usually of type Int, or of type Long when followed by a L or l suffix. Here are some integer literals:
+
+    0 // simple in decimal 
+    035 // in octal 
+    21 
+    0xFFFFFFFF  // in hex 
+    0777L // octal decimal Long 
+
+##### Floating Point Literals
+Floating point literals are of type Float when followed by a floating point type suffix F or f, and are of type Double otherwise. Here are some floating point literals:
+
+    0.0 
+    1e30f 
+    3.14159f 
+    1.0e100
+    .1
+
+##### Boolean Literals
+
+The boolean literals _true_ and _false_ are members of type Boolean.
+
+##### String Literals
+
+A string literal is a sequence of characters in  single or double quotes. 
+The characters are either printable unicode character or are described by escape sequences. Here are some string literals:
+
+    "Hello,\nWorld!"
+    "This string contains a \" character."
+
+##### The special *null* literal 
+
+_null_ is a specific literal, equivalent to C,C++ NULL and Java's null.
+
+
+## Variables 
+
+Variables are nothing but reserved memory locations to store values. This means that when you create a variable you reserve some space in memory.
+
+Based on the data type of a variable, the interpreter allocates memory and decides what can be stored in the reserved memory. Therefore, by assigning different data types to variables, you can store integers, decimals, or characters in these variables.
+
+#### Variable Declaration
+
+nJexl has the different syntax for the declaration of variables and they can be defined as valueFollowing is the syntax to define a variable using var keyword:
+
+     var x = 0 // this is a global variable 
+
+Local variables can be defined using : 
+
+     z = 0 // local variable 
+
+There is no data type, of course one can force-cast it :
+
+     z = int( '34' ) // z is integer 34 
+
+##### Multiple assignments
+
+     #(a,b,c,d) = [  10 , '20' , true , null ]
+
+Now a is 10, b is string '20' , c is _true_ and d is set to _null_ value.
+
+##### Method Parameters
+
+Method parameters are variables, which are used to pass the value inside a method when the method is called.Method parameters are only accessible from inside the method but the objects passed in may be accessible from the outside, if you have a reference to the object from outside the method. Method parameters are always mutable.
+
+
+##### Local Variables
+
+Local variables are variables declared inside a method. Local variables are only accessible from inside the method, but the objects you create may escape the method if you return them from the method. 
