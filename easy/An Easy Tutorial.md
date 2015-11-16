@@ -13,11 +13,11 @@
 * [Operators](#operators)  
 * [If/Elses](#if-and-else) 
 * [Loops](#loops) 
-     * [Goto](#goto)
-     * [While](#while)
-     * [For](#for)
-     * [Continue](#continue)
-     * [Break](#break)
+    * [Goto](#goto)
+    * [While](#while)
+    * [For](#for)
+    * [Continue](#continue)
+    * [Break](#break)
 
 * [Functions](#functions) 
 * Closures 
@@ -636,6 +636,91 @@ This can also be written in succint way :
 [Back to Contents](#contents)
 
 ## Functions 
+
+A function is a group of statements that together perform a task. You can divide up your code into separate functions. How you divide up your code among different functions is up to you, but logically, the division usually is so that each function performs a specific task.
+
+A function definition can appear anywhere in a source file and nJexl permits nested function definitions, that is, function definitions inside other function definitions.
+
+### Function Definition
+
+Function definition has the following form:
+
+    def [ optinal-functionName ] ([optional-list-of-parameters]) {
+       function body
+    }
+
+##### Example 
+
+      def add_int( a, b ) {
+          sum = int(a,0) + int(b,0)
+          return sum
+      }
+
+One should note the casting into integer by the standard function _int_(x,opt-value).
+As this is a dynamic language with no type check, it is quite possible that the params
+a, b are not even integer. Thus, int() function, when failed to cast them back to integer,
+casts them to 0. 
+
+Now, to call the function :
+
+     r = add_int(6,36)
+     write(r) // prints 42
+
+##### The \_\_args\_\_ construct 
+
+nJexl methods can take arbitrary no. of parameters, hence, there has to be 
+a way to get the arguments given at runtime. This is done by the \_\_args\_\_ construct.
+
+      // no arguments mean nothing actually 
+      def add_ints() {
+          sum = 0
+          // the arguments gets stored in the __args__ 
+          for ( x : __args__ ){
+               sum += int(x,0)
+          }
+          sum // implicit return 
+      }
+      r = add_ints(2, 4, 8, 12, 16)
+      write(r) // prints 42
+
+##### Mixing of named params with unnamed 
+
+nJexl methods can be made to mixed with arbitrary no. of parameters :
+
+      // This has two formal arguments, but can take more... 
+      def add_ints(a,b) {
+          sum = int(a,0) + int(b,0)
+          // the arguments gets stored in the __args__ 
+          for ( i = 2 ; i < size( __args__ ) ; i+= 1 ) {
+               sum += int( __args__[i] ,0)
+          }
+          sum // implicit return 
+      }
+      r = add_ints(2, 4, 8, 12, 16)
+      write(r) // prints 42
+
+
+##### Default values for named params  
+
+nJexl methods can be made to give default values for named parameters:
+
+      // This has two formal arguments with default 
+      def add_ints(a = 6 , b = 36 ) {
+          sum = int(a,0) + int(b,0)
+          // the arguments gets stored in the __args__ 
+          for ( i = 2 ; i < size( __args__ ) ; i+= 1 ) {
+               sum += int( __args__[i] ,0)
+          }
+          sum // implicit return 
+      }
+      r = add_ints()
+      write(r) // prints 42
+      write( add_ints(6) ) // prints 42
+
+[Back to Contents](#contents)
+
+### Storing Functions in Variables 
+
 
 
 
