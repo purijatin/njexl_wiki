@@ -13,7 +13,7 @@
 * [Operators](#operators)  
 * [If/Elses](#if-and-else) 
 * [Loops](#loops) 
-    * [Goto](#goto)
+    * [The Infamous Goto](#goto)
     * [While](#while)
     * [For](#for)
     * [Continue](#continue)
@@ -263,13 +263,15 @@ _null_ is a specific literal, equivalent to C,C++ NULL and Java's null.
 
 A list / array literal is defined as :
 
-     l  = [ 1 , 2, 3, 4 , 'foo' , x ]
+     l = [ 1 , 2, 3, 4 , 'foo' , x ]
+     y = l[3] // y is assigned 4, 0 based index  
 
 ##### Dict Literal 
 
 A Dict literal is defined as :
 
      h  = { 1 : 2, 3 : 4 , 'foo' :  x }
+     x = h[1] // x is assigned 2 
 
 [Back to Contents](#contents)
 
@@ -472,7 +474,7 @@ A loop statement allows us to execute a statement or group of statements multipl
 
 nJexl provides three types of loops to handle looping requirements. 
 
-#### Go To Statement 
+#### GoTo
 
 The syntax of _goto_ is very simple to understand :
 
@@ -480,8 +482,8 @@ The syntax of _goto_ is very simple to understand :
     // initialize 
     x = 10 
     #start // start of the loop, labels are marked with #
-    x -= 1 // decrement 
     write(x) 
+    x -= 1 // decrement 
     goto  #start x > 0 // condition 
     write('out of loop')
 
@@ -719,8 +721,113 @@ nJexl methods can be made to give default values for named parameters:
 
 [Back to Contents](#contents)
 
-### Storing Functions in Variables 
+### Functions as Variables 
+
+Functions are objects and hence can be stored in a variable.
+So, this become perfectly valid :
 
 
+      def add_int( a, b ) {
+          sum = int(a,0) + int(b,0)
+          return sum
+      }
+      fp = add_int // store the function reference in fp variable
+      write ( fp(10,20) ) // prints 30 
+
+#### Defined as Variables
+
+Functions can be defined as a variable, for example :
+
+      fp = def ( a, b ) { // fp is assigned an anonymous function 
+          sum = int(a,0) + int(b,0)
+          return sum
+      }
+      write ( fp(10,20) ) // prints 30 
+
+#### Inside other Data Structures 
+
+Functions can be stored inside other data structures once created like variables :
+
+      add = def ( a, b ) {  int(a,0) + int(b,0) }
+      sub = def ( a, b ) {  int(a,0) - int(b,0) }
+      operations = { '+' : add , '-' : sub }
+
+This has practical usage, for example, suppose one wants to create a dynamic expression 
+evaluator, where based on the operator, operation has to be performed :
+
+       if ( op == '+') return add( a,b) 
+       if ( op == '-') return sub( a,b) 
+       write ( 'No matching operator!' )
+
+Instead of this, one can do this now :
+
+       f = operations[op] 
+       if ( f != null ) return f(a,b) 
+       write ( 'No matching operator!' )
+
+#### As argument to another function 
+
+Suppose we want to create a minimum function over a list.
+To do so, we need to compare items in the list :
+
+     def find_min(l){
+         min = l[0]
+         for ( i = 1 ; i < size(l) ; i += 1 ){
+             if ( l[i] < min ) min = l[i]
+         }
+         return min 
+    }
+
+The problem is, we do not know what the items of the list are, 
+and if they are comparable using "<" operator.
+
+So, suppose that we create a function compare :
+
+     l = [ { 'x' : 10 } ,  { 'x' : 100 } , { 'x' : 30 } , { 'x' : 1 } ]
+     // elementary compare function 
+     def compare(a,b){
+         if ( a.x < b.x ) return true 
+         return false 
+     }
+
+And then pass it to the find_min :
+
+     def find_min(l){
+         min = l[0]
+         for ( i = 1 ; i < size(l) ; i += 1 ){
+             if ( compare ( l[i] , min ) ) { min = l[i] }
+         }
+         return min 
+    }
+
+The problem here is that the function is hard coded inside find_min.
+To avoid that:
+
+    def find_min(l, cmp_func ){
+         min = l[0]
+         for ( i = 1 ; i < size(l) ; i += 1 ){
+             if ( cmp_func ( l[i] , min ) ) { min = l[i] }
+         }
+         return min 
+    }
+    // call 
+    find_min ( l, compare )
+
+The problem with this is now that one always has to pass an implementation
+of the comapre function. Can we pass a suitable default? Yes, we can :
+
+    default = def(a,b){ a < b }
+    def find_min(l, cmp_func = default ){
+         min = l[0]
+         for ( i = 1 ; i < size(l) ; i += 1 ){
+             if ( cmp_func ( l[i] , min ) ) { min = l[i] }
+         }
+         return min 
+    }
+    // call 
+    min = find_min ( [ 20, 0 , 10]  ) // using default 
+    write(min)
+
+[Back to Contents](#contents)
 
 
