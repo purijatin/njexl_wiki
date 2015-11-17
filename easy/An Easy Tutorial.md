@@ -816,8 +816,8 @@ To avoid that:
 The problem with this is now that one always has to pass an implementation
 of the comapre function. Can we pass a suitable default? Yes, we can :
 
-    default = def(a,b){ a < b }
-    def find_min(l, cmp_func = default ){
+
+    def find_min(l, cmp_func = def(a,b){ a < b } ){
          min = l[0]
          for ( i = 1 ; i < size(l) ; i += 1 ){
              if ( cmp_func ( l[i] , min ) ) { min = l[i] }
