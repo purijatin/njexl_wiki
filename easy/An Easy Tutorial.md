@@ -3,10 +3,8 @@
 ## Contents 
 
 * [Overview](#overview) 
-
     * [About nJexl](#about-njexl)
     * [nJexl Vs. Java](#njexl-vs-java)
-
 * [Environment Setup](#environment-setup)
 * [Basic Syntax](#basic-syntax) 
     * [First Program](#first-program)
@@ -24,6 +22,7 @@
 * [Functions](#functions)
      * [Definition](#function-definition) 
 * [Closures](#closures) 
+    * [Partial Function](#partial-function)
 * Classes & Objects 
 * I/O 
 
@@ -854,3 +853,29 @@ Now, factor has a reference to a variable outside the function but in the enclos
       write ( multiplier(14) ) // prints 42 
 
 Above function references factor and reads its current value each time. If a function has no external references, then it is trivially closed over itself. No external context is required.
+
+### Partial Function
+
+The issue with the previous closure was that the global factor change would 
+effect the yield of the function multiplier.
+Is there a way to fix it so that the parameters stays *bound* to the function.
+Yes, there is, it is called partial function :
+
+
+    // a function returning another 
+    def mult( a ){
+       // this is the function , completion 
+       def arg2( b ){
+           a * b 
+       }
+       // return the partial function 
+       return arg2
+    }
+    // closure of mult : partial
+    m1 = mult(3)
+    // complete closure 
+    write( m1(14) ) // prints 42
+
+A more elaborate discussion can be found [here](http://stackoverflow.com/questions/11590847/partial-application-and-closures).
+
+[Back to Contents](#contents)
