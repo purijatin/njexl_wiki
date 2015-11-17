@@ -18,13 +18,17 @@
     * [For](#for)
     * [Continue](#continue)
     * [Break](#break)
-
 * [Functions](#functions)
      * [Definition](#function-definition) 
+     * [Anonymous Functions](#defined-as-variables)
 * [Closures](#closures) 
     * [Partial Function](#partial-function)
-* Classes & Objects 
-* I/O 
+* [I/O](#input-output)
+     * [Read](#read)
+     * [Write](#write)
+* [Special Functions](#special-functions)
+     * [Collections](#collections)
+     * [Avoiding Iteration](#avoiding-iteration)
 
 ## Overview 
 
@@ -72,6 +76,8 @@ nJexl has a set of features, which differ from Java. Some of these are:
 * Closures.
 
 [Back to Contents](#contents)
+
+In case you want to delve down further, read the [complete wiki](https://github.com/nmondal/njexl/wiki).
 
 ## Environment Setup
 
@@ -879,3 +885,207 @@ Yes, there is, it is called partial function :
 A more elaborate discussion can be found [here](http://stackoverflow.com/questions/11590847/partial-application-and-closures).
 
 [Back to Contents](#contents)
+
+## Input Output
+
+nJexl is open to make use of any Java objects and java.io.File is one of the objects which can be used in Scala programming to read and write files. However, it makes stuff a much easier by overloading 
+many fuctionality in the same functions.
+Let's start with read.
+
+### Read 
+
+Suppose we need to read from a file named 'test.txt'. To do so, first we check 'test.txt' :
+
+    C:\>type test.txt
+    Hello, World!
+
+Now, we want to read this file, so :
+
+    (njexl)lines = read('test.txt')
+    =>Hello, World!
+
+Suppose there are multiple lines :
+
+    (njexl)lines = read('test.txt')
+    =>Hello, World!
+    Another Line!
+    Third line!
+
+Now, we can read even from the command line :
+
+    /* This is how you read from console */
+    x = read() // reads a line 
+    write(x) // writes back 
+
+Read can also read from an url, and generate a get request.
+
+### Write 
+
+We are already familiar with write() call.
+Generally whatever you want to write back, you put through write.
+
+Write also takes format arguments, just like [String.format](http://docs.oracle.com/javase/8/docs/api/java/util/Formatter.html).
+
+Write writes back to the console, as well as named files :
+
+     write('test.txt', "Hello, I am writing in here!")
+
+will create a file 'test.txt' and write this line to it.
+
+Write can also write to an url, that is generate a post request.
+
+
+## Special Functions
+
+There are many special functions those create specific data structures, for example 
+
+ * list
+ * array 
+ * dict 
+
+These creates collection types.
+
+### Collections
+
+#### List and Array 
+
+Creating a mutable list is easy :
+
+    (njexl)l =  list()
+    =>[]
+    (njexl)l =  list(1,2,3)
+    =>[1, 2, 3]
+
+Accessing individual elements can be done :
+
+    (njexl)l[0]
+    =>1
+
+Finding size of a list is trivial with special function named *size* :
+
+    (njexl)size(l)
+    =>3
+
+And same is the case for an array :
+
+    (njexl)a =  array(1,2,3)
+    =>@[1, 2, 3]
+
+
+#### Dictionary 
+
+The function *dict* creates a dictionary :
+
+    (njexl)d = dict()
+    =>{} // empty dictionary 
+
+It can be created from a two lists, one holding the keys, another the values :
+
+    (njexl)d = dict([1,2], [3,4])
+    =>{1=3, 2=4}
+
+
+### Avoiding Iteration
+
+Suppose one wants to generate a list from an exisiting list, for example, square all numbers 
+between 1 to n ?
+Generally one would write an iteration like :
+
+    n = 10
+    l = list()
+    for ( x  : [1:n + 1] ){
+        l += x**2 // square and then add, the '+' is overloaded
+    }
+    write(l)
+
+The same code can be achived by the list() function :
+
+    (njexl)list{ $**2 }([1:11])
+    =>[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+
+Here we notice that the code you would have written inside the for-body, you write 
+in the curly braces after the function _list_ . Also, we note that there is this implicit variable "$"
+that holds the current element of the list.
+
+This anonymous function block is called Anonymous Parameter to the function, any function can have it, 
+but not all functions process it.
+
+#### Searching for Something 
+
+One needs to search for some specific element inside a collection.
+
+##### Index 
+
+Suppose I want to find the first element of the list which is greater then 10:
+
+    (njexl)y = list{ $**2 }([1:11])
+    =>[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+    (njexl)index{ $ > 10 }(y) // returns the index
+    =>3
+    (njexl)y[3] // get the item ?
+    =>16
+
+This is the job of the _index_ function. Here one specifies the condition which should become true, 
+to say when the searching ended.
+
+##### Select 
+
+However, sometimes we need to search the whole collection, and select elements where the elements match some criterion : 
+
+    (njexl)select{ $ > 10 }(y)
+    =>[16, 25, 36, 49, 64, 81, 100]
+
+Now, suppose I also want to return the indices, as well as the elements :
+
+    (njexl)s = {:}
+    =>{}
+    (njexl)select{ where($ > 10){ s[_] = $ } }(y)
+    =>[16, 25, 36, 49, 64, 81, 100]
+    (njexl)s
+    =>{3=16, 4=25, 5=36, 6=49, 7=64, 8=81, 9=100}
+
+Now, the variable ( hash ) "s" has the selection items, with index -> value form.
+
+##### Partition 
+
+Well, sometime we do not only want to select items, but also reject some, basically we conditionally 
+parition the items : 
+
+    (njexl)partition{ $ > 10 }(y)
+    =>@[[16, 25, 36, 49, 64, 81, 100], [1, 4, 9]]
+
+So, the items which got selected are returne as first item of an array, 
+while the items which got rejected are the seccond item of the array.
+
+##### Folds
+
+How should I add a list of integers?  That brings the issue of [folding](https://en.wikipedia.org/wiki/Fold_(higher-order_function)) here.
+
+Generally, the sum function can be written as :
+
+    sum = 0 
+    for ( x : range ){
+        sum += x 
+    }
+    sum 
+
+The corresponding recursive code can be :
+
+     def sum( iterator , cur_sum ){
+        if ( ! iterator.hasNext() ) return cur_sum
+        cur_sum += iterator.next()
+        return sum( iterator, cur_sum )
+     }
+     // call it 
+     r = sum(l,0)
+
+But, recursion is bad, and thus the same code can be done with fold functions ( either lfold or rfold ) :
+
+    (njexl)y
+    =>[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+    (njexl)lfold{  _$_ + $ }(y,0)
+    =>385
+
+Note that the initial seed is passed as 0, the anonymous parameter passed tells to add the 
+current element with partial result generated thereby , which is accessed by  " \_$\_ " .
+
