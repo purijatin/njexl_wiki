@@ -30,6 +30,7 @@
      * [Collections](#collections)
      * [Avoiding Iteration](#avoiding-iteration)
 * [Sample Programs](#sample-programs)
+     * [Measuring Speed of Execution](#speed-of-execution)
      * [FizzBuzz](#fizz-buzz)
      * [Scramble](#scramble)
      * [Next Higher Permutation](#next-higher-permutation)
@@ -1137,6 +1138,8 @@ And the result comes :
 
      840 // python is *SLOWER*, enjyoy.
 
+[Back to Contents](#contents)
+
 ### Fizz Buzz 
 We encountered this before, and solved it, using if elses.
 Now, let's put that code to test, for speed:
@@ -1203,6 +1206,8 @@ You would be astonished by the result :
 Thus, we have established that conditionals are bad in almost all cases in a declarative
 paradigm, pick the hash one instead. Same is true for Python.
 
+[Back to Contents](#contents)
+
 ### Scramble
 
 I am sure you guys have know the game of jumbled up words.
@@ -1257,6 +1262,8 @@ That would be :
     =>bnorw
     (njexl)sorted_eng_dict[key] // and you have the list !
 
+[Back to Contents](#contents)
+
 ### Next Higher Permutation
 
 The problem is as follows :
@@ -1294,6 +1301,30 @@ Thus, the starting number is , in indexed form :
 Such that d[i] <= d[i+1] holds.
 Now, next permutation becomes next integer in base *n* such 
 that all digits are distinct!  Wow!
+
+Here is code which finds the permuation index of a number:
+
+    /* Finds the current permutation index */
+    def perm_index(i){
+       x = str(i)
+       d = dict()
+       i = 0 
+       x = x.toCharArray()
+       y = sorta(x)
+       for ( c : y ){
+          if ( !(c @ d) ){
+            d[c] = list()
+          }
+          d[c].add(i)
+          i += 1
+       }
+       // this is the index
+       s = lfold{ _$_ + d[$].remove(0)  }(x,'')
+    }
+    is = int ( __args__[1] )
+    write(is)
+    write( perm_index(is) )
+
 
 With this knowedlge lets generate the next permutation of the list [0,1,2,3] ?
 We can, with this :
@@ -1353,4 +1384,4 @@ make that change (and there is a bug... find it?) :
     write(is)
     write( next_higher_perm(is) )
 
-
+[Back to Contents](#contents)
