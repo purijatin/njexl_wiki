@@ -29,6 +29,12 @@
 * [Special Functions](#special-functions)
      * [Collections](#collections)
      * [Avoiding Iteration](#avoiding-iteration)
+* [Sample Programs](#sample-programs)
+     * [FizzBuzz](#fizz-buzz)
+     * [Scramble](#scramble)
+     * [Next Higher Permutation](#next-higher-permutation)
+     * [Water Clogging](#water-clogging)
+
 
 ## Overview 
 
@@ -602,16 +608,12 @@ Now if one notices that continue, it is like the _if_ is added to the continue,
 so more succint way one can write it :
 
     for ( i : range ){
-        
         div_by_3 = i % 3
         div_by_5 = i % 5 
         // skip code - when - after executing this ( optional )
-        continue ( !div_by_3 and !div_by_5 ) { write ( i ) }  
-         
+        continue ( !div_by_3 and !div_by_5 ) { write ( i ) }       
         if ( div_by_3 ) write ( 'Fizz' )
-    
         if ( div_by_5 ) write ( 'Buzz' )
-        
     }
 
 #### Break
@@ -1088,4 +1090,266 @@ But, recursion is bad, and thus the same code can be done with fold functions ( 
 
 Note that the initial seed is passed as 0, the anonymous parameter passed tells to add the 
 current element with partial result generated thereby , which is accessed by  " \_$\_ " .
+
+## Sample Programs 
+
+>Theory and practice are the same in theory, but in practice, they differ.
+
+Thus, we need to apply what we learned in practice.
+Hence, we showcase some *interview twisters* that people ( mostly wrongly ) asks
+in the interviews ( trust me, they are not useful to judge ones ability).
+
+### Speed of Execution 
+Here we show-case that for a declarative language ( rather an interpreted language )
+if-elses are costly than that of lower level stuff.
+
+May we introduce a new friend of us the _clock_ function.
+
+    (njexl)clock()
+    =>@[0, null]
+
+This function *clocks* the time taken ( in nano secs ) to execute the anonymous
+block passed into this. As one can see, an empty block results in almost 0 nanosec 
+processor time.
+
+Now let's run some more :
+
+    (njexl)clock{ for(i : [0:9999999]){ x = i } }()
+    =>@[631216236, 9999998]
+
+Ok, that is, it actually works. Now, we have this issue of converting nano to millisec, 
+so : 
+
+    (njexl)_o_[0]/1000000.0 ## Note, the _o_ stores the last result in REPL
+    =>631.216236 ## pretty fast? 
+
+Compare this with Python:
+
+```python
+ts = time.time()*1000.0
+for i in xrange(0,9999999):
+    x = i
+te = time.time()*1000.0
+print(int(te - ts))
+
+And the result comes :
+
+     840 // python is *SLOWER*, enjyoy.
+
+### Fizz Buzz 
+We encountered this before, and solved it, using if elses.
+Now, let's put that code to test, for speed:
+
+    /* The iteration and conditional model */
+    def fb1(range){
+        for ( i : range ){
+            div_by_3 = i % 3
+            div_by_5 = i % 5 
+            // skip code - when - after executing this ( optional )
+            continue ( !div_by_3 and !div_by_5 ) { /* write ( i ) */ }       
+            if ( div_by_3 ) { /* write ( 'Fizz' ) */  }
+            if ( div_by_5 ) { /* write ( 'Buzz' ) */  }
+        }
+    }
+    // test that 
+    #(o,e) = clock{ fb1([0:100]) }()
+    write(o/1000000.0)
+    /* Pure If/Else */
+    def fbI(range){
+      for ( i : range ){
+          if ( i % 3 == 0 ){
+              if ( i % 5 == 0 ){ 
+                /*  write('FizzBuzz') */ 
+              } else {
+                  /* write('Fizz') */
+              }
+          }else{
+              if ( i % 5 == 0 ){
+                /* write('Buzz') */
+                }else{
+                  /*  write(i) */
+                }
+          }
+      }
+    }
+    // is  faster?
+    #(o,e) = clock{ fbI([0:100]) }()
+    write(o/1000000.0)
+    /* The hash based model */
+    def fb2(range){
+      d = { 0 : 'FizzBuzz' , 
+            3 : 'Fizz' , 
+            5 : 'Buzz' ,  
+            6 : 'Fizz', 
+           10 : 'Buzz' , 
+           12 : 'Fizz' }
+      for ( x : range ){
+           r = x % 15  
+           continue ( r @ d ){ /* write ( d[r]) */ }
+           /* write(x) */ 
+      }
+    }
+    // is indeed fastest?
+    #(o,e) = clock{ fb2([0:100]) }()
+    write(o/1000000.0)
+
+You would be astonished by the result :
+
+    9.465945 // conditional 1
+    7.408961 // conditional If-else
+    4.067821 // hash access 
+
+Thus, we have established that conditionals are bad in almost all cases in a declarative
+paradigm, pick the hash one instead. Same is true for Python.
+
+### Scramble
+
+I am sure you guys have know the game of jumbled up words.
+For example, someone gives you "Bonrw" and you need to say : "Brown" !
+Suppose I tell you to write a program to do it. 
+It can be done in the hard way or the easy way.
+
+#### Hard Way, Permutation 
+The hard way is to permutate the word – and then get a match that exists
+in the dictionary. 
+
+That brings the question, how can I write a permutation program, 
+such that given a word, it generates all possible permuation 
+of the letters of the word?
+
+First we need to create a variable holding the string :
+
+    (njexl)word = "Bonrw"
+    =>Bonrw
+
+we are supposed to permutate 
+the indices... so :
+
+     (njexl)t = [0:size(word)].list
+     =>[0, 1, 2, 3, 4]
+
+Now the permuation problem formally is, well see it :
+
+     (njexl)p = join{ #|set($)| == #|word|  }(__args__= list{ t }([0: #|word|]) )
+
+With this, p holds the permuation of indices.
+Now, we generate the permuation of the words from this *p* :
+
+     perms = list{  str( list{ word[$] }($) ,'' ) }(p)
+
+And I am done!
+Now, I need to figure out if any of these *perms* are in an English dictionary, 
+which is easy :
+
+     select{ $ @ some_eng_dict }(perm)
+
+And that solves it, the really hard way!
+
+#### Easy Way, Light Bulb
+But there is a better way, what if we sort the all the words in a dictionary  letter by letter and then use that sorted word as a key? Then we can easily solve the  problem by 
+sorting on the letters of the word given and then checking if that as key exist
+in the dictionary, then, find all possible matches !
+
+That would be :
+
+    (njexl)key = str( sorta( word.toLowerCase().toCharArray ) , '')
+    =>bnorw
+    (njexl)sorted_eng_dict[key] // and you have the list !
+
+### Next Higher Permutation
+
+The problem is as follows :
+
+>given an integer, find the next integer which has the same digits,
+but is greater than the input integer.
+
+The hard way is easy to do here:
+
+* Find all permuations of the integer string
+* casting them back to integer 
+* Sort these integers
+* Find the one immediately larger than the input integer
+
+#### High Complexity Implementation
+
+     // suppose "p" has the permuations, so step 2
+     perms = list{  int ( str( list{ word[$] }($) ,'' ) ) }(p)
+     // step 3
+     perms = sorta(perms)
+     // step 4
+     i = index( x < $ )(perms)
+     perms[i] // is the answer
+
+#### Next Permutation
+
+To do an optimal solution, one needs to understand the notion of the next permutation.
+Suppose the length of the integer as string is *n*.
+Imagine that we are starting with base *n*.
+Thus, the starting number is , in indexed form :
+
+      0    1    2    3 ...   n-2    n - 1 
+    d[0] d[1] d[2] d[3]    d[n-2]  d[n-1] 
+
+Such that d[i] <= d[i+1] holds.
+Now, next permutation becomes next integer in base *n* such 
+that all digits are distinct!  Wow!
+
+With this knowedlge lets generate the next permutation of the list [0,1,2,3] ?
+We can, with this :
+
+    def next_perm(s){
+       b = #|s| 
+       n = INT(s, b)
+       yet = true 
+       while ( yet ){
+          // cool big integer arithmetic, so :
+          n+= 1 
+          t = str(n,b) // back to base b rep 
+          if ( #|t| < b ){  t = '0' + t }
+          // back to array of digits
+          u = set( t.toCharArray() )
+          // are the digits distinct?
+          yet = (#|u| != b)
+       }
+       return t // yep 
+    }
+    // to test it 
+    is = '0123'
+    write(is)
+    n = is 
+    for ( i = 0 ; i < 4 ; i += 1 ){
+        n = next_perm(n)
+        write(n)
+    }
+
+But wait, we did not actually use an integer here as input, so let us 
+make that change (and there is a bug... find it?) :
+
+    /* Finds the next higher permutation */
+    def next_higher_perm(i){
+       x = str(i)
+       s = str([0:#|x|].list,'')
+       b = #|s| 
+       n = INT(s, b)
+       y = i 
+       while ( y <= i  ){
+         yet = true 
+         while ( yet ){
+            n+= 1 
+            t = str(n,b)
+            if ( #|t| < b ){  t = '0' + t }
+            u = set( t.toCharArray() )
+            yet = (#|u| != b)
+         }
+         // now t has the list, so :
+         y = list{ x[$ - char('0')] }(t.toCharArray() )
+         y = int ( str(y,'') ) // bug in this line?
+       }
+       y 
+    }
+    // run the tests from command line 
+    is = int ( __args__[1] )
+    write(is)
+    write( next_higher_perm(is) )
+
 

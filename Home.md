@@ -21,7 +21,10 @@ After cloning JEXL - and modifying it real heavy - a public release in a public 
 seemed a better approach. There, multiple people can look into it, rather than one lone ranger working from his den.
 And hence nJexl was born. The *n* stands for Neo, not Noga, which is, by the way, my nick name.
 
-Another note, this actually was an open challenge [here](http://steve-yegge.blogspot.in/2006/03/execution-in-kingdom-of-nouns.html)
+A [very fast introduction](https://github.com/nmondal/njexl/wiki/0-An-Easy-Tutorial) can be used to start using it. 
+
+### Note on Java
+This actually was an open challenge [here](http://steve-yegge.blogspot.in/2006/03/execution-in-kingdom-of-nouns.html)
 
 >A noted PhD from Sun, read this essay, and had this to say: 
 "hmm, chuckle :) This guy has too much time on his hands ! he should be doing useful work, or inventing a new language to solve the problems. Its easy to throw stones - harder to actually roll up your sleeves and fix an issue or two, or write/create a whole new language, and then he should be prepared to take the same criticism from his peers the way he's dishing it out for others. Shame - I thought developers were constructive guys and girls looking to make the lives of future software guys and girls easier and more productive, not self enamouring pseudo-intellectual debaters, as an old manager of mine used to say in banking IT - 'do some work' !"
@@ -64,7 +67,6 @@ the source can be compiled. Some tests fails, so it is ok.
 
 Should do the job fine.
 Now, if you want to experience the nJexl, go to the target folder, and type in : 
-
 
        java -jar njexl.lang-0.3-SNAPSHOT.jar 
 
@@ -118,7 +120,7 @@ If you use them with your sublime text editor - then typical jexl script file lo
 
 Happy Coding!
 
-# Final Words from Ryan Dahl
+### Final Words from Ryan Dahl
 
 My experience in Industry is aptly summarized by [Ryan Dahl](https://en.wikipedia.org/wiki/Node.js) 
 in [here](http://harmful.cat-v.org/software/node.js) , the creator of Node.js :
