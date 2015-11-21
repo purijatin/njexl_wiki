@@ -1288,21 +1288,42 @@ The hard way is easy to do here:
      i = index( x < $ )(perms)
      perms[i] // is the answer
 
-#### Next Permutation
+#### Using Permutation Index
 
-To do an optimal solution, one needs to understand the notion of the next permutation.
+To do a slightly better  solution, one needs to understand 
+the notion of the permutation index.
 Suppose the length of the integer as string is *n*.
-Imagine that we are starting with base *n*.
-Thus, the starting number is , in indexed form :
+Suppose we sort the digits of the number and then 
+order them below :
 
-      0    1    2    3 ...   n-2    n - 1 
+      0    1    2    3 ...   n-2     n-1 
     d[0] d[1] d[2] d[3]    d[n-2]  d[n-1] 
 
-Such that d[i] <= d[i+1] holds.
-Now, next permutation becomes next integer in base *n* such 
-that all digits are distinct!  Wow!
+Such that d[i] <= d[i+1] holds. 
+This would be the starting number to generate the permutation index.
+Now, this indices 012...(n-2)(n-1) is representable in the 
+base *n* form.
 
-Here is code which finds the permuation index of a number:
+Next permutation of this indices becomes next integer in base *n* such 
+that all digits are distinct! 
+This indices in base *b* form are known as permutation index.
+
+Given I have the permutation indices of a number, 
+we know that next base *n* number higher than that of this index
+represented in base *n* may be the higher permutation ( may not be also, 
+because digits can be repeating!)
+
+Thus, easiest way to achive this is to :
+ 
+ * Generate the permutation index of the number  
+ * switch to base *b*, 
+ * generate the next higher permutation index ( just addition of 1 in base *b* ) 
+ * check if this number has all digits distinct & has same no. of digits as input
+ * check if this number is indeed higher than the input
+
+[Back to Contents](#contents)
+
+Thus, the code looks like this :
 
     /* Finds the current permutation index */
     def perm_index(i){
@@ -1320,68 +1341,32 @@ Here is code which finds the permuation index of a number:
        }
        // this is the index
        s = lfold{ _$_ + d[$].remove(0)  }(x,'')
+       return [ s , y]
     }
-    is = int ( __args__[1] )
-    write(is)
-    write( perm_index(is) )
-
-
-With this knowedlge lets generate the next permutation of the list [0,1,2,3] ?
-We can, with this :
-
-    def next_perm(s){
-       b = #|s| 
-       n = INT(s, b)
-       yet = true 
-       while ( yet ){
-          // cool big integer arithmetic, so :
-          n+= 1 
-          t = str(n,b) // back to base b rep 
-          if ( #|t| < b ){  t = '0' + t }
-          // back to array of digits
-          u = set( t.toCharArray() )
-          // are the digits distinct?
-          yet = (#|u| != b)
-       }
-       return t // yep 
-    }
-    // to test it 
-    is = '0123'
-    write(is)
-    n = is 
-    for ( i = 0 ; i < 4 ; i += 1 ){
-        n = next_perm(n)
-        write(n)
-    }
-
-But wait, we did not actually use an integer here as input, so let us 
-make that change (and there is a bug... find it?) :
-
-    /* Finds the next higher permutation */
+    /* Next Higher permutation */
     def next_higher_perm(i){
-       x = str(i)
-       s = str([0:#|x|].list,'')
-       b = #|s| 
-       n = INT(s, b)
-       y = i 
-       while ( y <= i  ){
-         yet = true 
-         while ( yet ){
-            n+= 1 
-            t = str(n,b)
-            if ( #|t| < b ){  t = '0' + t }
-            u = set( t.toCharArray() )
-            yet = (#|u| != b)
+      // get the permutation index 
+      #(pi, y ) = perm_index(i)
+      n = #|pi| // the base 
+      si = str(i) // the string representation 
+      h = INT(pi,n)  // higher perm index 
+      while ( true ){
+         h += 1 // higher it 
+         s = str(h,n) 
+         if ( #|s| > n ){ return 'No Higher Permutation Possible!' }
+         if ( #|s| < n ){ s = '0' + s } // when a perm starts with 0
+         if ( #|set( s.toCharArray() )| == n ){
+            // Possible to get something here : back to normal int 
+            hp = lfold{ _$_ + y[int($)] }( s.toCharArray() ,'')
+            hp = int(hp)
+            if ( hp > i ) { return hp } // this is the result
          }
-         // now t has the list, so :
-         y = list{ x[$ - char('0')] }(t.toCharArray() )
-         y = int ( str(y,'') ) // bug in this line?
-       }
-       y 
+      } 
     }
-    // run the tests from command line 
     is = int ( __args__[1] )
     write(is)
     write( next_higher_perm(is) )
 
 [Back to Contents](#contents)
+
+
