@@ -1369,4 +1369,38 @@ Thus, the code looks like this :
 
 [Back to Contents](#contents)
 
+#### A more Optimal Solution 
+
+We note that the problem can be reformulated as:
+
+> For a number of length *n* find i-k , i such that :
+  * d[i-k] < d[i] 
+  * i is minimum
+  * k is minimum 
+
+Hence, this code is slightly optimal :
+
+    /* Next Higher permutation */
+    def next_higher_perm(x){
+      si = str(x).toCharArray()
+      k = #|si| - 1
+      while ( k >= 1 ){
+        for ( i = k - 1 ; i >=0 ; i-= 1 ){
+           if ( si[k] > si[i] ){  
+              t = si[k] ; si[k] = si[i] ; si[i] = t ;
+              return str(si,'') 
+           }
+        }
+        k -= 1
+     }
+     return 'None Found!'
+    }
+    is = int ( __args__[1] )
+    write(is)
+    write( next_higher_perm(is) )
+
+[Back to Contents](#contents)
+
+
+
 
