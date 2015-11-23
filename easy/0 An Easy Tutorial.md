@@ -34,7 +34,7 @@
      * [FizzBuzz](#fizz-buzz)
      * [Scramble](#scramble)
      * [Next Higher Permutation](#next-higher-permutation)
-     * [Water Clogging](#water-clogging)
+     * [Random No. Generation](#random-computing)
 
 
 ## Overview 
@@ -1401,6 +1401,45 @@ Hence, this code is slightly optimal :
 
 [Back to Contents](#contents)
 
+## Random Computing
 
+Sometimes it is of importance to get data from random range.
+We will showcase some examples for this.
 
+The handy function is :
 
+    (njexl)r = random()
+    =>java.security.SecureRandom@6438a396
+
+### Numbers within a Range
+
+Suppose I need to generate an integer between 100000:500000.
+There are many ways to do it. 
+
+#### Base Offset Solution 
+
+Observe that :
+
+     500000 = 400000 + 100000
+
+So, we can split the distribution as :
+
+    (njexl) x = 100000 + r.nextInt(400000)
+
+The same can be done, easily with :
+    
+    (njexl) x =  random(100000 , 500000)
+
+But then, this begs the question will this *nextInt()* distribute the 
+numbers *uniformly* enough? 
+
+#### Random Digits Solution 
+
+Another way to look at it would be generate the digits at random.
+We notice that the first digit would be between [1:5] , and 
+rest 5 digits (at iteration of range [0:5] ) can take values between [0:10].   
+Thus, we can generate individual digits easily :
+
+    (njexl)x = lfold{ _$_ * 10  + random([0:10]) }([0:5], random([1:5]) )
+
+In this case the individual digits are generated at random.
