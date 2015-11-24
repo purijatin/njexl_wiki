@@ -1,5 +1,44 @@
-# Theory of Types 
- 
+# Types and Their Conversions 
+
+## Contents 
+
+ * [Overview](#overview)
+ * [Defined Objects](#defined-objects)
+ * [Literal Types](#literal-types)
+     * [String](#string)
+     * [Boolean](#boolean)
+     * [Integer Family](#natural-numbers)
+     * [Floating Family](#rational-numbers)
+     * [Automatic Type Recognition](#automatic-type-assignment)
+  * [Neumeric Type Conversion](#neumeric-type-conversion)
+     * [Special Boolean](#special-boolean-conversion)
+     * [Big Types](#big-types)
+  * [Date & Time](#date-time)   
+  * [Strings](#strings)
+  * [Type Identification](#type-identification)
+      * [Type Similarity](#type-similarity)
+  * [The str() Function](#the-str-function)
+  * [Collections](#collections)
+     * [Size Empty and Mod](size-empty-and-mod)
+     * [Anonymous Functions](#anonymous-functions)
+     * [Array](#array)
+     * [Lists](#lists)
+     * [Sets](#sets)
+     * [Multiset](#multiset)
+     * [Hashes and Dictionaries](#hashes-and-dictionaries)
+     * [String Operations On Collections](#string-operations-on-collections)
+     * [Linearizing Tuple](#linearizing-tuple)
+ * [Range Data Type](#range-data-type)
+     * [Long Range](#long-range)
+     * [Date & Time](#date-time-range)
+     * [String or Alphabet Range](#string-or-alphabet-range)
+     * [Range In Reverse](#range-in-reverse)
+     * [Range Checking](#range-checking)
+     * [Collection Splicing](#collection-object-splicing)
+
+
+## Overview
+
 The general types which can be converted are : 
       
     type(x) // tells what type x is
@@ -20,7 +59,7 @@ The general types which can be converted are :
     dict(...) // a dictionary 
     [x:y:z] // is a range type -- notably of lang or Joda DateTime 
 
-## The Define[d]s
+## Defined Objects
 In a scripting language, it is important to understand that variables gets declared on the fly.
 Thus, it is important to know whether or not a variable is defined or not. That gets solved with the trick : 
  
@@ -31,37 +70,32 @@ Thus, it is important to know whether or not a variable is defined or not. That 
     (njexl)#def(x.y) // function form --> again
     =>false
 
-### Getting Objects Defined in the Script 
-Defined get's used as to find script objects like methods and classes.
-    
-    def generic(){
-       write("I am generic function")
-    }
-    def gen_before(){
-       write("I am generic before : " + __args__ )
-    }
-    m = #def( 'my:generic' )
-    write(m)
+Now we can define x :
 
-Note that the *write* function writes back to the console, more about it later.
-When we run this script, we get : 
-  
-    njexl ../src/lang/samples/tmp.jxl 
-    ScriptMethod{ name='generic', instance=false}
-    
-It returned the method which got defined by the name 'generic'.
-In the same way, it can return class too.
+    (njexl)x = 'abc'
+    =>abc
+    (njexl)#def x
+    =>true      // this fine 
+    (njexl)#def x.length()
+    =>true  // fine too : length() function exists 
+    (njexl)#def x.l 
+    =>false // not fine, there is no field in string as "l"
 
+[Back to Contents](#contents)
 
-## The Literals
+## Literal Types
 
 Literals are stuff those are terminal node of a language grammar, essentially constant values which get's assigned to variables.
 So we start with the primitive ( albeit boxed ) types : 
+
+#### String 
 
     (njexl)x='hello'
     =>hello
     (njexl)type(x)
     =>class java.lang.String
+
+#### Boolean
 
 Then we have boolean.
 
@@ -69,6 +103,8 @@ Then we have boolean.
      =>true
      (njexl)type(x)
      =>class java.lang.Boolean
+
+#### Natural Numbers
 
 Now, we have integer family ( natural numbers ) : 
 
@@ -85,6 +121,8 @@ Now, we have integer family ( natural numbers ) :
      (njexl)type(x)
      =>class java.math.BigInteger
      
+
+#### Rational Numbers
 
 And then we have rational types - the floating point numbers : 
 
@@ -104,7 +142,10 @@ And then we have rational types - the floating point numbers :
     =>1.0001010101000000000000101E-8
     (njexl)type(x)
     =>class java.math.BigDecimal
-   
+
+[Back to Contents](#contents)
+
+#### Automatic Type Assignment
 
 Thus we see that the type assignment is pretty much magical.
 However, one can force it to be a specific type. In that case: 
@@ -123,12 +164,12 @@ However, one can force it to be a specific type. In that case:
     =>class java.math.BigInteger
 
 
+## Numeric Type Conversion 
 
-## General Numeric Type Conversion 
-
-The general idea is to convert type peacefully, i.e. without any stupidity called exception.
-Primitive types are primitive, hence they are non null, and hence nullables can be used to 
-to convert an object peacefully. If it can not, it would return null.
+The general idea is to convert type peacefully, 
+i.e. without any stupidity called exception.
+Primitive types are primitive, hence they are non null, 
+and hence nullables can be used to convert an object peacefully. If it can not, it would return null.
 
     (njexl)int('xx')
     =>null
@@ -140,7 +181,7 @@ This is bad. What if you really want a fallback - when one can not type convert?
       (njexl)int('xx',42)
       =>42
 
-### Special Boolean Conversions 
+### Special Boolean Conversion
 
 For boolean, sometime it is important to do a conditional matching:
 
@@ -185,6 +226,7 @@ Generally this is to be used to type promotion ( upward ) :
     (njexl)type(x)
     =>class java.math.BigDecimal
 
+[Back to Contents](#contents)
 
 ## Date & Time
 Simplification of date & time are premium from a testing perspective.
@@ -197,7 +239,8 @@ Thus, we have much easier functions
 
 
 The string conversion is easy with str(). But in what format?
-If one is using date() object - then the format used is [Java Date Format](http://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html).
+If one is using date() object - then the format used is 
+[Java Date Format](http://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html).
 
 In any case - the formatting can be changed : 
 
@@ -228,11 +271,20 @@ For invalid dates, it would return null. No leniency. Thus:
     (njexl)date('20150222')
     =>Sun Feb 22 00:00:00 IST 2015
 
-### Valid Date / Time
-If you are trying to convert a string to a date/time     
+#### Valid Date / Time
+If you are trying to convert a string to a date/time you may want to check
+if the result is proper or not:
 
+    (njexl)str(date())
+    =>20151124
+    (njexl)date('20151401')
+    =>null
 
-### Strings 
+This *null* value tells you that the date string is wrong.
+
+[Back to Contents](#contents)
+
+## Strings 
 Strings are not much interesting - apart from : 
 
     (njexl)s="hi all!"
@@ -261,6 +313,9 @@ Another way to use the same size functionality is to use #|expr|.
     =>7
 
 Which is much more accessible short hand.
+
+## Type Identification 
+
 The type works as expected : 
 
     (njexl)type(0)
@@ -278,6 +333,8 @@ The type works as expected :
     (njexl)type(time())
     =>class org.joda.time.DateTime
 
+
+#### Type Similarity
 
 The specific operator *isa* lets you know if one object type is actually of another type or not : 
 
@@ -304,6 +361,8 @@ And then, finally -- Integer/Numeric types are well converted :
     =>
     (njexl)char('Z')
     =>Z
+
+[Back to Contents](#contents)
 
 ## The str() function 
 
@@ -338,6 +397,16 @@ That is darn good. Now then, this can be implicitly used in comparing floating p
 Thus, it is not truncate, but it is -- round() that is taking place.
 Hence it is very important for testing and business process.
 
+For the type *Integer likes* the str() function defines base conversion into string:
+
+    (njexl)x = 31
+    =>31
+    (njexl)str(x,2)
+    =>11111
+    (njexl)str(x,5)
+    =>111 
+
+[Back to Contents](#contents)
 
 # Collections 
 
@@ -368,10 +437,10 @@ Now then size() is a kind of bad way of representing things so we have #|expr| o
     (njexl)type(_o_) ## a trick, the output is stored as _o_
     =>class java.math.BigDecimal
 
-      
+
 Thus, #|expr| also is abs() function, which is important for Business Logic and Validation.
 
-## Difference in size() and #|| operator
+## Size Empty and Mod
 
 The clear difference of operation is the treatment of null.
 Sometimes you need to use size of null as 0. 
@@ -396,6 +465,21 @@ along with the very specific :
 
     (njexl)null == x
     =>true
+
+If one does not care about the null or empty, that is :
+
+    (njexl)empty(null)
+    =>true
+    (njexl)empty([])
+    =>true
+    (njexl)empty(list())
+    =>true
+    (njexl)empty({:})
+    =>true
+    (njexl)empty({1:0})
+    =>false
+
+[Back to Contents](#contents)
 
 Also every collection is indexable, col[x] is valid for all of them. And that includes for Sets too.
 
@@ -455,6 +539,8 @@ What's that? WHERE is proverbial *where* in SQL. When the expression for when is
 Inside the block the $ = int($) assigning the value of the element back after transform!
 How cool is that?
 
+[Back to Contents](#contents)
+
 ## Sets
 Sets are lists where occurrences are not repeated.
 Thus : 
@@ -476,7 +562,6 @@ Should not they be all 1 ? You bet they should be, in that case :
 
     (njexl)s=set{int($)}(l)
     =>S{ 1 }
-
 
 just works!  
 
@@ -516,6 +601,8 @@ It basically saying that for the key 1, both left and right multisets are having
 But, for the key 2, left and right multisets are having different values , left : 2 and right : 1.
 Of course all list operations are treated as multiset operations.
 
+[Back to Contents](#contents)
+
 ## Relation between Lists and Sets 
 Those can be found by : 
 
@@ -527,7 +614,6 @@ Those can be found by :
     =>EQUAL
     (njexl)set:list_relation([1,2],[2,3])
     =>OVERLAP
-
 
 
 ## Hashes or Dictionaries 
@@ -593,6 +679,7 @@ More *normal* stuff works too :
     Hello, Awesome nJexl!
     =>null
 
+[Back to Contents](#contents)
 
 ### The String operation on Collections
 
@@ -633,7 +720,7 @@ This is a handy example :
     (njexl)x = set{  str{ [ $.a , $.b] }($, '#')  }(D) ## Use the str() to linearize the individual rows 
     =>S{ A1#B1,A2#B2 } ## Here, a 2-d array became single D array!
 
-
+[Back to Contents](#contents)
 
 ## Range Data Type
 Another significant data type is called range, which is a type of iterator.
@@ -695,6 +782,8 @@ Curiously, date/time range also has many interesting fields :
 
 Thus, this becomes a very important tool for business side of programming.
 
+[Back to Contents](#contents)
+
 ### String or Alphabet Range 
 
 Another type of range is String range, this is defined as :
@@ -718,6 +807,8 @@ Obviously it takes spacing element, thus:
     =>[a:z:3]
     (njexl)ci.str
     =>adgjmpsvy
+
+[Back to Contents](#contents)
 
 ## Range in Reverse 
 
@@ -763,4 +854,4 @@ Negative ranges are also supported in splicing:
     (njexl)s[[-4:0]]
     =>cdef
 
-
+[Back to Contents](#contents)
