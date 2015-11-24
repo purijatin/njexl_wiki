@@ -349,11 +349,15 @@ There are following arithmetic operators supported :
 Assume variable A holds 10 and variable B holds 20, then:
 
 
-    +   Adds two operands   A + B will give 30
-    -   Subtracts second operand from the first A - B will give -10
-    *   Multiplies both operands    A * B will give 200
-    /   Divides numerator by de-numerator   B / A will give 2
-    %   Modulus Operator and remainder of after an integer division B % A will give 0
+
+| Operator  | Description  | Example  |
+|---|---|---|
+| + | Adds two operands  |  A + B will give 30 |
+| - | Subtracts second operand from the first | A - B will give -10 |
+| * | Multiplies both operands |  A * B will give 200 |
+| / | Divides numerator by de-numerator |  B / A will give 2 |
+| % | Modulus Operator and remainder of after an integer division | B % A will give 0 |
+
 
 #### Relational Operators
 
