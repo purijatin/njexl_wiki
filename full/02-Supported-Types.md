@@ -9,7 +9,7 @@
      * [Boolean](#boolean)
      * [Integer Family](#natural-numbers)
      * [Floating Family](#rational-numbers)
-     * [Automatic Type Recognition](#automatic-type-assignment)
+     * [Forced Type Recognition](#forced-type-assignment)
  * [Numeric Type Conversion](#numeric-type-conversion)
      * [Special Boolean](#special-boolean-conversion)
      * [Big Types](#big-types)
@@ -145,7 +145,7 @@ And then we have rational types - the floating point numbers :
 
 [Back to Contents](#contents)
 
-#### Automatic Type Assignment
+#### Forced Type Assignment
 
 Thus we see that the type assignment is pretty much magical.
 However, one can force it to be a specific type. In that case: 
