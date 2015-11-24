@@ -361,29 +361,71 @@ Assume variable A holds 10 and variable B holds 20, then:
 
 #### Relational Operators
 
-    == or eq Checks if the values of two operands are equal or not, if yes then condition becomes true.  (A == B) is not true.
-    !=  or ne  Checks if the values of two operands are equal or not, if values are not equal then condition becomes true. (A != B) is true.
-    >  or gt Checks if the value of left operand is greater than the value of right operand, if yes then condition becomes true. (A > B) is not true.
-    <  or lt Checks if the value of left operand is less than the value of right operand, if yes then condition becomes true.    (A < B) is true.
-    >=  or ge Checks if the value of left operand is greater than or equal to the value of right operand, if yes then condition becomes true. (A >= B) is not true.
-    <=  or le Checks if the value of left operand is less than or equal to the value of right operand, if yes then condition becomes true.    (A <= B) is true.
+Relational operators are to be used over neumericals, also between collections.
+
+##### Neumerical Relations
+
+Assume variable A holds 10 and variable B holds 20, then:
+
+| Operator  | Description  | Example  |
+|---|---|---|
+|== or eq |Checks if the values of two operands are equal or not, if yes then condition becomes true | (A == B) is not true |
+| !=  or ne| Checks if the values of two operands are equal or not, if values are not equal then condition becomes true| (A != B) is true|
+|>  or gt | Checks if the value of left operand is greater than the value of right operand, if yes then condition becomes true| (A > B) is not true|
+|<  or lt | Checks if the value of left operand is less than the value of right operand, if yes then condition becomes true|  (A < B) is true|
+|>=  or ge | Checks if the value of left operand is greater than or equal to the value of right operand, if yes then condition becomes true |(A >= B) is not true|
+|<= or le |Checks if the value of left operand is less than or equal to the value of right operand, if yes then condition becomes true |(A <= B) is true|
+
+##### Relations between Collections
+
+Suppose we have  E =[] ,  A = [1,2,3] , AA = [2,1,3] ,  B = [2,3,4,1 ] , D = [0,10] 
+Now, 
+
+| Operator  | Description  | Example  |
+|---|---|---|
+|== or eq |Checks if the two operands are *same* collection | (A == B) is false while (A == AA) is true |
+|!= or ne| Checks if the values of two operands are not *same* collection | (A != B) is true while (A != AA) is false |
+|> or gt | Checks if the left operand is a *strict super collection* of the right operand | (B > A) is true while (E > A)is false |
+|< or lt | Checks if the left operand is a *strict sub collection* of the right operand|  (A < B) is true while (A < E) is false |
+|>= or ge | Checks if the left operand is *super collection* of the right operand |(A >= AA ) is true but ( E >= A ) is false |
+|<= or le |Checks if the left operand is *sub collection* of the right operand |(A <= B) is true, so is (A<=A) true but (A <= E ) is false |
+
+###### Inversion of Operators
+
+If this relation *A OP B* is true, that does not guarantee that the inverse operator would be false, 
+for collection relations. For example :
+
+     D < A // is false 
+     D > A // is false 
+     D == A // is false 
+     D != A // is true 
+
+
+This happens because D,A are not comparable collection wise. 
+Note that empty collections, i.e. *E* is always everyones *sub collection*.
+
 
 #### Logical Operators
 
 There are following logical operators supported:
+
 Assume variable A holds _true_ and variable B holds _false_ , then:
 
-
-    &&  or and  Called Logical AND operator. If both the operands are non zero then condition becomes true. (A && B) is false.
-    ||  or or Called Logical OR Operator. If any of the two operands is non zero then condition becomes true. (A || B) is true.
-    ! or not  Called Logical NOT Operator. Use to reverses the logical state of its operand. If a condition is true then Logical NOT operator will make false.    !(A && B) is true.
+| Operator  | Description  | Example  |
+|---|---|---|
+| &&  or and  | Logical AND operator : when both the operands are true then condition becomes true | (A && B) is false |
+| || or  or | Logical OR Operator : when any of the two operands is non zero then condition becomes true | (A || B) is true |
+| ! or not  | Logical NOT Operator : Reverses the logical state of its operand. If a condition is true then Logical NOT operator will make false.|!(A && B) is true|
 
 
 #### Assignment Operators
 
-     =     C = A + B will assign value of A + B into C.
-     +=    C += A is equivalent to C = C + A
-     -=    C -= A is equivalent to C = C - A
+| Operator  | Description  |
+|---|---|
+| = | C = A + B will assign value of A + B into C|
+| +=| C += A is equivalent to C = C + A|
+| -=| C -= A is equivalent to C = C - A|
+
 
 [Back to Contents](#contents)
 
