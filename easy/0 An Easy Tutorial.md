@@ -376,6 +376,86 @@ Assume variable A holds 10 and variable B holds 20, then:
 |>=  or ge | Checks if the value of left operand is greater than or equal to the value of right operand, if yes then condition becomes true |(A >= B) is not true|
 |<= or le |Checks if the value of left operand is less than or equal to the value of right operand, if yes then condition becomes true |(A <= B) is true|
 
+
+#### Logical Operators
+
+There are following logical operators supported:
+
+Assume variable A holds _true_ and variable B holds _false_ , then:
+
+| Operator  | Description  | Example  |
+|---|---|---|
+| &&  or and  | Logical AND operator : when both the operands are true then condition becomes true | (A && B) is false |
+| \|\| or  or | Logical OR Operator : when any of the two operands is non zero then condition becomes true | (A \|\| B) is true |
+| ! or not  | Logical NOT Operator : Reverses the logical state of its operand. If a condition is true then Logical NOT operator will make false.|!(A && B) is true|
+
+
+#### Assignment Operators
+
+| Operator  | Description  |
+|---|---|
+| = | C = A + B will assign value of A + B into C|
+| +=| C += A is equivalent to C = C + A|
+| -=| C -= A is equivalent to C = C - A|
+
+
+#### Collection Operations
+
+Over collections one sometime needs to operate upon for various reasons.
+
+
+##### Arithmetic
+
+One may need to add an element in a list:
+
+    (njexl)l = [1,2,3,4]
+    =>@[1, 2, 3, 4]
+    (njexl)l + 6
+    =>[1, 2, 3, 4, 6]
+    (njexl)l
+    =>@[1, 2, 3, 4]
+
+We note that nJexl philosophy says that the collections are immutable by definition.
+Thus, the array *l* was not modified, but a new list was created. We can easily fix it by :
+
+    (njexl)l += 6
+    =>[1, 2, 3, 4, 6]
+    (njexl)l
+    =>[1, 2, 3, 4, 6]
+
+Thus we understand that ordinary *+* and *-* acts like addition and subtraction of items from a collection.
+In the same spirit :
+
+    (njexl)l
+    =>[1, 2, 3, 4, 6]
+    (njexl)l -= 3
+    =>[1, 2, 4, 6]
+    (njexl)l
+    =>[1, 2, 4, 6]
+
+
+###### Multiplication, Join 
+
+Collections can be multiplied, that is termed as join:
+For example :
+
+    (njexl)b = [0,1]
+    =>@[0, 1]
+    (njexl)b * b
+    =>[[0, 0], [0, 1], [1, 0], [1, 1]]
+
+This generated all possible tuple of binary 2 valued numbers.
+Collections can be multiplied again and again :
+
+    (njexl)b * b * b
+    =>[[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 1, 1], [1, 0, 0], [1, 0, 1], [1, 1, 0], [1, 1, 1]]
+
+Or rather :
+
+    (njexl)b * B* b
+    =>[[0, true, 0], [0, true, 1], [0, false, 0], [0, false, 1], [1, true, 0], [1, true, 1], [1, false, 0], [1, false, 1]]
+
+
 ##### Relations between Collections
 
 Suppose we have  E =[] ,  A = [1,2,3] , AA = [2,1,3] ,  B = [2,3,4,1 ] , D = [0,10] 
@@ -405,26 +485,18 @@ This happens because D,A are not comparable collection wise.
 Note that empty collections, i.e. *E* is always everyones *sub collection*.
 
 
-#### Logical Operators
+##### Set Like Operations 
 
-There are following logical operators supported:
-
-Assume variable A holds _true_ and variable B holds _false_ , then:
+Suppose we have  E =[] ,  A = [1,2,3] , AA = [2,1,3] ,  B = [2,3,4,1 ] , D = [0,1,10] 
 
 | Operator  | Description  | Example  |
 |---|---|---|
-| &&  or and  | Logical AND operator : when both the operands are true then condition becomes true | (A && B) is false |
-| \|\| or  or | Logical OR Operator : when any of the two operands is non zero then condition becomes true | (A \|\| B) is true |
-| ! or not  | Logical NOT Operator : Reverses the logical state of its operand. If a condition is true then Logical NOT operator will make false.|!(A && B) is true|
+| &  | Intersection of two collections | (A & B) is [1,2,3]  |
+| \| | Union of two collections | (A \| D ) is [0,1,2,3,10]  |
+| - | Collection subtraction |  (B - A) = [4]  while (A - B) = [] |
+| ^ | Collection symmetric difference |  (A-D) | (D-A) :: means : (A^D) = [0, 2, 3, 10] |
 
 
-#### Assignment Operators
-
-| Operator  | Description  |
-|---|---|
-| = | C = A + B will assign value of A + B into C|
-| +=| C += A is equivalent to C = C + A|
-| -=| C -= A is equivalent to C = C - A|
 
 
 [Back to Contents](#contents)
