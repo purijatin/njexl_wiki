@@ -12,7 +12,7 @@
     * [Overlaps, Difference, Merger](overlaps-difference-merger)
     * [On the matter of Order](#on-the-matter-of-order)
     * [Operations over a Dictionary](#operations-over-a-dictionary)
-        *[Division over a Dict](#division-over-a-dict)
+        * [Division over a Dict](#division-over-a-dict)
 * [Axiomatic Multiplication](#axiomatic-multiplication)
 * [Axiomatic Exponentiation](#axiomatic-exponentiation)
 
