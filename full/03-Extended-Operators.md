@@ -13,8 +13,8 @@
     * [On the matter of Order](#on-the-matter-of-order)
     * [Operations over a Dictionary](#operations-over-a-dictionary)
         *[Division over a Dict](#division-over-a-dict)
-* [Axiomatic Multiplication](axiomatic-multiplication)
-* [Axiomatic Exponentiation](axiomatic-exponentiation)
+* [Axiomatic Multiplication](#axiomatic-multiplication)
+* [Axiomatic Exponentiation](#axiomatic-exponentiation)
 
 ## Overview
 This is where we talk about all sort of operators, 
