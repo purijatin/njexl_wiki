@@ -13,7 +13,7 @@
  * [Numeric Type Conversion](#numeric-type-conversion)
      * [Special Boolean](#special-boolean-conversion)
      * [Big Types](#big-types)
- * [Date & Time](#date-time)
+ * [Date & Time](#date--time)
  * [Strings](#strings)
  * [Type Identification](#type-identification)
       * [Type Similarity](#type-similarity)
@@ -271,7 +271,7 @@ For invalid dates, it would return null. No leniency. Thus:
     (njexl)date('20150222')
     =>Sun Feb 22 00:00:00 IST 2015
 
-#### Valid Date / Time
+#### Valid Date & Time
 If you are trying to convert a string to a date/time you may want to check
 if the result is proper or not:
 
@@ -281,6 +281,19 @@ if the result is proper or not:
     =>null
 
 This *null* value tells you that the date string is wrong.
+
+#### Arithmetic on Dates
+
+One can do arithmetic on dates, i.e. add & subtract days, months etc from dates.
+But as Java date does not supports it, it must be done via Joda time.
+
+    (njexl)t = time()
+    =>2015-11-25T20:28:40.271+05:30
+    (njexl)t.plusDays(1)
+    =>2015-11-26T20:28:40.271+05:30
+
+A full manual is available for [JodaTime](http://www.joda.org/joda-time/apidocs/org/joda/time/DateTime.html).
+You can see more and apply it if need be.
 
 [Back to Contents](#contents)
 

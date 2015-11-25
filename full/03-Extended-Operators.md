@@ -8,7 +8,13 @@
 * [Extension of Arithmetic Operators](#extension-of-arithmetic-operators)
 * [Uncommon Operations on Equality](#uncommon-operations-on-equality)
 * [Logical Operators](#logical-operators)
-
+* [On Collections](#on-collections)
+    * [Overlaps, Difference, Merger](overlaps-difference-merger)
+    * [On the matter of Order](#on-the-matter-of-order)
+    * [Operations over a Dictionary](#operations-over-a-dictionary)
+        *[Division over a Dict](#division-over-a-dict)
+* [Axiomatic Multiplication](axiomatic-multiplication)
+* [Axiomatic Exponentiation](axiomatic-exponentiation)
 
 ## Overview
 This is where we talk about all sort of operators, 
@@ -52,6 +58,9 @@ Now if you believe '+' acts in awesome ways - so does '-'.
      =>S{ 2, 3, 4 , 5 }
 
 You basically got the idea I suppose?
+
+[Back to Contents](#contents)
+
 
 ## Uncommon Operations on Equality
 
@@ -111,6 +120,8 @@ Basically what can be accomplished by 50/60 lines of Java code - can be done in 
 Try writing a full proof code of list equality in Java to convince yourself.
 Thus, ends the discussion of "==" and "===".
 Now then, there are other operators, which we discuss next.
+
+[Back to Contents](#contents)
 
 ## Logical Comparators 
 
@@ -198,6 +209,8 @@ If two things are essentially non-comparable - that is, a is not a proper sub-th
      =>false
 
 But wait, that is not the only cool thing!
+[Back to Contents](#contents)
+
 
 ### Overlaps, Difference, Merger 
 In the colourful language of set theory they are called 
@@ -231,9 +244,10 @@ In the colourful language of set theory they are called
  
 These works on list and sets and dictionaries.
 
-## On the matter of Order
+### On the matter of Order
 
-   >"Order matters Not, because nature is chaotic." - Noga
+   >"Order matters *NOT*, because nature *is chaotic*." 
+   - Noga
 
 Thus, 
 
@@ -251,7 +265,7 @@ Thus,
 Thus, it works as it should. This is what normally known as re-usable code.
 One guy writes it - and the others use it. No more random coding!
 
-## Operations over a Dictionary 
+### Operations over a Dictionary 
 
 Sometimes it is of important to do the same operations over dictionary.
 Thus, we have :
@@ -271,8 +285,11 @@ Same with intersection and union :
     =>{a=0, b=(1,0), c=3}
     (njexl)d & { 'c' : 3 , 'b' : 1 }
     =>{b=1}
-        
-### Division over a Dict 
+
+
+[Back to Contents](#contents)
+
+#### Division over a Dict 
 
 There is one interesting operation - division over a dict.
 That is :
@@ -283,7 +300,7 @@ That is :
     =>S{ a,c }
 
 
-## The idea of General Multiplication 
+###  Axiomatic Multiplication 
 People like this : 
 
     (njexl)2*2
@@ -298,8 +315,7 @@ But at the same time, multiplication is an abstract operator on collection to ge
 
 Wow, that is something! But that brings you to the next:
 
-
-## The beauty of Exponentiation 
+### Axiomatic Exponentiation 
 Generally people likes it : 
      
     (njexl)2**10
@@ -324,3 +340,5 @@ And the list exponentiation :
     =>[[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 1, 1], [1, 0, 0], [1, 0, 1], [1, 1, 0], [1, 1, 1]]
 
 Yes, you guessed it right - the join operation is '*'. 
+
+[Back to Contents](#contents)
