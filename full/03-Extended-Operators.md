@@ -1,7 +1,18 @@
 # Extended Operators 
+
+## Contents 
+
+* [Overview](#overview)
+* [Definition Coaleasing Operator](#definition-coaleasing-operator)
+* [Arithmetic Operators](#arithmetic-operators)
+* [Extension of Arithmetic Operators](#extension-of-arithmetic-operators)
+* [Uncommon Operations on Equality](#uncommon-operations-on-equality)
+* [Logical Operators](#logical-operators)
+
+
+## Overview
 This is where we talk about all sort of operators, 
 extended, and default and what not.
-
 
 ## Definition Coaleasing Operator
 
