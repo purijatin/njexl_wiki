@@ -29,7 +29,7 @@
    * [Size](#size)
    * [New](#new)
 * [General Operators](#general-operators)
-   * [Boolean](#boolean)
+   * [Logical](#logical)
      * [And](#and)
      * [Or](#or)
      * [Not](#not)
@@ -235,6 +235,27 @@ a method call can be done just like a field access:
 
 [Back to Contents](#contents)
 
+## Assignments 
+
+To assign something to a variable :
+
+    (njexl)var_name = 10 
+    =>10
+    (njexl)var_name
+    =>10
+
+To assign multiple variables in the same time :
+
+    (njexl)#(a,b,c) = [ 'A' ,'B' ,'C' ]
+    =>@[A, B, C]
+    (njexl)a
+    =>A
+    (njexl)b
+    =>B
+    (njexl)c
+    =>C
+
+
 ## Literals
 
 #### Integer  
@@ -263,7 +284,7 @@ a method call can be done just like a field access:
 
 #### Natural  
 
-  octal and hex support  Natural numbers (i.e. Integer, Long, BigInteger) can also be expressed as octal or hexadecimal using the same format as Java. i.e. prefix the number with 0 for octal, and prefix with 0x or 0X for hexadecimal. For example 010 or 0x10.
+  Octal and hex support  Natural numbers (i.e. Integer, Long, BigInteger) can also be expressed as octal or hexadecimal using the same format as Java. i.e. prefix the number with 0 for octal, and prefix with 0x or 0X for hexadecimal. For example 010 or 0x10.
 
 #### Real 
 
@@ -386,7 +407,7 @@ ns:function A JexlEngine can register objects or classes used as function namesp
 
 In this we discuss general operators for day to day usage.
 
-#### Boolean
+#### Logical
 
 #####  and 
 
@@ -405,7 +426,7 @@ are equivalent.
     =>true
 
 
-##### or
+#####  or
 
   The usual || operator can be used as well as the word or, e.g.
 
@@ -422,7 +443,7 @@ are equivalent.
     (njexl)10 < 10 or  30 < 40
     =>true
 
-##### not
+#####  not
 
  The usual ! operator can be used as well as the word not, e.g.
 
