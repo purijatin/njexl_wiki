@@ -20,6 +20,7 @@
          * [First Find](#first-find)
          * [For All](#for-all)
     * [Axiom of Choice](#axiom-of-choice)
+         * [Join Operation](#join-operation)
     * [Collection Conversions](#collection-conversions)
          * [List to Dictionary](#list-to-dictionary)
          * [List to List](#list-to-list)
@@ -468,7 +469,9 @@ This is trivial in nJexl :
     (njexl)a*b
     =>[[1, 0], [1, 1], [2, 0], [2, 1], [2.01, 0], [2.01, 1]]
 
-Fine, but we need pairs which are all different, thus : 
+#### Join Operation
+
+Fine, but we need pairs which are all different, thus we use the *join* operation (function ) :
 
     (njexl)join{ $[0] != int($[1]) }(a,b)
     =>[[1, 0], [2, 0], [2, 1], [2.01, 0], [2.01, 1]]
