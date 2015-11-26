@@ -16,14 +16,14 @@
  * [The Infamous GOTO](#the-infamous-goto)
  * [Avoiding Iteration](#avoiding-iteration)
     * [Predicate Logic](#predicate-logic)
-             * [There Exist](#there-exist)
-             * [First Find](#first-find)
-             * [For All](#for-all)
-     * [Axiom of Choice](#axiom-of-choice)
-     * [Collection Conversions](#collection-conversions)
-             * [List to Dictionary](#list-to-dictionary)
-             * [List to List](#list-to-list)
-             * [Dictionary to List](#dictionary-to-list)
+         * [There Exist](#there-exist)
+         * [First Find](#first-find)
+         * [For All](#for-all)
+    * [Axiom of Choice](#axiom-of-choice)
+    * [Collection Conversions](#collection-conversions)
+         * [List to Dictionary](#list-to-dictionary)
+         * [List to List](#list-to-list)
+         * [Dictionary to List](#dictionary-to-list)
 
 ## Overview
 
