@@ -1,12 +1,48 @@
-# To Iterate is Human, to Recurse is divine.
+# Iterations in nJexl
 
-We are human, and hence, we do iteration more.
-Simplistic way to look at an iteration is :  
+## Contents
+ * [Overview](#overview)
+ * [While](#while)
+ * [For](#for)
+    * [Iterated For](#iterated-for)
+        * [List and Array](#list-and-array)
+        * [Hash](#hash)
+        * [String](#string)
+    * [Standard For](#standard-for)
+ * [Calculating Factorial](#calculating-factorial)
+ * [Continue and Break](#continue-and-break)
+    * [Extension of Break and Continue](#extension-of-break-and-continue)
+    * [Anonymous Method Calls](#anonymous-method-calls)
+ * [The Infamous GOTO](#the-infamous-goto)
+ * [Avoiding Iteration](#avoiding-iteration)
+    * [Predicate Logic](#predicate-logic)
+             * [There Exist](#there-exist)
+             * [First Find](#first-find)
+             * [For All](#for-all)
+     * [Axiom of Choice](#axiom-of-choice)
+     * [Collection Conversions](#collection-conversions)
+             * [List to Dictionary](#list-to-dictionary)
+             * [List to List](#list-to-list)
+             * [Dictionary to List](#dictionary-to-list)
 
-    import 'java.lang.System.out' as out
+## Overview
+
+> To iterate is human, to recurse, devine!
+
+We are human, and hence, we do iteration more than recursion.
+In this section while, for, goto have been analyzed.
+Introduction to predicate logic is made, through which basic validation can be achived.
+While doing so anomymous functions have been used. 
+Eventually conversion between collections is discussed.
+
+
+## While
+
+Simplistic way to look at an iteration is via while :
+
     i = 0 
     while ( i < 3 ){
-       out:println(i)
+       write(i)
        i += 1 
     }
 
@@ -16,30 +52,43 @@ This of course produce the output :
      1
      2
 
+[Back to Contents](#contents)
+
+## For
+
 But this is trivially boring.
 If you are using "i" , it is meaningless to do all the housekeeping by yourself, and hence ... 
 
-    for ( i  :  [0:3] ){
-        out:println(i)
+    for ( i : [0:3] ){
+        write(i)
     }
 
 Does produce the same output! You think it is good to be verbose?
 [Enterprisification](http://projects.haykranen.nl/java/) is for you then. 
+
+#### Iterated For
+
 Jokes apart, it is kind of bad to be verbose, according to me.
 I want to get things done, with minimal talk - and maximal work. 
 But wait. Anything *array like* are iterable, anything *list like* are iterable. Anything set like, if they are sets created by nJexl - are iterable too. And even dictionaries are default iterable. 
+
+##### List and Array
 
     for ( i  :  [0,1,2] ){
         write(i)
     } 
 
-This is fine. So is  : 
+This is fine. So is: 
+
+##### Hash
 
     for ( i  :  {0:'0' , 1:'1' , 2:'2' } ){
         write(i)
     } 
 
 And finally this is fairly interesting : 
+
+##### String
 
     for ( i  :  "Smartest might survive" ){
         write("%s ", i ) ) 
@@ -53,15 +102,20 @@ Produces the output :
 And that basically means - it reads the individual characters of a string.
 That should be awesome.
 
+#### Standard For
+
 We also support the standard *for* stuff :
 
     for ( i = 0 ; i < 10 ; i += 1 ){
         write(i)
     } 
 
+[Back to Contents](#contents)
+
+## Calculating Factorial
 
 Now, let's take a real cool example, and start calculating factorial.
-    
+
     n = 200 
     x = 1 
     while ( n > 1 ){
@@ -79,15 +133,14 @@ And the output comes :
     351700858796178922222789623703897374720000000000000000000000000000000000
     000000000000000
 
-      
-## Other Worldly Matters : Continue and Break
+
+## Continue and Break
 
 We do have "continue" and "break". Which works as expected : 
 
-    import 'java.lang.System.out' as out
 
     // the standard one 
-    out.println('first while loop')
+    write('first while loop')
     
     i = 0 
     while ( i < 10 ){
@@ -133,6 +186,7 @@ Thus, lot's of code can be avoided if we use the extension of break and continue
     continue ( condition ){ statements ...   }
 
 It should be read as :
+
  > break|continue when condition is true, *only* after executing the statements ... 
 
 
@@ -153,6 +207,11 @@ Which would work, as well as :
     }
 
 The implicit word is  break *when* condition with expression value.
+
+[Back to Contents](#contents)
+
+#### Anonymous Method Calls
+
 It is not easy to understand when we need to return something on break, 
 but anonymous function calls are a perfect example :
 
@@ -187,6 +246,7 @@ This would produce :
     
     [11, 12, 31, 34, 78, 90]
 
+[Back to Contents](#contents)
 
 ### The Infamous GOTO
 
@@ -224,7 +284,11 @@ The following rules are applied for the goto statements:
 And that should sum it up! This was added as backward compatiblity
 from the predecessaor language of nJexl : CHAITIN.
 
-# Avoiding Iteration, Using Predicate Logic 
+[Back to Contents](#contents)
+
+## Avoiding Iteration  
+
+### Predicate Logic
 
 General idea can be found here : [Predicate Logic](http://en.wikipedia.org/wiki/First-order_logic)
 But in here we would discuss how the strategy of not using iteration, 
@@ -233,7 +297,9 @@ helps in formulating business and tremendously reduces formulation of test cases
 We will start with a simple idea of a linear search, to find out, if an element is present 
 in a list which matches a certain criterion. Thus:
 
-## There exist at least an element : [EXIST e in L : P(e) is TRUE]
+#### There Exist  
+
+> There Exist at least an element e in a collection matching a predicate P, P(e) == true
 
 This is the form : 
 
@@ -254,7 +320,9 @@ At the same time  :
     (njexl)1 @ s 
     =>true
 
-## Index, Item , Context 
+[Back to Contents](#contents)
+
+##### Index, Item , Context 
 
 The "_" is the index. The "$" is the item. The whole list is passed as "context" as is accessible 
 using "$$". But for what? In the predicate formulation - there is an implicit loop. 
@@ -280,7 +348,7 @@ If the condition is true, then do something. This can be succinctly written as :
 Now then - where should we use the context as in "$$"? Or rather the index "_" ?
 We will give a classic example for this : 
 
-### Verify that a list is sorted.
+##### Verify that a list is sorted.
 
 The idea would be doing this :  
        
@@ -313,7 +381,9 @@ As no element is selected - we are sure that the list is in order - i.e. sorted.
 But the same thing can be done faster by the next one we would discuss.
 That is first find, and exit when find.
 
-## First Find 
+[Back to Contents](#contents)
+
+#### First Find 
 Suppose you wan to find the element and the index of the element where some predicate P(e) is true.
 Specifically, suppose I want to find the first element which is greater than 10 in a list.
 What to do? This : 
@@ -352,8 +422,11 @@ Using index() then, finding if a list is in order or not is much easier :
     (njexl)index{ _ > 0 and $ < $$[_-1] }(a) < 0 
     =>false
 
+[Back to Contents](#contents)
 
-## For Every Element of a List  : [FORALL e in L ] P(e) is TRUE
+### For All
+
+> For all element e in a collection matches a predicate P : P(e) == true
 
 In predicate formulation we represent properties as computable functions.
 Generally that is : 
@@ -364,7 +437,6 @@ In this formulation - suppose we want to test if every element of a list is equa
 Thus, P(x) becomes "x=1" and 
 
 ![Predicate Form of x = 1 ](http://latex.codecogs.com/gif.latex?%5Cfn_phv%20%5Cforall%20x%20%5Cin%20L%20%5C%3B%20%3B%5C%3B%20x%20%3D%201)
-
 
 There would be two ways to do it : 
 
@@ -382,11 +454,12 @@ Then, the other way :
 
 Both works. 
 
-## The Axiom of Choice : Multiplicative Axiom : The Join Operation
+### Axiom of Choice 
+
+This is also known as *Multiplicative Axiom* or *the Join Operation*.
 
 The idea is http://en.wikipedia.org/wiki/Axiom_of_choice : I can take product of sets ( lists ).
 This is trivial in nJexl : 
-
 
     (njexl)a = list([1,2,2.01])
     =>[1, 2, 2.01]
@@ -416,9 +489,11 @@ Darn easy :
 That should do it. You see, the whole idea is about code-less-ness.
 As a professional tester, I understand that coding is bad, and hence I ensured none had to code.
 
-## Collection Conversions 
+[Back to Contents](#contents)
 
-### List to Dictionary 
+### Collection Conversions 
+
+#### List to Dictionary 
 
 Suppose we want to make a list of complex objects into a dictionary, such that f(obj) is the key
 while "obj" is the value. How are we supposed to do it?
@@ -431,7 +506,7 @@ Well, there is a way:
 
 Thus, we see that conversions can be done without resorting to any iteration.
 
-### List to List 
+#### List to List 
 
 Converting a list to another is known as [List Comprehension](http://en.wikipedia.org/wiki/List_comprehension).
 From previous example, it is easy to do this : 
@@ -452,7 +527,9 @@ One can of course, select, convert and make a list :
     =>[2, 3]
 
 
-### Dictionary to List 
+[Back to Contents](#contents)
+
+#### Dictionary to List 
 
 A dictionary is just a collection, so of course one can iterate over one - and generate a list.
 There is a direct Java method : 
@@ -473,3 +550,5 @@ Or, rather,
 
     (njexl)y = list{ $ ** 2 }(x.values())
     =>[4, 16, 36]
+
+[Back to Contents](#contents)
