@@ -1,9 +1,46 @@
 # Methods
 
+## Contents
+ * [Overview](#overview)
+ * [Defining Methods](#defining-methods)
+ * [Global and Local Scope and Variables](#global-and-local-scope-and-variables)
+ * [Recursion is Divine](#recursion-is-divine)
+ * [Functional Programming](#functional-programming)
+ * [The Args constructs](#the-args-constructs)
+       * [Anonymous Argument](#anonymous-argument)
+       * [Default Arguments](#default-arguments)
+ * [Argument overwriting](#argument-overwriting)
+ * [Assignment to Variables](#assignment-to-variables)
+ * [Closures](#closures)
+ * [Lambdas](#lambdas)
+       * [Function Composition](#function-composition)
+       * [Operators on Functions](#operators-on-functions)
+       * [A nice way to Recursion](#a-nice-way-to-recursion)
+ * [Eventing](#eventing)
+       * [Implementation](#implementation)
+
+
+## Overview
+
 No matter how much you want to avoid them, methods are needed.
 They are first-class entities in here, in the realm of nJexl.
 They are of course, to be passed by names, or as variables 
-and are defined to work as such.
+and are defined to work as such. 
+Formally in computer science a method can be defined by two different ways :
+
+* [Lambda Calculus](https://en.wikipedia.org/wiki/Lambda_calculus)
+* [Turing Machine](https://en.wikipedia.org/wiki/Turing_machine)
+
+Both are identical in power and freely convertible to one another.
+That generated the [Church–Turing thesis](https://en.wikipedia.org/wiki/Church–Turing_thesis)
+and is responsible for what is known as [Turing Completeness](https://en.wikipedia.org/wiki/Turing_completeness). In semi formal way, a language is Turing Complete if it allows :
+
+* Arithmetic ( a + b )
+* Logic ( a and b )
+* Conditional Branching ( if ( a ) { return b } ) 
+* Possibly infinite Memory ( in some sense ) 
+
+[Back to Contents](#contents)
 
 ## Defining Methods 
 
@@ -15,16 +52,13 @@ and are defined to work as such.
         my:void_func() // my: ensures we always call this scripts void_func.
         true  ## makes it perl like
     }
-
     def void_func(){
         return false // standard return 
     }
-
     some_func("Hello, World!")
 
 
-Note that curious "my" syntax. It basically tells nJexl that the method call should point to the current modules 
-( read script files ) void_func() -- not any other random script files. As one can import modules from other locations, this becomes of very importance.
+Note that curious "my" syntax. It basically tells nJexl that the method call should point to the current modules ( read script files ) void_func() -- not any other random script files. As one can import modules from other locations, this becomes of very importance.
 The following command can be used to run the script file : 
 
     $ njexl dummy.jexl 
@@ -32,6 +66,8 @@ The following command can be used to run the script file :
 
 It shows how it all finally works out. 
 The above sample also shows - how a method can call another method.
+
+[Back to Contents](#contents)
 
 ## Global and Local Scope and Variables
 
@@ -60,6 +96,7 @@ This would print 2. However, if you fail to put var, then :
 would print 0. The global variable comes in local copy, 
 but does not get write back to the original global one.
 
+[Back to Contents](#contents)
 
 ## Recursion is Divine 
 
@@ -90,9 +127,7 @@ We showcase the factorial program :
             return n * my:factorial_recursive(n-1)
         }
     }
-
     size(__args__) > 1 or bye ( 'usage : ' + __args__[0] + '  <number> [-r : recursively]')
-
     if ( __args__.length == 2 ){
         y = factorial_iterative( __args__[1] )
     }else {
@@ -144,7 +179,9 @@ Now, it is high time checking the recursive code:
 
 Good enough, I suppose. Beware of recursion in nJexl. As it is divine, it is not well implemented by a human like me, and thus like all divine stuff, it would eventually fail you. It does not handle a depth of 420+ well. While I would like to work on optimising it, *premature optimisation is the root of many evils* , so ....
 
-## Functional Support
+[Back to Contents](#contents)
+
+## Functional Programming
 
 Functions are first class members of the language. Thus, one can use anonymous function with any function of your choice, and you can pass functions to other functions, rather easily, using strings.
 Here you go : 
@@ -152,17 +189,14 @@ Here you go :
 	/*
 	   Demonstrates functional arg passing in Jexl functions 
 	*/
-
 	import 'java.lang.System.out' as out
 	import '_/samples/dummy.jexl' as dummy
-
 	// This does not take any param, so, a call to this 
 	def my_max_function(){
 	    // Use a function that use functional : e.g. list 
 	    o = sqlmath(__args__)
 	    return o[1]
 	}
-
 	def func_taking_other_function( func ){
 	   y = func( 10, 1, 2 )
 	   out:println(y)
@@ -195,11 +229,12 @@ Notice that we are showcasing that args return backs to original - after functio
 
 Basically, it is calling methods "my_max_function" and "dummy:some_func" by name, and one can pass them as such, as string. What it also demonstrates that the ability take anonymous parameters for any function call. 
 
+[Back to Contents](#contents)
 
 ## The Args constructs 
 
 
-### The Anonymous Argument 
+### Anonymous Argument 
 
      __args__
 
@@ -220,8 +255,9 @@ Here, the sqlmath() actually takes functional as input. and I want this sqlmath 
 
 The arguments are passed as is to the sqlmath, who handles all the anonymous function thing, and returns me the result.
 
+[Back to Contents](#contents)
 
-### Default Arguments : Variable No of Args
+### Default Arguments 
 
 Essentially, while *args* gets all the arguments anonymously, standard way works, as is shown.
 Also, one can pass default arguments : 
@@ -263,6 +299,8 @@ Which basically sums up how the args should be used. Note that, one should not m
 Every function takes variable length args, and thus - null values get's assigned to parameters which are not passed. 
 People should be careful.
 
+[Back to Contents](#contents)
+
 ## Argument overwriting 
 
 Sometimes kind of smart people acts in stupid ways.
@@ -288,7 +326,11 @@ Of course the result is this :
 That shows you what all can be done with this.
 Note that, once you overwrite the args, no other parameter can be passed at all.
 
-## Constitutional Right for First Class Citizens : Assignment to Variables
+[Back to Contents](#contents)
+
+## Assignment to Variables
+
+> This is Constitutional Right for First Class Citizens, being assigned as variables.
 
 Methods are first class citizen, hence, one can pass a method to a variable.
 Hence, this is perfectly legal :
@@ -340,8 +382,13 @@ Which produces the output :
     Yes!
     me exists and me is {fp=ScriptMethod{ name='z', instance=false}}
 
+[Back to Contents](#contents)
 
-### For the Jargon Guys : Closures in nJexl 
+### Closures 
+
+This is for the Jargon Guys, only. 
+If you need to use closures, then you are probably not doing the right thing, 
+in as much as - none would understand your code now.
 
 Closures are defined as This way in [WikiPedia](https://en.wikipedia.org/wiki/Closure_(computer_programming))
 As the first class citizen - this is easy for us here:
@@ -367,8 +414,9 @@ This generates what it suppsoed to do :
     4 + 2 ==> 6
     4 + 2 ==> 42
 
+[Back to Contents](#contents)
 
-## More Jargons: Lambdas 
+## Lambdas 
 
 From the theory perspective, lambdas are defined in [Lambda Calculus](https://en.wikipedia.org/wiki/Lambda_calculus). As usual, the jargon guys made a fuss out of it, but as of now, 
 we are using lambdas all along, for example :
@@ -391,6 +439,8 @@ So, suppose we want to now apply aribitrary function :
 
 And now, we just created a lambda! The result of such an application would make
 apply function returing 100.
+
+[Back to Contents](#contents)
 
 Now, we can move on to :
 
@@ -427,7 +477,9 @@ Thus, this call :
 
 generates, the [answer to life, universe, and everything](https://www.google.co.in/search?client=safari&rls=en&q=the+answer+to+life+the+universe+and+everything&ie=UTF-8&oe=UTF-8&gfe_rd=cr&ei=EBhCVrPlAvPI8AeFm4GADA), as expected.
 
-## Operators on Functions 
+[Back to Contents](#contents)
+
+### Operators on Functions 
 
 Functions support two operators :
 
@@ -458,6 +510,8 @@ The result is :
     10
     20
 
+[Back to Contents](#contents)
+
 ### A nice way to Recursion  
 
 A fancy way fix recursion is with this operators, for example, 
@@ -477,6 +531,7 @@ And here is fibonacci sequence :
     r = fibonacci_n(0,1)
     write ( r[1] ) // prints 8 
 
+[Back to Contents](#contents)
 
 ## Eventing 
 
@@ -519,3 +574,4 @@ Other sort of eventing will be discussed when we would be discussing Objects.
 
 This concludes the generic method level knowledge base.
 
+[Back to Contents](#contents)
