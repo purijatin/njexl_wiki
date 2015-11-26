@@ -1,4 +1,83 @@
-# General Language Features 
+# General Language Overview 
+
+## Contents
+
+* [Comments](#comments)
+    *[Shebang](#shebang)
+* [Identifiers](#identifiers) 
+* [Scripts](#scripts) 
+    * [Statements](#statements)
+    * [Blocks](#blocks) 
+    * [Calling Methods](#method-calls)
+* [Assignments](#assignments)
+* [Literals](#literals)
+   * [Numbers](#numbers)
+     * [Integer](#integer)
+     * [Float](#float) 
+     * [Long](#long) 
+     * [Big Integer](#big-integer)
+     * [Big Decimal](#big-decimal)
+     * [Natural](#natural)
+     * [Real](#real)
+   * [String](#string)
+   * [Boolean](#boolean)
+   * [Null](#null)
+   * [Array](#array)
+   * [Map](#map)
+* [Operator Functions](#operator-functions)
+   * [Empty](#empty)
+   * [Size](#size)
+   * [New](#new)
+* [General Operators](#general-operators)
+   * [Boolean](#boolean)
+        *[And](#and)
+        *[Or](#or)
+        *[Not](#not)
+   * [Bitwise](#bitwise)
+        *[And](#and)
+        *[Or](#or)
+        *[Xor](#xor)
+        *[Complement](#complement)
+   * [Conditionals](#conditionals)
+        *[Ternary Conditional](#ternary-conditional)
+        *[Equality](#equality)
+        *[Inequality](#inequality)
+        *[Less Than](#less-than)
+        *[Greater Than](#greater-than)
+        *[Less Then or Equal To](#less-than-or-equal-to)
+        *[Greater Than Equal](#greater-than-or-equal-to)
+        *[Item In or Match](#item-in-or-match)
+        *[Item Not In or Not Match](#item-not-in-or-not-match)
+   * [Arithmatic](#arithmatic)
+        *[Addition](#addition)
+        *[Subtraction](#subtraction)
+        *[Multiplication](#multiplication)
+        *[Division](#division)
+        *[Modulus](#modulus)
+        *[Negation](#negation)
+        *[Exponentiation](#exponentiation)
+* [Container Accessors](#container-access)
+   * [Array or List Access](#array-or-list-access)
+   * [Hash Access](#hash-access)
+* [Conditional Statements](#conditional-statements)
+   * [If](#if)
+   * [Else-If](#else-if)
+   * [For](#for)
+   * [While](#while)
+   * [GoTo](#goto)
+* [Imports](#imports)
+   * [Calling Imported Functions](#calling-imported-functions)
+* [Range](#range)
+* [Executable Strings](#executable-strings)
+* [Return](#return)
+* [Method Definition](#method-definition)
+* [Collection Operations](#collection-operations)
+  * [List and Set Operations](#list-and-set-operations)
+  * [Anonymous Functions and Lambda](#anonymous-functions-and-lambda)
+  * [List Operations](#list-operations)
+* [Threading Support](#threading-support)
+* [Exception Handling](#exception-handling)
+
 
 ## Comments 
 They are line : "//" or "##" or block "/*  */".
@@ -12,7 +91,7 @@ Thus :
       ## and so is this.
 
 
-### Shebang support
+### Shebang
 Like shell scripts, nJexl supports [SheBang](https://en.wikipedia.org/wiki/Shebang_(Unix)).
 Thus, a script :
 
@@ -25,6 +104,8 @@ Will produce the desired output :
 
 Note that although the character "#" is not of comment, but for a script, if first 2 characters
 are "#!" it treats that line differently.
+
+[Back to Contents](#contents)
 
 ## Identifiers 
    
@@ -62,6 +143,8 @@ In such cases, quoted identifiers or the [ ] operator can be used, for example:
     my['new'].dotted.var
 
 
+[Back to Contents](#contents)
+
 ## Scripts 
 
 A script in Jexl is made up of zero or more statements. Scripts can be read from a String, File or URL.
@@ -89,12 +172,51 @@ Local variables can not use ant-style naming, only one identifier.
 ### Statements  
 
 A statement can be the empty statement, the semicolon (;) , block, assignment or an expression. 
-Statements are optionally terminated with a semicolon.
+Generally statements are separated by - well you guessed it : new lines, or ";". If you want to put lots of stuff in a single line ( saving space is still a premium ) : use ";". If not, use new line. Makes it work, makes it readable.
+Now what about a statement that is too large to fit in the same line ? In that case use "\" to end that line. 
+Yes, escaping new line. And then continue the next line as if nothing happened, that would concatenate the lines.
+I understand that is a bit too much, so for normal operation like concatenating a string or and or or, it is taken care of already, so none has to do a "+ \".
+Thus, 
+
+    import  'java.lang.System.out' as out
+    s = true || 
+         false   
+    out:println(s)
+    s = true and  
+         false   
+    out:println(s)
+    s = " "  + 
+       "aaa aa "  + 
+       "xxxx" + 
+       "z"
+    out:println(s)
+    s = 10 -   
+         2
+    out:println(s)
+
+works as expected.
+Special consideration is also being given to comma : "," so that : 
+
+    out:printf("%s,%s,%s\n", 1 ,  // note the new line after ","
+     2, 3) // works 
+
+works as expected too!
+
+[Back to Contents](#contents)
+
 
 ### Block 
 
 A block is simply multiple statements inside curly braces ({, }).
 Assignment  Assigns the value of a variable (my.var = 'a value') using a JexlContext as initial resolver. Both beans and ant-ish variables assignment are supported.
+Space and tabs are bad idea to indent anything.
+That would destroy compression if need be. I do not want it. Note that Blocks does not - and I repeat - does not nest variables - does not take them in or out of scope. That is currently a flaw in the design - which we may or may to fix later. Thus, 
+
+    (njexl){ i = 0 ; {  j = 1 }  write(i+j) } // works.
+    1
+    =>null
+
+as one would have expected.
 
 ### Method calls  
 
@@ -111,42 +233,43 @@ a method call can be done just like a field access:
     (njexl)"hello world".hashCode
     =>1794106052
 
+[Back to Contents](#contents)
 
-### Literals
+## Literals
 
-#### Integer Literals  
+#### Integer  
 
 1 or more digits from 0 to 9, eg 42.
 
-#### Float Literals :
+#### Float 
 
    1 or more digits from 0 to 9, followed by a decimal point and then one or more digits from 0 to 9, optionally followed by f or F, eg 42.0 or 42.0f.
 
-#### Long Literals:
+#### Long 
 
    1 or more digits from 0 to 9 suffixed with l or L , eg 42l.
 
-#### Double Literals: 
+#### Double  
    
    1 or more digits from 0 to 9, followed by a decimal point and then one or more digits from 0 to 9 suffixed with d or D , eg 42.0d.
 
-#### Big Integer Literals:
+#### Big Integer
 
   1 or more digits from 0 to 9 suffixed with b or B , eg 42B.
 
-#### Big Decimal Literals :
+#### Big Decimal 
 
   1 or more digits from 0 to 9, followed by a decimal point and then one or more digits from 0 to 9 suffixed with h or H (for Huge ala OGNL)) , eg 42.0H.
 
-#### Natural literals : 
+#### Natural  
 
   octal and hex support  Natural numbers (i.e. Integer, Long, BigInteger) can also be expressed as octal or hexadecimal using the same format as Java. i.e. prefix the number with 0 for octal, and prefix with 0x or 0X for hexadecimal. For example 010 or 0x10.
 
-#### Real literals :
+#### Real 
 
  exponent support  Real numbers (i.e. Float, Double, BigDecimal) can also be expressed using standard Java exponent notation. i.e. suffix the number with e or E followed by the sign + or - followed by one or more decimal digits. For example 42.0E-1D or 42.0E+3B.
 
-#### String literals: 
+#### String  
 
 Can start and end with either ' or " delimiters, e.g.
 
@@ -160,19 +283,21 @@ are equivalent.
 
 The escape character is \ (backslash); it only escapes the string delimiter.
 
-#### Boolean literals:
+[Back to Contents](#contents)
+
+#### Boolean 
 
   The literals true and false can be used, e.g.
 
      val1 == true
 
-#### Null literal:  
+#### Null  
  
   The null value is represented as in java using the literal null, e.g.
 
     val1 == null
 
-#### Array literal: 
+#### Array 
 
   A [ followed by one or more expressions separated by , and ending with ], e.g.
 
@@ -183,7 +308,7 @@ JEXL will attempt to strongly type the array; if all entries are of the same cla
 Furthermore, if all entries in the array literal are of the same class and that class has an equivalent primitive type, the array returned will be a primitive array. e.g. [1, 2, 3] will be interpreted as int[].
 
 
-#### Map literal: 
+#### Map 
 
   A { followed by one or more sets of key : value pairs separated by , and ending with }, e.g.
 
@@ -191,8 +316,9 @@ Furthermore, if all entries in the array literal are of the same class and that 
 
 This syntax creates a HashMap<Object,Object>.
 
-## Functions which are Keywords 
+[Back to Contents](#contents)
 
+## Operator Functions  
 
 ### empty 
 
@@ -207,6 +333,18 @@ This syntax creates a HashMap<Object,Object>.
 Sample use is :
 
     empty(var1)
+
+Examples are:
+
+      (njexl)empty(null)
+      =>true
+      (njexl)empty([])
+      =>true
+      (njexl)empty({:})
+      =>true
+      (njexl)empty({1:2})
+      =>false
+
 
 ### size  
 
@@ -242,10 +380,15 @@ ns:function A JexlEngine can register objects or classes used as function namesp
 
     math:cosinus(23.0)
 
+[Back to Contents](#contents)
 
 ### General Operators
 
-#### Boolean and :
+In this we discuss general operators for day to day usage.
+
+#### Boolean
+
+#####  and 
 
 The usual && operator can be used as well as the word and, e.g.
 
@@ -256,7 +399,13 @@ and
 
 are equivalent.
 
-#### Boolean or:
+    (njexl)10 < 20 and 30 < 40
+    =>true
+    (njexl)10 < 20 && 30 < 40
+    =>true
+
+
+##### or
 
   The usual || operator can be used as well as the word or, e.g.
 
@@ -268,7 +417,12 @@ and
 
 are equivalent.
 
-#### Boolean not:
+    (njexl)10 < 10 || 30 < 40
+    =>true
+    (njexl)10 < 10 or  30 < 40
+    =>true
+
+##### not
 
  The usual ! operator can be used as well as the word not, e.g.
 
@@ -280,14 +434,23 @@ and
 
 are equivalent.
 
-#### Bitwise and :
+    (njexl)! 10 < 10
+    =>true
+    (njexl)not 10 < 10
+    =>true
+
+[Back to Contents](#contents)
+
+#### Bitwise 
+
+#####  and 
 
 The usual & operator is used, e.g.
 
     33 & 4
     0010 0001 & 0000 0100 = 0.
 
-#### Bitwise or:
+#####  or
 
   The usual | operator is used, e.g.
 
@@ -295,21 +458,25 @@ The usual & operator is used, e.g.
     0010 0001 | 0000 0100 = 0010 0101 = 37
 
 
-#### Bitwise xor:
+##### xor
 
  The usual ^ operator is used, e.g.
 
      33 ^ 4
      0010 0001 ^ 0000 0100 = 0010 0100 = 37.
 
-#### Bitwise complement:  
+##### complement  
 
  The usual ~ operator is used, e.g.
 
     ~33
     ~0010 0001 = 1101 1110 = -34.
 
-#### Ternary conditional 
+[Back to Contents](#contents)
+
+## Conditionals
+
+### Ternary conditional 
 
 The usual ternary conditional operator condition ? if_true : if_false operator can be used as well as the abbreviation value ?: if_false which returns the value if its evaluation is defined, non-null and non-false, e.g.
 
@@ -339,7 +506,7 @@ In fact it is slightly better, given 'z' does not even exist in the context :
 
 Thus, it is also an undefined coaleasing operator. 
 
-#### Equality:
+#### Equality
 
   The usual == operator can be used as well as the abbreviation eq. For example
 
@@ -356,7 +523,7 @@ for null literal, is only ever equal to null, that is if you compare null to any
 Equality uses the java equals method.
 
 
-#### Inequality:
+#### Inequality
 
   The usual != operator can be used as well as the abbreviation ne. For example
 
@@ -369,7 +536,7 @@ and
 are equivalent.
 
 
-#### Less Than:
+#### Less Than
 
  The usual < operator can be used as well as the abbreviation lt. For example
 
@@ -381,7 +548,7 @@ and
 
 are equivalent.
 
-#### Less Than Or Equal To: 
+#### Less Than Or Equal To
 
   The usual <= operator can be used as well as the abbreviation le. For example
 
@@ -392,7 +559,7 @@ and
 
 are equivalent.
 
-#### Greater Than:
+#### Greater Than
 
   The usual > operator can be used as well as the abbreviation gt. For example
 
@@ -404,7 +571,7 @@ and
 
 are equivalent.
 
-#### Greater Than Or Equal To :
+#### Greater Than Or Equal To 
 
  The usual >= operator can be used as well as the abbreviation ge. For example
 
@@ -416,8 +583,9 @@ and
 
 are equivalent.
 
+[Back to Contents](#contents)
 
-#### (item) In  or Match=~ :
+#### Item In or Match 
 
 The syntactically Perl inspired =~ operator can be used to check that a string matches a regular expression (expressed either a Java String or a java.util.regex.Pattern). For example "abcdef" =~ "abc.* returns true. It also checks whether any collection, set or map (on keys) contains a value or not; in that case, it behaves as an "in" operator. Note that it also applies to arrays as well as "duck-typed" collection, i.e classes exposing a "contains" method. 
 
@@ -433,32 +601,37 @@ whether the left collection is embedded in the right collection :
       [3,4] =~ [1, 2, 3 , 5, 4 ]  // false
  
 
-#### (item) Not-In or Not-Match!~ :
+#### Item Not In or Not Match 
 
 The syntactically Perl inspired !~ operator can be used to check that a string does not match a regular expression (expressed either a Java String or a java.util.regex.Pattern). For example "abcdef" !~ "abc.* returns false. It also checks whether any collection, set or map (on keys) does not contain a value; in that case, it behaves as "not in" operator. Note that it also applies to arrays as well as "duck-typed" collection, ie classes exposing a "contains" method. 
 
      "a" !~ ["a","b","c","d","e", "f" ] // returns false 
      "a" !~ [ "b","c","d","e", "f" ] // returns true 
      
-#### Addition:  
+
+[Back to Contents](#contents)
+
+### Arithmetic
+
+#### Addition 
 
   The usual + operator is used. For example
 
      val1 + val2
 
-#### Subtraction:
+#### Subtraction
   
   The usual - operator is used. For example
 
     val1 - val2
 
-#### Multiplication:
+#### Multiplication
 
   The usual * operator is used. For example
 
     val1 * val2
 
-#### Division:  
+#### Division
 
    The usual / operator is used, or one can use the div operator. For example
 
@@ -468,7 +641,7 @@ or
 
      val1 div val2
 
-#### Modulus (or remainder):
+#### Modulus
 
   The % operator is used. An alternative is the mod operator. For example
 
@@ -478,15 +651,23 @@ gives 1 and is equivalent to
 
      5 % 2
 
-#### Negation:  
+#### Negation
  
  The unary - operator is used. For example
 
      -12
 
-#### Array access:  
+#### Exponentiation
 
-  Array elements may be accessed using either square brackets or a dotted numeral, e.g.
+The \*\* operator is used for exponentiation.
+
+     10 ** 2 // generates 100
+
+[Back to Contents](#contents)
+
+#### Array or List access
+
+  Array or List elements may be accessed using either square brackets or a dotted numeral, e.g.
 
      arr1[0]
 
@@ -508,7 +689,7 @@ Negative indices are supported, so :
     =>e
 
 
-#### HashMap access:
+#### Hash access:
 
   Map elements are accessed using square brackets, e.g.
 
@@ -533,9 +714,12 @@ and
 
 are equivalent.
 
-###Conditionals: 
+[Back to Contents](#contents)
 
-#### if :  
+
+## Conditional Statements 
+
+#### if  
  
    Classic, if/else statement, e.g.
 
@@ -563,7 +747,7 @@ but due to a design flaw in parser, it has to be formatted well :
     }
 
 
-#### for:  
+#### for 
  
  Loop through items of an Array, Collection, Map, Iterator or Enumeration, e.g.
 
@@ -572,8 +756,14 @@ but due to a design flaw in parser, it has to be formatted well :
     }
 
 Where item and list are variables.
+The general for type is also fine :
 
-#### while: 
+    for ( i = 0 ; i < 10 ;  i+= 1 ){
+        write(i)
+    }
+
+
+#### while
 
 Loop until a condition is satisfied, e.g.
 
@@ -581,8 +771,17 @@ Loop until a condition is satisfied, e.g.
         x += 2; 
     }
 
+#### GoTo
 
-# New Jexl Language Features
+     goto  #label_name [condition]
+
+is the syntax for goto.
+
+[Back to Contents](#contents)
+
+
+## Imports
+
 We start with the proverbial - "Hello World".
 This is easy :- 
 
@@ -593,7 +792,6 @@ This is easy :-
       =>null // the return of the function : void
 
 
-## Imports
 This also tells you something interesting about the design of the language.
 You can import POJO's - not only the O's but the static F's too - that is, we are essentially importing the 'out' field ( PrintStream ) of the 'java.lang.System' class. You can actually import System class too.
 You can of course import another jexl script - and of course you have to only specify where the jexl file is,
@@ -612,6 +810,9 @@ That lets people know - yes, that is a function I am calling from an IMPORTED MO
      (njexl)sys:getProperty("user.dir")
      =>/Codes/Java/njexl/target
 
+[Back to Contents](#contents)
+
+
 ### Scope of Variables
 
 Variables are global in the script - unless they are declared within the method definitions.
@@ -628,62 +829,7 @@ Just use it. To check if a variable *var_name* is defined within scope or not, u
 The specific variable types starting "$" and "@" gets used in implicit loop operations - which we would talk later.
 You should not use a $ type variable in a loop.
 
-
-## Statements 
-
-Statements are separated by - well you guessed it : new lines, or ";". If you want to put lots of stuff in a single line ( saving space is still a premium ) : use ";". If not, use new line. Makes it work, makes it readable.
-Now what about a statement that is too large to fit in the same line ? In that case use "\" to end that line. 
-Yes, escaping new line. And then continue the next line as if nothing happened, that would concatenate the lines.
-I understand that is a bit too much, so for normal operation like concatenating a string or and or or, it is taken care of already, so none has to do a "+ \".
-Thus, 
-  
-    import  'java.lang.System.out' as out
-    s = true || 
-         false   
-    out:println(s)
-    s = true and  
-         false   
-    out:println(s)
-    s = " "  + 
-       "aaa aa "  + 
-       "xxxx" + 
-       "z"
-    out:println(s)
-    s = 10 -   
-         2
-    out:println(s)
-
-works as expected.
-Special consideration is also being given to comma : "," so that : 
-
-    out:printf("%s,%s,%s\n", 1 ,  // note the new line after ","
-     2, 3) // works 
-
-works as expected too!
-
-## Blocks
-Like eternal rule "{ inside }" is a block. Space and tabs are bad idea to indent anything.
-That would destroy compression if need be. I do not want it. Note that Blocks does not - and I repeat - does not nest variables - does not take them in or out of scope. That is currently a flaw in the design - which we may or may to fix later. Thus, 
-
-    (njexl){ i = 0 ; {  j = 1 }  write(i+j) } // works.
-    1
-    =>null
-
-as one would have expected.
-
-## Loops
-
-In any case - fear not, we are Turing Complete by introducing the very new : 
-while(condition){ statements } and for ( var = init < condition> <change> ) 
-{ statements }.
-Totally works.
-
-    for ( i = 0 ; i < 10 ;  i+= 1 ){
-        out:println(i)
-    }
-
-
-### Range
+## Range
 
 That brings you to range. Range is good. You should use range. It is optimal - and thus at least 2 times faster than the python equivalent and may be more. No, I was joking - it is fast because JVM is eons faster than PVM.
 I took gazillion time faster JVM and make it very slow - so now nJexl is *only* 2 times faster than that of any Python Script. The syntax of range is  : 
@@ -694,54 +840,12 @@ and it returns long. Thus it would be wise not to use this over arrays without c
 You see, due to design of Java - the maximum size of any container is MAX_INT.
 
 
-### Strings
+## Executable Strings
 Anything within '...' and "....". As usual "\" lets you escape. There is another specific one, called curried Literals,
 which are delimited by ` and `. The back-tick operator, borrowed from Perl and Python.
 
-### Arrays
+[Back to Contents](#contents)
 
-Anything that is [ ]. Err, [ 'a' , 10, 'b'] is an array. They are actually Object[] type.
-Everything is object in here. They are not modifiable. You can also generate an array by : array(1,2,3) etc. 
-
-    (njexl)arr = [ "I" , "am", "an" , "Array" ]
-    =>@[I, am, an, Array]
-    njexl)arr = array{ $ + ':' }(arr)
-    =>@[I:, am:, an:, Array:]
-    
-What is that {} block? We will talk about in the section of Anonymous functions.
-
-### Lists
-
-Fear not, you can cast an array to list straight by : list(). That gives you a modifiable list.
-     
-    (njexl)l = list()
-    =>[]
-    (njexl)l = l + 'hi'
-    =>[hi]
-    (njexl)l
-    =>[hi]
-    (njexl)l.add('bye')
-    =>true
-    (njexl)l
-    =>[hi, bye]
-
-
-### Dictionaries and Hashes
-
-{  key : value } is a dictionary. {:} is an empty dictionary.
-They are always modifiable. You can create a dictionary by dict() and pass two lists, first one is key list, 
-second one is value list. It would marry them up.
-
-    (njexl){:}
-    =>{}
-    (njexl)d = {:}
-    =>{}
-    (njexl)d[0]=0
-    =>0
-    (njexl)d
-    =>{0=0}
-    (njexl)dict([1,2],[3,4]) // key list , value list 
-    =>{1=3, 2=4} // dictionary 
 
 ## Return
 
@@ -749,19 +853,19 @@ return <expression>.
 You must return something. No void, please. 
 In fact, if you do not even say it - the outcome of the last executed statement is taken as return value.
 
-## Methods 
+## Method Definition 
 
-defining methods are easy.
+defining methods are easy:
   
-	def some_func(s){
-	    write(s)
-	    my:void_func()
-	    return true
-	}
-	def void_func(){
-	    return false
-	}
-	some_func("Hello, World!")
+    def some_func(s){
+        write(s)
+        my:void_func()
+        return true
+    }
+    def void_func(){
+        return false
+    }
+    some_func("Hello, World!")
 
 
 It also introduces you to "true" / "false" the two constants. 
@@ -769,41 +873,11 @@ They are Boolean types named after [George Boole](https://en.wikipedia.org/wiki/
 Also note the interesting "my:". That is important. In a complete dynamic environment - if you do not specify the "my:" it might call another method from another module with the same name. To avoid such things, we have my.
 No cross calling (connection) of functions.
 
-## Operators
-Generally the operations like "=" , "==" , "!" ,  "<" , ">" , "<=" , "=>" , "!=" have same meaning.
-But they also have names like       "eq", "not",  "lt", "gt", "le", "ge", "ne" 
-So are the bitwise operations like "|" , "&" , "^", "~".
+[Back to Contents](#contents)
 
-Unlike it's parent Java, "==" means equals(). That is it. In fact it goes further.
-The automatic intelligent analysis ensures that "1" == 1 works in case of integer comparisons.
-That is very good for testing related activities.
+## Collection Operations
 
-The logical operators are "||" : "or"  and "&&" : "and" and "!" : "not".
-The english and the symbolic both works.
-
-### Additive Assignments
-
-One key operator group what was missing : '+='' and '-=' in jexl.
-nJexl supports them, so :
-
-     (njexl)s = "hello"
-     =>hello
-     (njexl)s += " and hi!"
-     =>hello and hi!
-     (njexl)s
-     =>hello and hi!
-
-Same with minus :
-
-    (njexl)s = 100
-    =>100
-    (njexl)s-= 42
-    =>58
-    (njexl)s
-    =>58
-
-
-### Set & List Operations
+### List and Set Operations
 Almost all the operators are overloaded to handle some tricky stuff - "+" can add lists.
 In the same way "-" can do a set minus. It also can do a multi set minus popularly known as list minus.
 The special operator "@" defines "in" it extends "=~" . That is : 
@@ -817,7 +891,7 @@ The closest of x @ y is y.contains(x) in some sense.
 But then clearly one needs to do null check, string type check etc.
 
 
-## Anonymous Functions and Lambda's
+### Anonymous Functions and Lambda
 
 Do not worry. We are not geeks. We are way too practical - and hence we actually use it in a way people understand what it is. Inside any for-loop one generally runs a condition and does something extra. It would be good if the for loop becomes implicit and then one can only write the condition and the extra thing.
 
@@ -829,7 +903,7 @@ That thing is called anonymous function.
 We are filtering  everything that is (>= 2) within the list specified.
 For the set operations we are using int() of every value as the key.
 
-## List operations
+### List operations
 Various list operations are demonstrated - with some interesting power operations.
 
     (njexl)l = [1,2,3]
@@ -846,6 +920,8 @@ Now just like python : string \* n catenated. Here,  string \*\* n catenated the
     (njexl)s**-1
     =>lxejn
 
+[Back to Contents](#contents)
+
 ## Threading support
 
 nJexl has full threading support! That is to say, one can simply create thread by calling the function :
@@ -856,8 +932,7 @@ thread() with suitable parameters which to be passed to the anonymous function b
 Creates a thread - which just calls the write call.
 More of this in the threading section.
 
-
-## Why NO Exception Handling ?
+## Exception Handling
 
 I toyed with the idea, and then found that : 
 [Why Exception Handling is Bad?](http://stackoverflow.com/questions/1736146/why-is-exception-handling-bad) ; 
@@ -870,4 +945,4 @@ In particular - the multi part arguments and the return story - should ensure th
 Just like GO, however, there is a concept of returning tuples.
 We will discuss this in [Exceptional Cases and Handling Them](https://github.com/nmondal/njexl/wiki/07-Utility-Functions#truly-exceptional-cases).
 
-  
+[Back to Contents](#contents)
