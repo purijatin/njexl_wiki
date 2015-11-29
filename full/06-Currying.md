@@ -67,6 +67,9 @@ From the interpreter perspective, it identifies that it needs to call a function
 and pass the string literal ''Hello, World!'' to it.
 But ovserve that the whole line is nothing but a string.
 
+[Back to Contents](#contents)
+
+
 #### String as Code
 
 This brings the next idea, that can strings be, dynamically be interpreted as code?
@@ -109,6 +112,7 @@ Thus, in nJexl, the minimum description length of the string 's' is : 8 :
 because, there is absolutely no way to generate the string 's' with less no of characters.
 And CSK folks would say : *The CSK Complexity of 's' is hence, 8 in nJexl.*
 
+[Back to Contents](#contents)
 
 ## Formatting Floats
 
@@ -147,6 +151,8 @@ As this has become customary to showcase *ninja* programming skills  here is one
     }
     write( compare_floats( 2.312, 2.3121, 2 ) )
     write( compare_floats( -2.312, -2.3121, 2 ) )
+
+[Back to Contents](#contents)
 
 #### Better One
 The above solution fails in general, try with precision more than 2.
@@ -189,6 +195,8 @@ generating the actual format string that would be used to format the float furth
 These sort of taking one parameter at a time and generating partial functions 
 or rather string as function is known as [currying](http://en.wikipedia.org/wiki/Currying).
 
+[Back to Contents](#contents)
+
 ## Verifying Calculator
 
 Suppose the task is given to verify calculator functionality.
@@ -216,6 +224,7 @@ In case the one is slighly smarter, the code would be :
         ...
      }
 
+[Back to Contents](#contents)
 
 #### Using Strings as Code
 
@@ -245,6 +254,7 @@ This is faciliated by the back-tick operator ( executable strings) :
     (njexl)c_string = `#{a} #{op} #{b}`
     =>20
  
+[Back to Contents](#contents)
 
 ## Currying 
 
@@ -278,6 +288,9 @@ This can be easily achived by string substitution as :
 Now, we can put appropriate values one by one for p\_x and p\_y and r\_v, and 
 the result would be immediate.
 
+[Back to Contents](#contents)
+
+
 #### Partial Functions
 
 The same problem can be solved by application of partial functions:
@@ -304,6 +317,9 @@ The result comes as expected :
 So, Currying can also be achived by using partial functions, which accumulates
 one parameter after another and then the final closure is the result.
 Personally, I prefer String substitution, it is more optimal to the interpreter. 
+
+[Back to Contents](#contents)
+
 
 #### Applications
 
@@ -339,6 +355,8 @@ Note that, back tick returns a string, if nothing found or matched.
 You can call it - the executable (2) string. Or, you can call it a glorified macro processor.
 Does not matter. Currying is essential in computer theory - and is more than essential 
 if you are trying to avoid voluminous coding. 
+
+[Back to Contents](#contents)
 
 #####  Method calling
 
@@ -387,6 +405,8 @@ So, in effect I am using a dictionary to hold *name* of a variable, instead of h
 a hard variable reference, thus, when I am dereferencing it, I would get back the value
 if such a value exists! 
 
+[Back to Contents](#contents)
+
 
 ##### Alternative for Reflection 
 If currying is too hard to comprehend, then reflection is relatively simpler.
@@ -414,6 +434,8 @@ When one executes this, the results are what is expected :
     Hello, Again!
 
 So, iterating over methods of a script are easy.
+
+[Back to Contents](#contents)
 
 
 
