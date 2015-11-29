@@ -81,11 +81,9 @@ and thus data which are strings can be interpreted as code.
 
 With this idea, we now consider this. Given a program is a String, by definition, 
 can program complexity be measured as the length of the string proper?
-Turns out one can, and that complexity has a name, it is called :
+Turns out one can, and that complexity has a name, it is called : [Chatin Solomonoff Kolmogorov Complexity](https://en.wikipedia.org/wiki/Kolmogorov_complexity).
 
-[Chatin Solomonoff Kolmogorov Complexity]().
-
-The study of such is known as [Algorithmic Information Theory]() and 
+The study of such is known as [Algorithmic Information Theory](https://en.wikipedia.org/wiki/Algorithmic_information_theory) and 
 the goal of a software developer becomes to write code that *reduces* this complexity.
 
 As an example, take a look about this string :
