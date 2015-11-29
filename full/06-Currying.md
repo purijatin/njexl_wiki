@@ -17,11 +17,11 @@
 * [Currying](#currying)
     * [General Idea](#general-idea)
     * [Partial Functions](#partial-functions)
-    * [Application](#application)
+    * [Applications](#applications)
          * [Using Back-Tick](#using-back--tick)
-         * [Methods Calling](#methods-calling)
+         * [Method Calling](#method-calling)
          * [As References](#as-references)
-         * [Alternative for Reflection](alternative-for-reflection)
+         * [Alternative for Reflection](#alternative-for-reflection)
 
 
 ## Overview
@@ -356,7 +356,7 @@ This works, as expected.
     $ njexl ../samples/curry_sample.jexl
     hello!
 
-##### As Referencs
+##### As References
 
 Let's see how to have a *reference like* behaviour in nJexl.
 
