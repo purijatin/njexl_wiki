@@ -1,48 +1,120 @@
-# Von Neumann Architecture 
+# Strings as Program and Currying
 
-Von Neumann said *data is same as executable code*. 
+## Contents
+
+* [Overview](#overview)
+* [Von Neumann Architecture](#von-neumann-architecture)
+    * [String and Data](#string-and-data)
+    * [Code and String](#code-and-string)
+    * [String as Code](#string-as-code)
+    * [Minimum Description Length](#minimum-description-length)
+* [Formatting Floats](#formatting-floats)
+    * [Stupid Solution](#stupid-solution)
+    * [Better One](#better-one)
+* [Verifying Calculator](#verifying-calculator)
+    * [Conventional Wisdom](#conventional-wisdom)
+    * [Using Strings as Code](#using-strings-as-code)
+* [Currying](#currying)
+    * [General Idea](#general-idea)
+    * [Partial Functions](#partial-functions)
+    * [Application](#application)
+         * [Using Back-Tick](#using-back--tick)
+         * [Methods Calling](#methods-calling)
+         * [As References](#as-references)
+         * [Alternative for Reflection](alternative-for-reflection)
+
+
+## Overview
+
+In this section we discuss about abstractions of functions, functionals, and functions
+taking functions ( continued from earlier section ) as well as relationship between 
+data, string, functions ( executable code). 
+
+## Von Neumann Architecture 
+
+All these idea started first with Alan Turings Machine, and then the 3rd implementation 
+of a Turing Machine, whose innovator Von Neumann said *data is same as executable code*. 
 Read more on : [Von Neumann Architecture](http://en.wikipedia.org/wiki/Von_Neumann_architecture)
 
 Thus, one can execute arbitrary string, and call it code, if one may.
 That brings in how functions are actually executed, or rather what are functions.
 
-# Currying 
+#### String and Data 
 
-The theory really behind JVN-A is called [currying](http://en.wikipedia.org/wiki/Currying)
+The idea of Von Neumann is situated under the primitive notion of  *alphabets* as *symbols*,
+and the intuition that any data is representable by a finite collections of them.
+The formalization of such an idea was first done by Kurt Godel, and bears his name in 
+Godelization. 
 
-## Why on Earth?
-
-Because it is cool. No, am just joking around. This is the most important thing that happened in the theory of computation - and thus in the whole darn history of software. Currying. Please understand it.
-
-The tenet, as usual is - code is bad. Branching is part of code and thus, squarely bad.
-Test automation is testing those branching of code hence cubely bad. Finally, test automation as tons of branches that makes it a ripe harvest of people sucking out money. That is x^4 bad. 'BAD'**4 if you are using nJexl.
+For those who came from the Computer Science background, thinks in terms of data as binary streams,
+which is a general idea of Kleene Closure : {0,1}\*. Even in this form, data is nothing but 
+a binary *String* .
 
 
-I do not like it. I believe, if/else/branches and code are like wine, good results come only when used in moderation. So - enough said - what precisely is the need of it? Suppose you are to test, and mind you test, if the calculator application is adding stuff properly or not. Next test would be if they are subtracting stuff or not. Next would be if they multiply properly or not....and so on and so forth.
+#### Code and String
 
-Basically we need to test something of the form we call a "binary operator" is working "fine" or not:
+Standard languages has *String* in code. In 'C' , we have "string" as constant char\*.
+C++ gives us std:string , while Java has 'String'. nJexl uses Java String.
+But, curiously, the whole source code, the entire JVM assembly listing can be treated as a String
+by it's own right!  So, while codes has string, code itself is nothing but a string, 
+which is suitable *interpreted* by a machine, more generally known as a Turing Machine.
+For example, take a look around this :
 
-    operator_1 <operator> operator_2 
+     (njexl)write('Hello, World!')
 
-That is a general binary operator, yes. Now, how to test it? The test code would be, invariably messy ( not Mesi, who is God's parting Gift to Humanity, but just Messy ) :
+This code writes 'Hello, World!' to the console. 
+From the interpreter perspective, it identifies that it needs to call a function called *write*,
+and pass the string literal ''Hello, World!'' to it.
+But ovserve that the whole line is nothing but a string.
 
-    if ( operation == '+' ) {
-        do_plus_check();
-    } else if ( operation == '-' ) {
-        do_minus_check();
-    }
-    // some more stupidity ...
+#### String as Code
 
-And someone comes in, automates it in 2 days - and cheerleaders ( read : managers)  promote him/her.
-Makes people like me angry.A bit too much, stone aged stuff.
-Currying comes to help for those people who distaste these behaviors.
+This brings the next idea, that can strings be, dynamically be interpreted as code?
+When interpreter reads the file which it wants to interprete, it reads the instructions 
+as strings. So, any string can be suitable interpreted by a suitable interpreter, 
+and thus data which are strings can be interpreted as code.
 
-Basically Curry said : "All binary operators are of same category". 
-By that what it means, if someone can abstract the operation out - and replace the operation with the symbol - and then someone can actually execute that resultant string as code ( remember JVMA?) you are done.
+#### Minimum Description Length
 
-### Simplistic Example 
+With this idea, we now consider this. Given a program is a String, by definition, 
+can program complexity be measured as the length of the string proper?
+Turns out one can, and that complexity has a name, it is called :
 
-Take a problem of comparing two doubles to a fixed decimal place.
+[Chatin Solomonoff Kolmogorov Complexity]().
+
+The study of such is known as [Algorithmic Information Theory]() and 
+the goal of a software developer becomes to write code that *reduces* this complexity.
+
+As an example, take a look about this string :
+
+    (njexl)s = 'ababababababababababababababababab'
+    =>ababababababababababababababababab
+    (njexl)#|s|
+    =>34
+
+Now, the string 's' can be easily generated by :
+
+    (njexl)s1 = 'ab'**17
+    =>ababababababababababababababababab
+    (njexl)s == s1
+    =>true
+
+Thus, in nJexl, the minimum description length of the string 's' is : 8 :
+
+    (njexl)code="'ab'**17"
+    =>'ab'**17
+    (njexl)#|code|
+    =>8
+
+because, there is absolutely no way to generate the string 's' with less no of characters.
+And CSK folks would say : *The CSK Complexity of 's' is hence, 8 in nJexl.*
+
+
+## Formatting Floats
+
+We take on one *highly complex* problem for which people tend to write special functions,
+i.e. formatting floating point numbers after decimal digits.
+The problem is that of comparing two doubles to a fixed decimal place.
 Thus: 
 
     (njexl)x=1.01125
@@ -53,12 +125,40 @@ Thus:
     =>false
 
 And we have an issue. How about we need to compare these two doubles with till 4th digit of precision (rounding) ?
+
+#### Stupid Solution
+
+As this has become customary to showcase *ninja* programming skills  here is one of the ways to solve it, without resorting to rounding :
+
+    def compare_floats(d1,d2, dec_pos){
+      i1 = int(d1)
+      f1 = d1 - i1
+      i2 = int(d2)
+      f2 = d2 - i2
+      
+      if ( i1 != i2 ) { return false }
+      while (dec_pos > 0 ){
+        f1 = f1 * 10 
+        f2 = f2 * 10 
+        if ( int(f1) != int(f2) ) return false 
+        dec_pos -= 1 
+      }
+      true 
+    }
+    write( compare_floats( 2.312, 2.3121, 2 ) )
+    write( compare_floats( -2.312, -2.3121, 2 ) )
+
+#### Better One
+The above solution fails in general, try with precision more than 2.
+The reason is of course the binary representation of double and float.
+How about we need to compare these two doubles with till 4th digit of precision (rounding) ?
 How it would work? Well, we can use String format : 
 
     (njexl)str:format("%.4f",x)
     =>1.0113
     (njexl)str:format("%.4f",y)
     =>1.0113
+
 But wait, the idea of precision, that is ".4" should it not be a parameter? Thus, one needs to pass the precision
 along, something like this : 
 
@@ -77,16 +177,58 @@ Thus in a single line, we have :
     (njexl)str:format(str:format(c_string,4),y)
     =>1.0113
 
-Thus, currying boils down to replacing one parameter at a time from a string, till no parameters are left 
-to be substituted, and when that happens, evaluate the final string as an expression/script.
-This is a very profound idea.
+In this form, observe that the comparison function takes 3 parameters :
+
+* The precision 
+* Float 1 
+* Float 2 
+
+as the last time, but at the same time, the function is in effect generated 
+by application of *partial functions*, one function taking the precision as input, 
+generating the actual format string that would be used to format the float further.
+These sort of taking one parameter at a time and generating partial functions 
+or rather string as function is known as [currying](http://en.wikipedia.org/wiki/Currying).
+
+## Verifying Calculator
+
+Suppose the task is given to verify calculator functionality.
+A Calculator can do '+' , '-', '*' , ... etc all math operations.
+In this case, how one proposes to write the corresponding test code?
+
+#### Conventional Wisdom
+
+The test code would be, invariably messy :
+
+    if ( operation == '+' ) {
+        do_plus_check();
+    } else if ( operation == '-' ) {
+        do_minus_check();
+    }
+    // some more stupidity ...
+
+In case the one is slighly smarter, the code would be :
+
+     switch ( operation ){
+        case '+' :
+           do_plus_check(); break;
+        case '-' :
+           do_minus_check(); break;
+        ...
+     }
 
 
-### Currying Solves Operator Problem too!
+#### Using Strings as Code
 
-So what does that all mean? That means this.
-First take the string `x #{op} y`. Now, replace the nitty part called hot-curry : the #{} thing and you are done.
-All you need to do is to execute it back again as a script - which nJexl neatly does. Thus...
+The insight of the solution to the problem is finding the following :
+
+>We need to test something of the form we call a "binary operator" is working "fine" or not:
+
+    operand_1  <operator>  operand_2 
+
+That is a general binary operator. If someone can abstract the operation out - and replace the operation with the symbol - and then someone can actually execute that resultant string as code 
+(remember JVMA?) the problem would be solved.
+
+This is faciliated by the back-tick operator ( executable strings) :
 
     (njexl)c_string = `#{a} #{op} #{b}`
     =>#{a} #{op} #{b}
@@ -103,44 +245,73 @@ All you need to do is to execute it back again as a script - which nJexl neatly 
     (njexl)c_string = `#{a} #{op} #{b}`
     =>20
  
-A much cleaner way of doing this would be self-substitution : 
 
-    (njexl)c_string = `#{c} #{o} #{d}`
-    =>#{c} #{o} #{d}
-    (njexl)c=20
-    =>20
-    (njexl)c_string=`#{c_string}`
-    =>20 #{o} #{d}
-    (njexl)o='*'
-    =>*
-    (njexl)c_string=`#{c_string}`
-    =>20 * #{d}
-    (njexl)d=1.2
-    =>1.2
-    (njexl)c_string=`#{c_string}`
-    =>24.0
+## Currying 
 
+If one looks at the the previous examples substitution patterns, one sees that it is a function of 3 parameters, 
 
-That should show it. Now you see, no more thousands of lines of stupid mind boggling automation script. 
-We keep it simple - because we know we are stupid. Some more demonstration follows : 
+* Operand 1 
+* Operator 
+* Operand 2 
 
-     (njexl)op = '**'
-     =>**
-     (njexl)`x #{op} y`
-     =>8.0
-     (njexl)op = '=='
-     =>==
-     (njexl)`x #{op} y`
-     =>false
-     (njexl)op = '!='
-     =>!=
-     (njexl)`x #{op} y`
-     =>true
+Clearly, it substitutes one parameter at a time, and each substitution returning a function 
+that is having one less parameter than the earlier one.
+This is known as Currying.
 
-That is the power - of 1960 computer science. No, not *computer* engineering, and heavens no, no software engineering. In any case, the great JVN knew it, and that is why there is a JVN architecture.
+#### General Idea
 
+Thus, whenever there is a situation when a function is taking input and resulting in
+another function, currying is a nice way to achive such things. 
+However, Currying essentially means substituting one parameter at a time.
 
-## Why Back-Tick?
+Consider this problem of checking if a point 'P(x,y)' is inside a circle of radius 'r'
+which is centered at origin. We know that the condition *inside* can be written as :
+
+     def inside(P,r){
+        P.x ** 2 + P.y ** 2 < r ** 2  
+     }
+
+This can be easily achived by string substitution as :
+
+     `#{p_x} ** 2 + #{p_y} ** 2 < #{r_v} ** 2`  
+
+Now, we can put appropriate values one by one for p\_x and p\_y and r\_v, and 
+the result would be immediate.
+
+#### Partial Functions
+
+The same problem can be solved by application of partial functions:
+
+    def radius(r){
+       def _x_(x){
+           def _y_(y){
+              x** 2 + y**2 < r ** 2 
+           }
+           return _y_
+       }
+       return _x_ 
+    }
+    x = radius(3)
+    y = x(2)
+    write( y( 1) ) // true 
+    write( y( 3) ) // false 
+
+The result comes as expected :
+
+    true
+    false
+
+So, Currying can also be achived by using partial functions, which accumulates
+one parameter after another and then the final closure is the result.
+Personally, I prefer String substitution, it is more optimal to the interpreter. 
+
+#### Applications
+
+This has multiple applictions, some of which would be discussed.
+But first a small design discussion, why back-tick was chosen to implement 
+executable strings.
+
+##### Using Back-Tick
 
 I could have implemented the currying as part of the language - straight, not as a string processing.
 But that would actually mean - processing the file 2 times, one for the standard notation, another for the operations overload. After all, who told you that the forms are limited?
@@ -169,28 +340,25 @@ You can call it - the executable (2) string. Or, you can call it a glorified mac
 Does not matter. Currying is essential in computer theory - and is more than essential 
 if you are trying to avoid voluminous coding. 
 
-## Currying and Method calling
+#####  Method calling
 
 Calling methods can be accomplished using currying. 
 The "equals" in previous section shows it. However, the idea can go much deep.
 
     import 'java.lang.System.out' as out 
-
     def func_taking_other_function( func ){
        `#{func}( 'hello!' )`
     }
-
     my:func_taking_other_function('out:println')
-
 
 This works, as expected.
 
     $ njexl ../samples/curry_sample.jexl
     hello!
 
-## Curry expressions as Referencs
+##### As Referencs
 
-Let's see how the reference behaviour is in nJexl.
+Let's see how to have a *reference like* behaviour in nJexl.
 
     (njexl)x = [1,2]
     =>@[1, 2]
@@ -220,7 +388,7 @@ a hard variable reference, thus, when I am dereferencing it, I would get back th
 if such a value exists! 
 
 
-## Reflection 
+##### Alternative for Reflection 
 If currying is too hard to comprehend, then reflection is relatively simpler.
 To start with we first need to find the name of the methods defined 
 in a script :
