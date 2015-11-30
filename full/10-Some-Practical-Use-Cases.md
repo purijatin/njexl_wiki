@@ -1,5 +1,28 @@
 # Practical Use Cases 
 
+## Contents
+
+* [Overview](#overview)
+* [Restful API Calls](#restful-api-calls)
+* [List Comprehension Examples](#list-comprehension-examples)
+    * [How Close are Two Lists?](#how-close-are-two-lists)
+* [Permutation and Combination](#permutation-and-combination)
+    * [N Sum Problem](#n-sum-problem)
+* [Number formatting and rounding](#number-formatting-and-rounding)
+* [Summing them up](#summing-them-up)
+* [On Manipulating Time](#on-manipulating-time)
+* [Result of Competitive Exam](#result-of-competitive-exam)
+* [Some One Liners](#some-one-liners)
+    * [Multiply Each Item in a List by 2](#multiply-each-item-in-a-list-by-2)
+    * [Sum a List of Numbers](#sum-a-list-of-numbers)
+    * [Verify if Exists in a String](#verify-if-exists-in-a-string)
+    * [Filter list of numbers](#filter-list-of-numbers)
+    * [Find extreemum in a List](#find-extreemum-in-a-list)
+    * [Sieve of Eratosthenes](#sieve-of-eratosthenes)
+* [Some More Sample Programs](https://github.com/nmondal/njexl/wiki/0-An-Easy-Tutorial#sample-programs)
+
+## Overview
+
 >Nothing is more practical than a good theory.
 >In theory practice matches theory. 
 >In practice, it does not.
@@ -37,6 +60,8 @@ Finally, I could not avoid showing this, this probably is cool :
     write(ro)
 
 It does tell you how easy it is to get things done, agreed?
+
+[Back to Contents](#contents)
 
 
 ## List Comprehension Examples 
@@ -97,7 +122,9 @@ Two lists are item by item almost same?
 
 Item by item. That should do it!
 
-## Permutation & Combination 
+[Back to Contents](#contents)
+
+## Permutation and Combination 
 
 A very exotic computation on lists are permutation and combination over it.
 The list permutation is a slightly tougher issue - thus we tackle the set permutation 
@@ -153,6 +180,8 @@ has the same effect has :
 Which, is by the way - not cool.
 But wait, in the case of parameterizing combination / permutation - they surely are!
 
+[Back to Contents](#contents)
+
 ### N Sum Problem 
 Given a number, and a list, is there a sub list such that the total of the sub list 
 is equals to the number or not? This is what my friend hit, and wanted bonkers.
@@ -196,7 +225,9 @@ As we can see, the possible() function works, if there is no repetition.
 I would let you think, for allowing repetition what needs to be done!
 NOTE : It would do something with list equals.
 
-## Number formatting and rounding. 
+[Back to Contents](#contents)
+
+## Number formatting and rounding
 
 This shows the generic idea : 
    
@@ -218,7 +249,7 @@ Now, all of these can be easily accomplished in a line by:
 
 Hence, comparing doubles upto arbitrary precision values are easy.
 
-## Summing them up : 
+## Summing them up 
 
 You want to add individual items for a list.
 
@@ -234,6 +265,8 @@ But it also takes anonymous function so :
     =>@[0.1, 0.2, 0.3]
     (njexl)sqlmath{float($)}(L1)
     =>@[0.1, 0.3, 0.6000000000000001]
+
+[Back to Contents](#contents)
 
 ## On Manipulating Time
 
@@ -253,67 +286,6 @@ So:
     (njexl)td.minutes
     =>56160
 
-# Some One Liners 
-
-From here  [10 scala one liners ](https://mkaz.com/2011/05/31/10-scala-one-liners-to-impress-your-friends/) ; plenty of so called *awesome* stuff?
-I thought that I should just monkey it. So I mon-keyed it : 
-
-## Multiple Each Item in a List by 2
-
-     (njexl)list{ 2*$ }([0:10].list() )
-     =>[0, 2, 4, 6, 8, 10, 12, 14, 16, 18] 
-
-## Sum a List of Numbers 
-
-     (njexl)sqlmath ( list{ 2*$ }([0:10].list() ) )
-     =>@[0, 18, 90] // the last one is the sum!
-     (njexl)lfold { _$_ += 2*$  } ( [0:10].list() , 0 ) // (l|r)fold works too
-     =>90 
-
-## Verify if Exists in a String 
- 
-     (njexl)line =  "Individuals are brilliant,  but people,  people are inherently stupid!"
-     =>Individuals are brilliant,  but people,  people are inherently stupid!
-     (njexl)bag = [ "but" ,  "people" , "are" , "stupid" ]
-     =>@[but, stupid, are, people]
-     (njexl)index{ $ @ bag }(line.split( "\W" )) >= 0
-     =>true
-
-## Filter list of numbers
-  
-     (njexl)nos = [ 10, 20, 60, 10, 90, 34, 56, 91, 24 ]
-     =>@[10, 20, 60, 10, 90, 34, 56, 91, 24]
-     (njexl)partition{ $> 30 }(nos)
-     =>@[[60, 90, 34, 56, 91], [10, 20, 10, 24]] 
-
-## Find minimum (or maximum) in a List
-
-    (njexl)sqlmath ( list{ 2*$ }([0:10].list() ) )
-    =>@[0, 18, 90] // the first one is the min, second one is the max!
-    (njexl)rfold { _$_ = _$_>$ ? $:_$_  } ( [0:10].list() , 10 )
-    =>0
-
-## Sieve of Eratosthenes
-
-Calculating prime numbers using 
-[Sieve of Eratosthenes](http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) : 
-
-	def soe( n ){
-	    select {
-	        x = $ // set the current iterate variable 
-                // _$_ is the partial result as of now !
-	        where ( index{ x % $ == 0 }( _$_ + 2 ) < 0 ){ $ = x }    
-	    }([3:n+1].list()) + 2  // adding 2 in the end list of primes 
-    }
-    write( soe(31) )
-
-When we run it :
-
-    $ njexl soe.jexl 
-    Script imported : JexlMain@/Users/noga/soe.jexl
-    [3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 2]
-        
- 
 ## Result of Competitive Exam 
 
 Some multiple choice exams has the rule that if you are correct you would be awarded a P, 
@@ -338,5 +310,67 @@ And the result comes out to be:
 
     =>7.5    
 
-So that should tell you about it.
+[Back to Contents](#contents)
+
+## Some One Liners 
+
+From here  [10 scala one liners ](https://mkaz.com/2011/05/31/10-scala-one-liners-to-impress-your-friends/) ; plenty of so called *awesome* stuff?
+I thought that I should just monkey it. So I mon-keyed it : 
+
+#### Multiply Each Item in a List by 2
+
+     (njexl)list{ 2*$ }([0:10])
+     =>[0, 2, 4, 6, 8, 10, 12, 14, 16, 18] 
+
+#### Sum a List of Numbers 
+
+     (njexl)sqlmath ( list{ 2*$ }([0:10].list() ) )
+     =>@[0, 18, 90] // the last one is the sum!
+     (njexl)lfold { _$_ += 2*$  } ( [0:10].list() , 0 ) // (l|r)fold works too
+     =>90 
+
+#### Verify if Exists in a String 
  
+     (njexl)line =  "Individuals are brilliant,  but people,  people are inherently stupid!"
+     =>Individuals are brilliant,  but people,  people are inherently stupid!
+     (njexl)bag = [ "but" ,  "people" , "are" , "stupid" ]
+     =>@[but, stupid, are, people]
+     (njexl)index{ $ @ bag }(line.split( "\W" )) >= 0
+     =>true
+
+#### Filter list of numbers
+  
+     (njexl)nos = [ 10, 20, 60, 10, 90, 34, 56, 91, 24 ]
+     =>@[10, 20, 60, 10, 90, 34, 56, 91, 24]
+     (njexl)partition{ $> 30 }(nos)
+     =>@[[60, 90, 34, 56, 91], [10, 20, 10, 24]] 
+
+#### Find extreemum in a List
+
+    (njexl)sqlmath ( list{ 2*$ }( [0:10] ) )
+    =>@[0, 18, 90] // the first one is the min, second one is the max!
+    (njexl)rfold { _$_ = _$_>$ ? $:_$_  } ( [0:10].list() , 10 )
+    =>0
+
+#### Sieve of Eratosthenes
+
+Calculating prime numbers using 
+[Sieve of Eratosthenes](http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) : 
+
+	def soe( n ){
+	    select {
+	        x = $ // set the current iterate variable 
+                // _$_ is the partial result as of now !
+	        where ( index{ x % $ == 0 }( _$_ + 2 ) < 0 ){ $ = x }    
+	    }([3:n+1].list()) + 2  // adding 2 in the end list of primes 
+    }
+    write( soe(31) )
+
+When we run it :
+
+    $ njexl soe.jexl 
+    Script imported : JexlMain@/Users/noga/soe.jexl
+    [3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 2]
+        
+
+[Back to Contents](#contents)
