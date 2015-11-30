@@ -58,6 +58,8 @@ but it is not OO, and like JavaScript hashes works perfectly for all cases of OO
 anywhere it is needed. However, if you still want to indulge into the bandwagon of OO, 
 here it starts.
 
+[Back to Contents](#contents)
+
 ## Defining Objects
 
 We use the *def* keyword again, to define a class. Why *def* ? Because if we use *class* as keyword, then it messes up java class keywords. Clearly, in java one can not have foo.if as field. Because if is a keyword.
@@ -81,6 +83,7 @@ Fields are what makes the class as a state-machine, and thus, class may have fie
     mc = new ( MyClass ) // relfective -- use a fixed name, but it is still variable 
     mc.member(10)
 
+[Back to Contents](#contents)
 
 ### me Keyword
 Trying to access a field using the *me* keyword, would *create* a field called "y".
@@ -99,6 +102,7 @@ And that demonstrates the class creation and using members.
 Clearly new can take parameter args - and those parameters are instance initialiser arguments. Note that class does not get created here, (i.e memory allocated)
 the allocated memory in Java merely gets initialised. 
 
+[Back to Contents](#contents)
 
 ## Inheritence and Polymorphism
 
@@ -150,7 +154,9 @@ Which diligently outputs :
       MyClass field "y" is valued [10]
       ChildClass field "y" is valued [100]
 
- Whose "y" I am now dealing with? God should be knowing this, but we know better. ChildClass.
+Whose "y" I am now dealing with? God should be knowing this, but we know better. ChildClass.
+
+[Back to Contents](#contents)
 
 ### supers syntax 
 
@@ -201,6 +207,8 @@ Would work, as *expected* and thus :
 
 And this is how the polymorphism really works. Bottom, UP.
 
+[Back to Contents](#contents)
+
 ### Root of some Evil : Multiple Inheritance 
 
 One can, inherit as many *class* as they want. Thus, a very simple demonstration would be : 
@@ -244,6 +252,8 @@ Now what happens?
      Some1!
      Some2!
 
+[Back to Contents](#contents)
+
 Yeppie! We are good! A specific method can be tracked down to the core - and can be called if need be!
 Vast improvement over standard polymorphism!
 
@@ -269,6 +279,7 @@ In this case, the result is pretty boring :
 
 Which is boring, because it is supposed to be that way.
 
+[Back to Contents](#contents)
 
 ## Cross File Importing
 
@@ -295,6 +306,8 @@ If we run it, we get :
 
 That should conclude the OOPs! section.
 Next are operators, and overloading of them.
+
+[Back to Contents](#contents)
 
 ## Operators and Overloading 
 
@@ -329,11 +342,13 @@ As an example, two Objects might be equal, but not comparable, i.e. there might 
 
 
 This generates the reasonable output : 
-    
+
      Script imported : JexlMain@/Codes/Java/njexl/target/../samples/class_demo2.jexl
      xxx == xxx ? true
  
 This showcase very interesting things, that *str* is the one used for converting the object into string, and then *eq* is the one which compares two objects. 
+
+[Back to Contents](#contents)
 
 ### Other Comparison Operators 
 
@@ -367,6 +382,7 @@ When we add it to the class MyClass, we see the following :
 And that is pretty good, should we say?
 Note that the equal() and compareTo() == 0 ideally should match. If they do not, it is your problem, not mine.
 
+[Back to Contents](#contents)
 
 ### Arithmetic Operators 
 
@@ -414,6 +430,7 @@ This generates, as expected :
 
 And that tells you something about Arithmetics.
 
+[Back to Contents](#contents)
 
 
 ### Other Logical Operators
@@ -434,16 +451,13 @@ An example would explain the idea :
      The crucial methods are __before__ and __after__
     */
     import 'java.lang.System.out' as out
-
     def generic(){
        out:println("I am generic function")
     }
-
     def gen_event(){
        event = __args__[0]
        out:printf("I am generic %s \n", event )
     }
-
     def  MyEventClass {
          //  before hook
          def __before__(){
@@ -469,11 +483,8 @@ An example would explain the idea :
     // before this method __before__ would be called 
     @@x.say_hello(" I am Eventing ")
     // __after__ would be called after this 
-
-
     m = #def( 'my:generic' )
     out:println(m)
-
     // add before handler 
     m.before.add(e)
     // call and see what happens ?
@@ -504,6 +515,7 @@ And thus, when we run it - we have :
     I am generic function
     I am generic __after__ | ScriptMethod{ name='generic', instance=false} | @[]
 
+[Back to Contents](#contents)
 
 Thus, any class can oversee any of it's function by attaching event to them.
 
@@ -550,6 +562,9 @@ Running this gets :
 
 So, the idea is that instance methods can be made bound to variable, 
 when it is done, one can use that as a closure, and then call like anything.
+
+[Back to Contents](#contents)
+
 
 ## Statics 
 
@@ -600,6 +615,8 @@ When one runs this, the result is :
 
 Note the usage of *my:* directive to get the defined classes in the current module.
 Also note that instance type is made to be false.
+
+[Back to Contents](#contents)
 
 ### Static Constructor and Variables
 
@@ -655,6 +672,7 @@ Here is a sample that would demonstrate the *statics*
     write("Final result is %d\n", MyClass.x)
     MyClass.x
 
+[Back to Contents](#contents)
 
 ## Reflection  
 
@@ -690,6 +708,8 @@ When we run it, we get this response :
     53
     95
     95
+
+[Back to Contents](#contents)
 
 ### Know Thyself 
 
@@ -762,6 +782,7 @@ Which produces :
     S{ nClass JexlMain:Super }
     S{ Super : (0) }
 
+[Back to Contents](#contents)
 
 ## Java Interoperability
 
@@ -773,11 +794,8 @@ This can be done trivially, with :
     ref : http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/8-b132/java/lang/String.java
     One can use this to find out the internals
     */
-
     import 'java.lang.System.out' as out
     import 'java.lang.String' as String
-
-
     def XString : String {
          // have a constructor
          def __new__(me,s=''){
@@ -788,13 +806,12 @@ This can be done trivially, with :
             me.supers['String']
          }
     }
-
     cs = new ('XString',"hello, world!")
     out:println(cs)
     out:println(cs.length())
     out:println(cs.charAt(3))
     out:println(cs isa String)
- 
+
 
 As we can see, any standard Java objects can be extended, with nJexl classes. The result is the same, only that it allows now multiple inheritance.
 
@@ -809,6 +826,7 @@ The result that comes from it:
 Thus, the interop, is perfectly done. The *isa* also works as expected.
 One needs to understand that the cost of extending Java object is higher than the cost of extending native nJexl objects, and thus - one should be prepared for the performance hits that come in with it.
 
+[Back to Contents](#contents)
 
 ### The Ancestors Function 
 
@@ -828,8 +846,9 @@ Clearly with a language in multiple inheritance, there has to be a way to call s
          }
     }
 
-
 This is how any superclass and upwards *constructor* can be *called*, with desired parameters.
+
+[Back to Contents](#contents)
 
 ### Multiple Inheritence with Java and nJexl 
 
@@ -896,6 +915,8 @@ The result is as follows :
     I can call String's methods! .length() ==> 12
     92
 
+[Back to Contents](#contents)
+
 ### Cross Referencing 
 Suppose that we have to call a class from another source file
 where it was defined.
@@ -944,5 +965,4 @@ But a better bet is to call it :
 
 Which leads to cleaner, more readable approach : ":" means from a namespace.
 
-
-
+[Back to Contents](#contents)
