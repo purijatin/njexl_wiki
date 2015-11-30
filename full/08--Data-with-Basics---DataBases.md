@@ -1,10 +1,20 @@
 # Database 
 
+## Contents
+* [Overview](#overview)
+* [JSON Connection](#json-connection)
+* [Query](#query)
+* [The DataMatrix](#the-datamatrix)
+
+## Overview
+
 Databases comprise of bulk of enterprise applications. The idea of any sort of testing or development is to ensure that there is seamless database connectivity.
-Thus, it is of importance that we support DB connectivity. As expected - we do have seamless database connectivity.
+Thus, it is of importance that we support DB connectivity. As expected - we do have seamless database connectivity. 
+Note: *the driver must be on the java path, or rather you should load the driver specifically with the [load]() function call.*
+
+## JSON Connection
 
 To connect to db - we need a bunch of informations - if you are a typical Java guy you would do it this way : 
-
 
          Class.forName("org.postgresql.Driver");//ensure I have the driver 
          Connection connection = null;
@@ -43,12 +53,12 @@ The default one looks like this :
 So basically you get the idea. Every connection has an ID kind of thing - the one we would use is called "noga".
 And then someone needs to init the DB connectivity. Those are done like this : 
 
-      import 'com.noga.njexl.extension.dataaccess.DBManager' as db  
-      // which connection profile ? 
-      db:init('../samples/db.json')
+      db = db('../samples/db.json')
       Successfully Loaded DB Config
       {some2=some2 : [dummy,class] @dummy : u, some3=some3 : [dummy,class] @dummy : u, noga=noga : [noga,org.postgresql.Driver] @jdbc:postgresql://localhost:5432/noga : noga}
-      =>true
+
+
+## Query
 
 Now, what sort of table we need to do a query one?  Here is the table  
 
@@ -103,7 +113,7 @@ This is what it means :
        (njexl)(matrix.tuple(0))["Id"]
        =>1
 
-And that is why in the query - instead of standard sql where column_name ... gets replaced with $["column_name"].
+And that is why in the query - instead of standard sql where column\_name ... gets replaced with $["column_name"].
 But better, in nJexl a["xx"] is same as a.xx ! 
 Thus, we can have : 
 
@@ -126,15 +136,3 @@ Its imply gets better - because nJexl supports regular expressions! Thus  :
       =>[[1, Noga], [3, Partha], [4, Chanda], [5, Shweta]]
 
 Pretty awesome, right?
-
-
-
-
-
-
-
-
-
-
-
-

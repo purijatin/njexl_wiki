@@ -1,25 +1,48 @@
-# Table to Table comparison 
+# Data Comparison 
+
+## Contents
+* [Overview](#overview)
+* [Loading Data File](#loading-data-file)
+    * [Delimiter](#delimiter)
+* [Tables Comparison](#tables-comparison)
+* [Transforming Matrices](transforming-matrices)
+    * [Sub Matrix](#sub-matrix)
+    * [Select Function](#select-function)
+        * [Select](#select)
+        * [Project](#project)
+
+
+## Overview
 
 In general - this comparison is easy. Let's demonstrate how it works.
 
-## Loading data file as DataMatrix 
+
+## Loading data file  
 
 Suppose I have a file like this : 
 
-	$ cat ../samples/test.tsv
-	Number	First Name	Last Name	Points
-	1	Eve	Jackson	94
-	2	John	Doe	80
-	3	Adam	Johnson	67
-	4	Jill	Smith	50
-	$
+	cat test.tsv
+	Number	First Name	Last Name	Points	Extra
+	1	Eve	Jackson	94	
+	2	John	Doe	80	x
+	3	Adam	Johnson	67	
+	4	Jill	Smith	50	xx
+
 
 To load the file in data matrix : 
 
 		(njexl)m1 = matrix('../samples/test.tsv')
 		=>< S{ Number,First Name,Last Name,Points } , [[1, Eve, Jackson, 94], [2, John, Doe, 80], [3, Adam, Johnson, 67], [4, Jill, Smith, 50]] >
 
-## Comparing with Other Tables 
+#### Delimiter
+
+Note that the matrix function takes the delimiter also, default is *tab* or '\t', while
+one can specify the delimiter :
+
+	matrix('../samples/test.tsv', '\t')
+
+
+## Tables Comparison 
 
 Suppose we want to find the diff of the same file with itself : 
 
@@ -33,7 +56,9 @@ Suppose we want to find the diff of the same file with itself :
 This false basically says that the diff is *false*, i.e. the matrices are not different.
 Now, let's change the matrices a bit.
 
-## Sub Matrices & Transforming Matrices  
+## Transforming Matrices  
+
+### Sub Matrix
 
 To do so - you use sub() function.
 
@@ -59,7 +84,12 @@ But wait. There is no fun in it, w/o transform! Let's transform this now :
 
 That should do it.
 
-## Select on Matrices 
+### Select Function
+
+Generic idea comes from database [*select* statement](http://www.w3schools.com/sql/sql_select.asp).
+See more at [Relational Algebra](https://en.wikipedia.org/wiki/Relational_algebra)
+
+#### Select 
 
 Select works seamlessly with matrices.
 
@@ -68,4 +98,17 @@ Select works seamlessly with matrices.
 
 That should show it!
 
+#### Project 
+
+Project means selecting the columns. This can be done with either column index :
+
+    (njexl)m.select(0,1,2)
+    =>[[1, Eve, Jackson], [2, John, Doe], [3, Adam, Johnson], [4, Jill, Smith]]
+    (njexl)m.select(0,1,2,3)
+    =>[[1, Eve, Jackson, 94], [2, John, Doe, 80], [3, Adam, Johnson, 67], [4, Jill, Smith, 50]]
+
+Or can be done with column name :
+
+    (njexl)m.select('First Name', 'Last Name', 'Points' )
+    =>[[Eve, Jackson, 94], [John, Doe, 80], [Adam, Johnson, 67], [Jill, Smith, 50]]
 
