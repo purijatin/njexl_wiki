@@ -1,6 +1,47 @@
-# Object Oriented Programming 
+# Object Oriented Programming (Oops!)
+
+## Contents
+* [Overview](#overview)
+* [Defining Objects](#defining-objects)
+    * [Creating classes and accessing Members](#creating-classes-and-accessing-members)
+    * [Me Keyword](#me-keyword)
+* [Inheritence and Polymorphism](#inheritence-and-polymorphism)
+    * [supers syntax](#supers-syntax)
+    * [Root of some Evil : Multiple Inheritance](#root-of-some-evil--multiple-inheritance)
+* [Cross File Importing](#cross-file-importing)
+* [Operators and Overloading](#operators-and-overloading)
+* [Overloadable Operators](#overloadable-operators)
+    * [About toString and Comparing](#about-toString-and-comparing)
+    * [Other Comparison Operators](#other-comparison-operators)
+    * [Arithmetic Operators](arithmetic-operators)
+    * [Other Logical Operators](#other-logical-operators)
+* [Eventing](#eventing)
+* [Instance methods as Method Closure](#instance-methods-as-method-closure)
+* [Statics](#statics)
+    * [Static Methods](#static-methods)
+    * [Static Constructor and Variables](#static-constructor-and-variables)
+* [Reflection](#reflection)
+    * [Know Thyself](#know-thyself)
+* [Java Interoperability](#java-interoperability)
+    * [The Ancestors Function](#the-ancestors-function )
+    * [Multiple Inheritence with Java and nJexl](#multiple-inheritence-with-java-and-nJexl)
+    * [Cross Referencing](#cross-referencing)
+
+## Overview
 
 Please try to avoid it. Objects are inherently [harmful](http://www.iwriteiam.nl/AoP_OOCH.html), and it is [more harmful](http://harmful.cat-v.org/software/OO_programming/) if you are not experienced enough, that is probably always. In any case, nJexl supports full object oriented paradigm, if one choose to mess with the structure of nature i.e. software design and testing.
+
+Like JavaScript, a very minimal way to establish object structure works :
+
+    (njexl)obj = {'name' : 'Noga' , 'species' : 'MetaHuman' }
+    =>{species=MetaHuman, name=Noga}
+    (njexl)obj.name
+    =>Noga
+    (njexl)obj.species
+    =>MetaHuman
+    (njexl)
+
+And that we can assign methods as fields solves a lot of problem with objects.
 
 A fairly interesting essay and summary can be found [here](http://harmful.cat-v.org/software/OO_programming/why_oo_sucks) :
 
@@ -15,33 +56,33 @@ This is is the real driving force behind OOPs.
 Thus nJexl is NOT OO. It has lots of code written to make it OO-like, 
 but it is not OO, and like JavaScript hashes works perfectly for all cases of OO-hood
 anywhere it is needed. However, if you still want to indulge into the bandwagon of OO, 
-here it starts:
+here it starts.
 
 ## Defining Objects
 
 We use the *def* keyword again, to define a class. Why *def* ? Because if we use *class* as keyword, then it messes up java class keywords. Clearly, in java one can not have foo.if as field. Because if is a keyword.
 In the same way,  x.class becomes impossible to access in nJexl if one use 'class' as keyword. That is the technical reason. The more succinct reason is, why do one need *class*? It is pretty apparent that we are calling a class because there is no "()" in the declaration!  
 
-	def  MyClass{
-	}
+    def MyClass{ } // yea, that is an object
 
 Thus, this *MyClass* is a class. That is all there is to define one.
 
-### new, and using Members of Class 
+### Creating classes and accessing Members 
 
 Fields are what makes the class as a state-machine, and thus, class may have fields. As always, it is meaningless to have fields declaration, because it is a dynamic language. Thus, any method, like this : 
- 
-	def  MyClass{
-	    def member(me, y){
-	        me.y = y 
-	        write('My field "y" is valued [%s]\n', me.y )
-	    }
-	}
-	mc = new ( 'MyClass') // reflective -- use string name  
-  mc = new ( MyClass ) // relfective -- use a fixed name, but it is still variable 
-	mc.member(10)
+
+    def  MyClass{
+        def member(me, y){
+            me.y = y 
+            write('My field "y" is valued [%s]\n', me.y )
+        }
+    }
+    mc = new ( 'MyClass') // reflective -- use string name  
+    mc = new ( MyClass ) // relfective -- use a fixed name, but it is still variable 
+    mc.member(10)
 
 
+### me Keyword
 Trying to access a field using the *me* keyword, would *create* a field called "y".
 Yes, you guessed it right, class is a oversized Hash. It is exactly what it really is.
 We also know that *new* can be used to create even nJexl *objects*. 
@@ -59,31 +100,32 @@ Clearly new can take parameter args - and those parameters are instance initiali
 the allocated memory in Java merely gets initialised. 
 
 
-## Inheritance & Polymorphism
+## Inheritence and Polymorphism
 
 Nothing is as dangerous as a battle of inheritance. Thus, learning from history, I found that not allowing multiple inheritance was a terrible idea. One, should, have multiple parents. Even bacterium can have multiple parents.
 And the language users are (mostly) human, and I fail to see one of their parents being an interface.Hence, nJexl supports multiple inheritance.
 The syntax of inheritance is simple : 
 
-	def  MyClass{
-	    def  member(me, y){
-	        me.y = y 
-	        write('MyClass field "y" is valued [%s]\n', me.y )
-	    }
-	}
-	mc = new ( 'MyClass')
-	mc.member(10)
-	def ChildClass : MyClass{
-	}
-	cc = new ( 'ChildClass')
-	cc.member(100)
+    def  MyClass{
+        def  member(me, y){
+            me.y = y 
+            write('MyClass field "y" is valued [%s]\n', me.y )
+        }
+    }
+    mc = new ( 'MyClass')
+    mc.member(10)
+    // extending another class 
+    def ChildClass : MyClass{
+    }
+    cc = new ( 'ChildClass')
+    cc.member(100)
 
 And as a result : 
 
     MyClass field "y" is valued [10]
     MyClass field "y" is valued [100]
 
-Amen to that. Importantly, as one can see, we have *polymorphism*, another terribly bad idea - waiting to go wrong : 
+Amen to that. Importantly, as one can see, we have *polymorphism*, another terribly bad idea - waiting to go [wrong](https://sites.google.com/site/steveyegge2/when-polymorphism-fails) : 
 
 	def  MyClass{
 	    def  member(me, y){
@@ -110,7 +152,7 @@ Which diligently outputs :
 
  Whose "y" I am now dealing with? God should be knowing this, but we know better. ChildClass.
 
-### The supers[] syntax : Polymorphism
+### supers syntax 
 
 Now, suppose I need to use the parents member(), how should I do it?
 
@@ -159,7 +201,7 @@ Would work, as *expected* and thus :
 
 And this is how the polymorphism really works. Bottom, UP.
 
-### The root of some Evil : Multiple Inheritance 
+### Root of some Evil : Multiple Inheritance 
 
 One can, inherit as many *class* as they want. Thus, a very simple demonstration would be : 
 
@@ -212,7 +254,6 @@ These whole discussion becomes kind of moot, if we add the do_print() method to 
            out:println('Complex!')
        }
     }
-
     c = new ('Complex')
     c.do_print()
     c.supers['Some1'].do_print()
@@ -255,16 +296,16 @@ If we run it, we get :
 That should conclude the OOPs! section.
 Next are operators, and overloading of them.
 
-# Operators & Overloading 
+## Operators and Overloading 
 
 This is a very handy feature in many occasions, and hence implemented.
 
-## Overloadable Operators 
+### Overloadable Operators 
 
 I have taken a subset of the C++ and Java, and implemented it.
 The Java like thing is obviously the comparator, which is special.
 
-### About toString() and Comparing 
+### About toString and Comparing 
 
 We have : equals and compare copied from Java. They are nice ideas, and often they do not commute.
 As an example, two Objects might be equal, but not comparable, i.e. there might not be any [order](http://en.wikipedia.org/wiki/Order_theory) between them. For example, two complex numbers can be equal, but it is totally axiomatic to decide which one is bigger than which one. In that case you may want to work with equals, but not with compare. In any case, we start with the equal operation first.
@@ -327,7 +368,7 @@ And that is pretty good, should we say?
 Note that the equal() and compareTo() == 0 ideally should match. If they do not, it is your problem, not mine.
 
 
-## Arithmetic Operators 
+### Arithmetic Operators 
 
 These would be "+", "-", "*", "/".
 It is customary to define them as is, with Complex number as an example, sans the "/". So we present that accordingly : 
@@ -375,7 +416,7 @@ And that tells you something about Arithmetics.
 
 
 
-## Other Logical Operators
+### Other Logical Operators
 
 Other operators which can be overloaded are "|" or the "or" operator, "&" or the "and" operator, 
 "^" or the "xor" operator. I do not see they are much useful, and in case they are, for those rare scenarios, they are overloaded anyways,before hand e.g. in case of Sets, Arrays, and Lists.
@@ -510,11 +551,12 @@ Running this gets :
 So, the idea is that instance methods can be made bound to variable, 
 when it is done, one can use that as a closure, and then call like anything.
 
-## Static Method
+## Statics 
 
-One doees not need static methods, because as of now there are
-no static variables. But in any case, this should explain static stuff :
 
+### Static Methods
+
+This should explain static stuff, notice the lack of *me* there.
 
     import 'java.lang.System.out' as out
     var count = 0 
@@ -559,7 +601,62 @@ When one runs this, the result is :
 Note the usage of *my:* directive to get the defined classes in the current module.
 Also note that instance type is made to be false.
 
-## A bit of Reflection  
+### Static Constructor and Variables
+
+Here is a sample that would demonstrate the *statics* 
+
+    // a static methods in a class demo 
+    def MyClass{
+        // static constructor 
+        def __class__(){
+           me.x = 42
+        }
+        // one static method : note implicit *me*
+        def static_method1(){
+           write("(m1) before subtracting %s\n", me.x)
+           me.x -= 24 // static variable 
+           write("(m1) after subtracting %s\n", me.x)
+        }
+        // another static method 2
+        def static_method2(){
+           write("(m2) before adding  %s\n", me.x)
+           me.x += 24
+           write("(m2) after adding %s, now calling m1 again\n", me.x)
+           me:static_method1()
+        }
+        // another static method 3
+        def static_method3(){
+           write("(m3) before adding %s\n", me.x)
+           me.x += 12
+           write("(m3) after adding %s\n", me.x)
+        }
+        // now showing how to call static 
+        // from instance method
+        def instance_method(me){
+           write( "My static 'x' has value %s \n", me.$.x )
+           // call static method?
+           me.$.static_method1() 
+        } 
+    }
+    // call one in namespace form 
+    MyClass:static_method1()
+    // another 
+    MyClass:static_method2()
+    // in variable form 
+    MyClass.static_method1()
+    // in the field form
+    m3 = MyClass.static_method3
+    // call the method
+    m3()
+    ci = new('MyClass')
+    ci.instance_method()
+    // see it works 
+    MyClass.x += 60
+    write("Final result is %d\n", MyClass.x)
+    MyClass.x
+
+
+## Reflection  
 
 Reflection is built-in, because it is a dynamic language.
 Look at the below code :
@@ -666,7 +763,7 @@ Which produces :
     S{ Super : (0) }
 
 
-# Java Interoperability
+## Java Interoperability
 
 The idea is simple : make nJexl extend Java objects.
 This can be done trivially, with : 
@@ -713,7 +810,7 @@ Thus, the interop, is perfectly done. The *isa* also works as expected.
 One needs to understand that the cost of extending Java object is higher than the cost of extending native nJexl objects, and thus - one should be prepared for the performance hits that come in with it.
 
 
-## The Ancestors Function 
+### The Ancestors Function 
 
 That brings the question of, how to call ancestors constructors?
 Clearly with a language in multiple inheritance, there has to be a way to call super class constructor, in this case, one can actually call any ancestors! That syntax is : 
@@ -734,7 +831,7 @@ Clearly with a language in multiple inheritance, there has to be a way to call s
 
 This is how any superclass and upwards *constructor* can be *called*, with desired parameters.
 
-## Multiple Inheritence , with Java and nJexl 
+### Multiple Inheritence with Java and nJexl 
 
     import 'java.lang.System.out' as out
     import 'java.lang.String' as String
@@ -799,7 +896,7 @@ The result is as follows :
     I can call String's methods! .length() ==> 12
     92
 
-### Cross Referencing Classes from Other Files 
+### Cross Referencing 
 Suppose that we have to call a class from another source file
 where it was defined.
 To make it simplier, suppose that we have these definitions in another.jxl :
