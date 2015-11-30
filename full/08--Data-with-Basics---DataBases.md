@@ -67,7 +67,7 @@ Now, what sort of table we need to do a query one?  Here is the table
 And the query you specify this way : 
 
      // query is darn easy : result is a data matrix object 
-     (njexl)matrix =  db:results("noga", "select * from noga_demo")
+     (njexl)matrix =  db.results("noga", "select * from noga_demo")
      =>< S{ Id,Name } , [[1, Noga], [2, Jaideep ], [3, Partha], [4, Chanda], [5, Shweta], [6, Waseem]] >
 
 
