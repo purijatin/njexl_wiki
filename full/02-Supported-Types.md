@@ -26,6 +26,7 @@
      * [Sets](#sets)
      * [Multiset](#multiset)
      * [Hashes and Dictionaries](#hashes-and-dictionaries)
+          * [Indexer Overload](#indexer-overload)
      * [String Operations On Collections](#string-operations-on-collections)
      * [Linearizing Tuple](#linearizing-tuple)
  * [Range Data Type](#range-data-type)
@@ -35,7 +36,6 @@
      * [Range In Reverse](#range-in-reverse)
      * [Range Checking](#range-checking)
      * [Collection Splicing](#collection-object-splicing)
-
 
 ## Overview
 
@@ -663,6 +663,16 @@ Whatmore, you can take two lists and make a dictionary out of it :
     (njexl)cwc[2015]
     =>Aus
 
+Suppose from multiple lists one needs to covert it to a dictionary :
+
+    (njexl)keys = [2011,2015]
+    =>@[2011, 2015]
+    (njexl)values = ['Ind','Aus']
+    =>@[Ind, Aus]
+    (njexl)d = dict{ [ $ , values[_] ] }(keys) // (key,value) intuitive?
+    =>{2011=Ind, 2015=Aus}
+
+### Indexer Overload
 
 The syntax container[x] is overloaded. It works for every container type, including Sets which are made by nJexl. 
        
