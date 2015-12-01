@@ -46,10 +46,10 @@ And that we can assign methods as fields solves a lot of problem with objects.
 A fairly interesting essay and summary can be found [here](http://harmful.cat-v.org/software/OO_programming/why_oo_sucks) :
 
 >Why OO was popular?
-Reason 1 - It was thought to be easy to learn.
-Reason 2 - It was thought to make code reuse easier.
-Reason 3 - It was hyped.
-Reason 4 - It created a new software industry.
+* Reason 1 - It was thought to be easy to learn.
+* Reason 2 - It was thought to make code reuse easier.
+* Reason 3 - It was hyped.
+* Reason 4 - It created a new software industry.
 I see no evidence of 1 and 2. Reasons 3 and 4 seem to be the driving force behind the technology. If a language technology is so bad that it creates a new industry to solve problems of its own making then it must be a good idea for the guys who want to make money.
 This is is the real driving force behind OOPs. 
 
