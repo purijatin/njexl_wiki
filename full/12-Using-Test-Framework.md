@@ -1,5 +1,38 @@
 # The nJexl.testing Automation Framework
 
+## Contents
+
+* [Overview](#overview)
+* [Data Driven Approach](#data-driven-approach)
+    * [Object Repository](#object-repository)
+    * [Data Sources and Sheets](#data-sources-and-sheets)
+        * [Data Sheet to Script Connectivity](#data-sheet-to-script-connectivity)
+* [UI Testing using Selenium](#ui-testing-using-selenium)
+    * [Local Browser Support](#local-browser-support)
+    * [Remote Browser Support](#remote-browser-support)
+    * [Sample Production Usage](#sample-production-usage)
+    * [Making Automation data driven](#making-automation-data-driven)
+    * [Web Suite XML](#web-suite-xml)
+    * [Sample BrowserStack configuration file](#sample-browserStack-configuration-file)
+* [Web API Testing : REST](#web-api-testing--rest)
+    * [The Jexl Script](#the-jexl-script)
+    * [The Data Sheet](#the-data-sheet)
+* [API Testing](#api-testing)
+    * [Data Sheets](#data-sheets)
+    * [Validators](#validators)
+        * [Pre Validator](pre-validator)
+        * [Post Validator](post-validator)
+    * [Annotations Explained](#annotations-explained)
+        * [NApiService](#napiservice)
+        * [NApiServiceCreator](#napiservicecreator)
+        * [NApiServiceInit](#napiserviceinit)
+        * [NApi](#napi)
+        * [NApiThread](#napithread)
+        * [Performance](#performance)
+
+
+## Overview
+
 Software Testing is essentially limited to the following scenarios:
 
 * (Non existent) Unit Test cases 
@@ -20,7 +53,7 @@ or you rather add the dependency njexl.testing in your project :
 <dependency>
   <groupId>com.github.nmondal</groupId>
   <artifactId>njexl.testing</artifactId>
-  <version>0.2</version>
+  <version>0.2</version> <!-- or 0.3-SNAPSHOT -->
 </dependency>
 ```
 
@@ -43,8 +76,9 @@ public static TestSuiteRunner runner(String suiteFile) throws Exception {
 The suite file is the xml file - that has every information 
 about the tests being performed.
 
+[Back to Contents](#contents)
 
-## The Data Driven Approach 
+## Data Driven Approach 
 
 Data should reside outside code.
 One also needs to be very clear on - what precisely is data.
@@ -83,7 +117,7 @@ Thus, if the data table is this :
 | a1 | b1 | c1 |
 | a2 | b2 | c2 |
 
-
+[Back to Contents](#contents)
 
 Then, the automatic variable "A" can be used to access the column in the particular row that 
 is getting executed. This is automatic, and no coding is required, 
@@ -109,6 +143,7 @@ and when using it by name "sample" :
 Thus, in the script selenium_demo.jexl - when it runs through the script, 
 can access the columns by the variable named as column headers.
 
+[Back to Contents](#contents)
 
 
 ## UI Testing using Selenium
@@ -146,6 +181,8 @@ Now, then, that is it. Brings back the RC again.
 For the coder in you - no, we do not like people coding at all.
 We try to minimize the efforts - and put it back elsewhere.
 
+[Back to Contents](#contents)
+
 ### Local Browser Support 
 
 Clearly it locally supports everything that is supported by Selenium.
@@ -169,8 +206,9 @@ See the list of browsers and systems supported by them :
 [BrowserStack Documentation](https://www.browserstack.com/automate/java)
 That should get the ball rolling.
 
+[Back to Contents](#contents)
 
-### A Sample Production Usage 
+### Sample Production Usage 
 The Selenium object is custom made, [source](https://github.com/nmondal/njexl/blob/master/testing/src/main/java/com/noga/njexl/testing/ui/XSelenium.java) is as always open.
 However, the cools stuff are embedded in, so probably not a good idea to copy paste it alone.
 
@@ -196,7 +234,6 @@ See the blinding awesomeness ( in the style of Kung Fu Panda ) :
     assert:test { selenium.title == 'Accounts' } ( "Login is in A/C Page" )
     // zoom out - an awesome feature of XSelenium 
     selenium.zoomOut(3)
-
     // These following elements must be there 
     options = json('ui.json')
     // pretty standard nested for ... 
@@ -220,10 +257,12 @@ See the blinding awesomeness ( in the style of Kung Fu Panda ) :
     // but t might be null, so...:
     assert:test{ not empty(t.rows) } ("There is data in A/C Page" )
 
-
 As you can see, NO framework or language can get this done in less lines than this.
 
-### Looking for Context : Before being data driven 
+[Back to Contents](#contents)
+
+
+### Making Automation data driven 
 
 It is good to be driven by data, but before that you need to make sure 
 that the scripts are ready to be data driven. How do you do that?
@@ -241,13 +280,11 @@ Thus, to append a variable to the current execution context would be :
      __current__.var_name  =  var_value // even this is the same as above !
      
 
-
 Now, inside the script, one can use the variable :
 
      out:println(var_name)
 
 which of course would use the vars value!
-
 Such a demonstration can be taken to extreme - thus we can use :
 
      // this is first level of abstraction - before data source 
@@ -268,9 +305,9 @@ This is the last step before getting into fully productized test automation.
 That would be done using external data sources, using something : implicit data sources.
 That is a TestSuite abstraction, which follows next.
 
+[Back to Contents](#contents)
 
-
-### The Web Suite XML
+### Web Suite XML
 
 Against our better senses, we are going with XML. 
 Typically, the suite explains the whole test :
@@ -323,7 +360,9 @@ Typically, the suite explains the whole test :
 </testSuite>
 ```
 
-#### Sample BrowserStack configuration file 
+[Back to Contents](#contents)
+
+### Sample BrowserStack configuration file 
 
 A sample BrowserStack file would look like this :
 
@@ -341,8 +380,9 @@ Take a look around [BrowserStackDriver](https://github.com/nmondal/njexl/blob/ma
 one can use from here. To know what all options are supported refer to :
 [BrowserStack Documentation](https://www.browserstack.com/automate/java)
 
+[Back to Contents](#contents)
 
-### Web API Testing : REST 
+## Web API Testing : REST 
 
 To do so, one simply needs to have a suite customized to REST testing need:
 
@@ -366,7 +406,9 @@ To do so, one simply needs to have a suite customized to REST testing need:
 </testSuite>
 ```
 
-### The Jexl Script 
+[Back to Contents](#contents)
+
+#### The Jexl Script 
 
 The corresponding jxl script can be :
 
@@ -386,7 +428,7 @@ The corresponding jxl script can be :
 	return not empty(d)
 
 
-### The Data Sheet 
+#### The Data Sheet 
 
 Here is how the data sheet "userId" looks like :
 
@@ -395,9 +437,10 @@ Here is how the data sheet "userId" looks like :
 | 1 | b1 | c1 |
 | 2 | b2 | c2 |
 
+[Back to Contents](#contents)
 
+## API Testing
 
-## The API Testing Framework
 nJexl lets you do api testing.
 It is data driven, as you have expected, and as usual it works in this way :
 
@@ -424,7 +467,6 @@ public class NApiAnnotationSample {
         System.out.printf("%d + %d = %d \n", a, b, r );
         return r;
     }
-
     @NApi(dataSource = "UIData.xlsx", dataTable = "sub" ,
             before = "pre.jexl", after = "post.jexl" , 
             globals = { "op=-" } )
@@ -438,18 +480,16 @@ public class NApiAnnotationSample {
 }
 
 ```
+[Back to Contents](#contents)
 
-## The Data Sheets 
+### Data Sheets 
 
 For subtraction the data sheet is :
-
-
 
 | a  | b  | 
 |----|----|
 | 10 | 4  | 
 | 12 | 5  | 
-
 
 
 ### Validators
@@ -470,13 +510,11 @@ The pre and post jexls are simple.
 
 #### Post Validator 
 
-
     /**
       post.jexl 
       A demo of after method - how to test a method
     */
     import 'java.lang.System.out' as out
-
     // _cc_ stores the call container
     actual = _cc_.result
     // `` is the currying, allows you to operate a string as if it is a function
@@ -487,6 +525,7 @@ The pre and post jexls are simple.
     // return can be made implicit
     expected == actual
 
+[Back to Contents](#contents)
 
 ### Annotations Explained 
 
@@ -513,6 +552,8 @@ It has multiple optional parameters :
 * args : String[] , denoting arguments which would be parsed by JexlEngine to create 
          the arguments of the class creator
 
+
+[Back to Contents](#contents)
 
 #### NApiServiceInit 
 This is a marker, only one is allowed to put in one of the constructors of the test class.
@@ -550,7 +591,7 @@ This designates a service method to be tested. It has multiple parameters :
 
       Which is how it works.
 
-
+[Back to Contents](#contents)
 
 #### NApiThread
 
@@ -578,6 +619,7 @@ It has multiple optional parameters :
 * performance : Another annotation to do performance testing.
                 Defaults to no performance testing 
 
+[Back to Contents](#contents)
 
 #### Performance 
 This does the performance testing.
@@ -597,6 +639,4 @@ This does the performance testing.
               You can change that by adding a column %PERCENTILE% in the test data sheet. 
               Defaults to 10 sec.             
 
-
- 
-
+[Back to Contents](#contents)
