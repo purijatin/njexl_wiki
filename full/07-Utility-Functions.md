@@ -125,6 +125,9 @@ Another case to case parameter is :
 
 Thus, armed with these concepts we can proceed to understand Utility functions.
 
+[Back to Contents](#contents)
+
+
 ## Numerics
 
 These are type conversion and type coercing functions.
@@ -235,6 +238,8 @@ Converts an object into a [BigDecimal](http://docs.oracle.com/javase/8/docs/api/
     (njexl)type(x)
     =>class java.math.BigDecimal
 
+[Back to Contents](#contents)
+
 ## Collections
 
 nJexl has particularly interesting collections, and all of them comes with map functionalities.
@@ -272,6 +277,8 @@ One can use map function while creating the array :
     (njexl) x = array{ $**3 }(1,2,3,4)
     =>@[1, 8, 27, 64]
 
+[Back to Contents](#contents)
+
 ### List
 
 Clearly default arrays are not mutable, so we can not add/remove items.
@@ -294,6 +301,8 @@ One can use map function while creating the list :
 
     (njexl) x = list{ $**3 }(1,2,3,4)
     =>[1, 8, 27, 64]
+
+[Back to Contents](#contents)
 
 ### Set 
 
@@ -323,6 +332,7 @@ Observe the issue of '4' != 4. To fix that :
     (njexl)s = set{int($)}(x)
     =>S{ 1,2,3,4,5 }
 
+[Back to Contents](#contents)
 
 ### Dict 
 
@@ -363,6 +373,7 @@ The issue is that the millisec is not unique enough. To avoid collision :
     (njexl)d = dict{ k = $.time; [ k , (k @ _$_ )?(_$_[k] += $ ): list($) ] }(dates)
     =>{1448895633778=[Mon Nov 30 20:30:33 IST 2015, Mon Nov 30 20:30:33 IST 2015, Mon Nov 30 20:30:33 IST 2015]}
 
+[Back to Contents](#contents)
 
 ## Find Operations
 
@@ -420,6 +431,7 @@ This is only applicable for premitive types only.
     (njexl)index{ $ < 8 }(l)
     =>2
 
+[Back to Contents](#contents)
 
 ### Select 
 
@@ -441,6 +453,8 @@ Suppose now we make it slightly better, given a collection find out which are gr
 
 You can read about the *random* function in here, later.
 
+[Back to Contents](#contents)
+
 ### Partition 
 
 The function partition() is a fairly interesting one, which given a criterion splits a collection into two parts,
@@ -455,8 +469,9 @@ one that matches the criterion, and another that does not match.
     (njexl)fail
     =>[23, 25, 21]
 
-
 What we are doing here is partitioning the marks using the criterion, if anything is over 30, it is pass else fail.
+
+[Back to Contents](#contents)
 
 ## Join
 
@@ -520,6 +535,7 @@ And thus, to recover the multiplicand, we need to reverse the tuples in the list
     (njexl)y / l
     =>[a, b] ## This is 'm'
 
+[Back to Contents](#contents)
 
 ## Sorting 
 
@@ -550,6 +566,8 @@ Obviously we can do it using the roll too:
     =>[{roll=1, name=X}, {roll=2, name=Z}, {roll=3, name=C}]
 
 Thus, the standard comparison function can be passed straight in the anonymous function block.
+
+[Back to Contents](#contents)
 
 ## Random Operations
 
@@ -589,6 +607,8 @@ This function can be used in selecting a value at random from a collection :
     =>1
     (njexl)random(l)
     =>3
+
+[Back to Contents](#contents)
 
 #### Next Random Number
 
@@ -670,6 +690,7 @@ Using this big integer facility one can generate random string in an alphabet :
     (njexl)s.toString(36)
     =>-1th6m6zbeybrmghrvtr62oqfcwzp8hqa3xgdkzitvao4mlv23
 
+[Back to Contents](#contents)
 
 ## Input Output
 
@@ -711,6 +732,8 @@ With a string argument matching url gets the data from there like [curl]() :
 With a InputStream argument reads one line at a time from that:
 
 
+[Back to Contents](#contents)
+
 ### write 
 
 Generally can be used to write into :
@@ -747,15 +770,34 @@ and we check the file :
 If the first parameter is an URL, then the *write* function actually *post* the next parameter
 there, which is to be a Dictionary contaning parameters to do *post*.
 
+    _url_ = 'https://httpbin.org/post'
+    params = { 'foo' : 'bar' , 'complexity' : 'sucks'  }
+    response = write(  _url_ , params )
+    ro = json(response)
+    write(ro)
+
+Produces :
+
+    {args={}, headers={Accept=text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2, User-Agent=Java/1.8.0_60, Host=httpbin.org, Content-Length=24, Content-Type=application/x-www-form-urlencoded}, data=, form={complexity=sucks, foo=bar}, origin=124.123.176.19, files={}, json=null, url=https://httpbin.org/post}
+
+
 #### PrintWriter
 
 Given the first parameter is a PrintWriter, write writes back a line to the PrintWriter.
+
+[Back to Contents](#contents)
 
 ### Send 
 
 First parameter is an URL, then the *send* function actually use the next parameter
 as the http protocol to send data to the url, using the last parameter
 which is to be a Dictionary contaning parameters.
+
+    _url_ = 'https://httpbin.org/post'
+    params = { 'foo' : 'bar' , 'complexity' : 'sucks'  }
+    response = send(  _url_ , 'POST' , params )
+    ro = json(response)
+    write(ro)
 
 
 ### FOpen
@@ -773,6 +815,7 @@ With mode parameters are :
 * "w" --> write only, file will be created if not there, truncated to 0 size if exists 
 * "a" --> append mode, file will be created if not there, start append to the last  
 
+[Back to Contents](#contents)
 
 ### json 
 
@@ -806,13 +849,13 @@ Now obviously - One can access the fields :
 
 Awesome, right? You bet. No extra fancy stuff - nothing really. Less talk - and more work. The way the pioneers of computer science envisioned programming - which later the *software engineers* destroyed.
 
+[Back to Contents](#contents)
+
 ### xml 
 
 Xml was, is, and always will be a [very bad idea](http://harmful.cat-v.org/software/xml/)
 
-
     > “XML combines the efficiency of text files with the readability of binary files” – unknown
-
 
 But thanks to many *big* enterprise companies - it became a norm to be abused human intellect - the last are obviously Java EE usage in Hibernate, Springs and Struts. Notwithstanding the complexity and loss of precise network bandwidth - it is a very popular format. Thus - against my better judgment I could not avoid XML.
 
@@ -896,6 +939,7 @@ Accessing properties would be :
     (njexl)es[1].text
     =>Overview
 
+[Back to Contents](#contents)
 
 ### type
 
@@ -930,20 +974,19 @@ The function *inspect* returns funcion names and field names of an object or a c
     registerNatives
     notify
 
-
+[Back to Contents](#contents)
 
 ### matrix 
 
-It has it's own  seperate doc, see [Data Tables]()
+It has it's own  seperate doc, see [Data Tables](https://github.com/nmondal/njexl/wiki/09--Cross-Verification-Of-Data-Tables)
 
 ### db 
 
-It has it's own  seperate doc, see [Database]()
-
+It has it's own  seperate doc, see [Database](https://github.com/nmondal/njexl/wiki/08--Data-with-Basics---DataBases)
 
 ## Higher Order Functions
 
-Higher order functions are functions taking another function as input
+Higher order functions are functions taking another function as input.
 
 ### SQLMath
 
@@ -968,9 +1011,14 @@ Like always, this function also takes anonymous function as input :
     =>@[0, 169, 281]
 
 Thus, it would be very easy to define on what we need to sum over or min or max.
-Essentially the anonymous function must define a scalar to transfer the object into.
+Essentially the anonymous function must define a scalar to transfer the object into:
+
+    (njexl)sqlmath{ $.value }( { 1:2, 3:4, 5:6 })
+    =>@[2, 6, 12]
+
 
 ### MinMax 
+
 It is sometimes important to find min and max of items which can not be cast into numbers directly.
 For example one may need to find if an item is within some range or not, and then finding min and max becomes important.
 Thus, we can have : 
@@ -988,6 +1036,8 @@ Thus, we can have :
     (njexl)minmax{ $[0].name < $[1].name }(students)
     =>@[{roll=3, name=C}, {roll=2, name=Z}]
 
+
+[Back to Contents](#contents)
 
 ## Fold 
 
@@ -1024,6 +1074,8 @@ Note that the curious
     _$_  
 
 signifies and stores the partial result of the fold. 
+
+[Back to Contents](#contents)
 
 ## Error Handling
 
@@ -1101,6 +1153,8 @@ Finally, the integer parsing :
     (njexl)#(o,:e) = Integer:parseInt('Sri 420')
     =>[null, java.lang.NumberFormatException: For input string: "Sri 420"]
 
+[Back to Contents](#contents)
+
 
 ## load  
 
@@ -1146,6 +1200,7 @@ A much more interesting example is using Selenium Webdriver:
     // return if needed 
     return 0 
 
+[Back to Contents](#contents)
 
 ## System
 
@@ -1163,6 +1218,7 @@ To do so, we have the system() function:
     (njexl)
 
 ### Error 
+
 And in case of error :
 
     (njexl)system("lslx")
@@ -1209,20 +1265,19 @@ Note the curious "$$" usage, which signifies the arguments passed to the thread(
 This is accessible in the anonymous method block.
 The standard variable "$" contains the thread object itself, while "_" has the thread id.
 
+[Back to Contents](#contents)
+
 ### Clock 
 
 Sometimes you need to find how much time a particular method or code snippet is taking.
 Fear not, there is this clock function who would cater to your need.
 
-
     import 'java.lang.System.out' as out
-
     def long_method(){
        for ( i : [1:10000]){
           x = 0 // just ensuring the code snippet runs 
        }
     }
-
     /*  
      now i need to clock this method 
      The idea is it would pass the time in nanosec 
@@ -1233,12 +1288,12 @@ Fear not, there is this clock function who would cater to your need.
     }()
     write(t)
 
-
 The result this would be :
     
     prompt$ njexl tmp.jxl 
     13742064
 
+[Back to Contents](#contents)
 
 ### Until
 
@@ -1268,6 +1323,8 @@ But, now with the expression on :
 
 Thus, the return values are *true* / *false* based on whether the condition met before timeout
 happened or not. That solves the problem of waiting in general.
+
+[Back to Contents](#contents)
 
 ### Tokens
 
@@ -1330,6 +1387,7 @@ Thus, using this, we can have:
 And this is now : cool. That works.
 That is what the people wants, attain more with very less.
 
+[Back to Contents](#contents)
 
 ## Hash 
 
@@ -1348,4 +1406,6 @@ They are the same.
 One can obviously change the algorithm used :
 
      hash([algo-string , ] <string> )
+
+[Back to Contents](#contents)
 
