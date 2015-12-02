@@ -29,6 +29,7 @@
 * [Special Functions](#special-functions)
      * [Collections](#collections)
      * [Avoiding Iteration](#avoiding-iteration)
+* [Objcts and Classes](https://github.com/nmondal/njexl/wiki/11-Objects-And-Related-Concepts)
 * [Sample Programs](#sample-programs)
      * [Measuring Speed of Execution](#speed-of-execution)
      * [FizzBuzz](#fizz-buzz)
