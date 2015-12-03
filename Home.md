@@ -133,3 +133,11 @@ Those of you who still find it enjoyable to learn the details of, say, a program
 Amen to that. 
 Hope, the people eventually understands it.
 It will make the world a better place.
+
+## Code Coverage 
+
+PS. We should preach what we practice.
+Hence, here is the code coverage result of the njexl, showing 70% coverage ( almost )
+including the parser.
+
+![Code Coverage](http://picpaste.com/pics/41Bw9UXT.1449119064.PNG)
