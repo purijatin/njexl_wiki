@@ -20,6 +20,7 @@
     * [list](#list) --> creates a list from args 
     * [set](#list) --> creates a set from args 
     * [dict](#dict) --> creates a dictionary from args
+    * [project](#project) --> creates a projection ( sub collection )
 * [Find Operations](#find-operations)
     * [index](#index) --> finds item in an indexable collection return the index 
         * [rindex](#rindex) --> finds item in an indexable collection from end 
@@ -372,6 +373,49 @@ The issue is that the millisec is not unique enough. To avoid collision :
 
     (njexl)d = dict{ k = $.time; [ k , (k @ _$_ )?(_$_[k] += $ ): list($) ] }(dates)
     =>{1448895633778=[Mon Nov 30 20:30:33 IST 2015, Mon Nov 30 20:30:33 IST 2015, Mon Nov 30 20:30:33 IST 2015]}
+
+[Back to Contents](#contents)
+
+### Project
+
+Sometimes it is needed to create a sub-collection from the collection.
+This, is known as *projection* ( choosing specific columns of a row vector ).
+
+The idea is simple :
+
+    (njexl)a = [0,1,2,3,4]
+    =>@[0, 1, 2, 3, 4]
+    (njexl)sub(a,2)
+    =>@[2, 3, 4]
+    (njexl)sub(a,2,3)
+    =>@[2, 3]
+    (njexl)sub(a,-1)
+    =>@[0, 1, 2, 3]
+    (njexl)sub(a,0,-1)
+    =>@[0, 1, 2, 3]
+    (njexl)sub(a,1,-1)
+    =>@[1, 2, 3]
+    (njexl)
+
+If you do not like the name *sub* , the same function is aliased under *project*.
+
+#### Splicing Operation 
+
+While project works on a range (from,to) , the generic idea can be expanded.
+What if I want to create a newer collection from a collection using a *range* type?
+Clearly I can :
+
+    (njexl)a
+    =>@[0, 1, 2, 3, 4]
+    (njexl)a[[0:3:2]]
+    =>@[0, 2]
+    (njexl)
+
+This is ok. However, for more better selection mechanism use *select* method :
+
+    (njexl)select{ $ %2 == 0 }(a)
+    =>[0, 2, 4]
+
 
 [Back to Contents](#contents)
 
