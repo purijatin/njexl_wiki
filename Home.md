@@ -137,7 +137,7 @@ It will make the world a better place.
 ## Code Coverage 
 
 PS. We should preach what we practice.
-Hence, here is the code coverage result of the njexl, showing 70% coverage ( almost )
-including the parser.
+Hence, here is the code coverage result of the njexl, showing 80% coverage ( almost )
+excluding the parser.
 
-![Code Coverage](http://picpaste.com/pics/41Bw9UXT.1449119064.PNG)
+![Code Coverage](http://picpaste.com/pics/EaX58Wjx.1449253232.png)
