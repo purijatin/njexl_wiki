@@ -652,6 +652,31 @@ This function can be used in selecting a value at random from a collection :
     (njexl)random(l)
     =>3
 
+##### Random Sub Collection 
+
+The following example demonstrates the sub collection idea :
+
+    (njexl)a = [0,1,2,3,4]
+    =>@[0, 1, 2, 3, 4]
+    (njexl)random(a,3) // pick 3 items random with replacement 
+    =>[3, 3, 3]
+    (njexl)random(a,3)
+    =>[2, 4, 1]
+    (njexl)random(a,3)
+    =>[0, 1, 0]
+    (njexl)random(a,3)
+    =>[3, 4, 3]
+    (njexl)random(a,3)
+    =>[4, 0, 3]
+    (njexl)random(a,3)
+    =>[2, 3, 1]
+    (njexl)random("abcdefghijklmpon",10) // works on strings too....
+    =>dicgdjdnki
+    (njexl)random("abcdefghijklmpon",10)
+    =>mpkieaiipj
+
+
+
 [Back to Contents](#contents)
 
 #### Next Random Number
