@@ -455,6 +455,28 @@ Then, the other way :
 
 Both works. 
 
+#### Casing 
+
+Scala has *case* matching. nJexl has *where* and *continue* .
+The syntax is :
+
+     where( condition ){  /*  body */ }
+
+note that, if the condition matches, then *true* will be returned, 
+not the result of the body. Thus mapping can be attained :
+
+    (njexl)y
+    =>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    (njexl)select{ where( $%2 == 0 ){ $ = $**2 } }(y) // when element is divisible by 2 , square it
+    =>[4, 16, 36, 64, 100]
+
+Now suppose we need to condition on multiple disjoint conditions :
+
+    (njexl)select{ continue($%2==0){ $ = $*3 } ; continue($%3==0 ){ $ = $*5 } }(y)
+    =>[6, 15, 12, 18, 24, 45, 30]
+
+The *continue* acts as *switch : case* statements.
+
 ### Axiom of Choice 
 
 This is also known as *Multiplicative Axiom* or *the Join Operation*.
