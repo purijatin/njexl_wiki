@@ -140,4 +140,4 @@ PS. We should preach what we practice.
 Hence, here is the code coverage result of the njexl, showing 80% coverage ( almost )
 excluding the parser.
 
-![Code Coverage](http://picpaste.com/pics/EaX58Wjx.1449253232.png)
+![Code Coverage](http://s30.postimg.org/c2fzwv5pd/Screen_Shot_2015_12_04_at_11_49_55_pm.png)
