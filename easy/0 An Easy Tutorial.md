@@ -53,21 +53,27 @@ Here is the important list of features, which make nJexl a first choice of the b
 #### nJexl is Embeddable in Java Code
 
 nJexl scripts are easy to be invoked as stand alone scripts, also from withing java code, 
-thus making integration of external logic into proper code base easy.
+thus making integration of external logic into proper code base easy. Thus Java code
+can call nJexl scripts very easily, and all of nJexl functionality is programmatically 
+accessible by Java caller code. This makes it distinct from Scala, where it is almost impossible
+to call scala code from Java. Lots of code of how to call nJexl can be found 
+in the [test](https://github.com/nmondal/njexl/tree/master/lang/src/test/java/com/noga/njexl/lang) directory. Many scripts are there as sample in [samples](https://github.com/nmondal/njexl/tree/master/lang/samples) folder.
 
-#### nJexl is functional:
+##### nJexl gets interpreted on the JVM
+nJexl is interpreted by a Java runtime. This means that nJexl and Java have a common runtime platform. You can easily move from Java to nJexl and vice versa.
+
+##### nJexl can Execute any exisiting Java Code
+nJexl enables you to use all the classes of the Java SDK's in nJexl, and also your own, custom Java classes, or your favourite Java open source projects.
+
+
+#### nJexl is functional
 nJexl is also a functional language in the sense that every function is a value and because every value is an object so ultimately every function is an object.
 
 nJexl provides a lightweight syntax for defining anonymous functions, it supports higher-order functions, it allows functions to be nested, and supports [currying](https://en.wikipedia.org/wiki/Currying). 
 
-#### nJexl is dynamically typed:
+#### nJexl is dynamically typed
 nJexl, unlike other statically typed languages, does not expect you to provide type information. You don't have to specify a type in most cases, and you certainly don't have to repeat it.
 
-#### nJexl gets interpreted on the JVM:
-nJexl is interpreted by a Java runtime. This means that nJexl and Java have a common runtime platform. You can easily move from Java to nJexl and vice versa.
-
-#### nJexl can Execute any exisiting Java Code:
-nJexl enables you to use all the classes of the Java SDK's in nJexl, and also your own, custom Java classes, or your favourite Java open source projects.
 
 ### nJexl vs Java
 
@@ -126,7 +132,7 @@ Open a comamnd prompt, and type :
      $njexl 
      (njexl)
 
-It should produce the prompt (njexl).
+It should produce the prompt of [REPL](https://en.wikipedia.org/wiki/Read–eval–print_loop) of (njexl).
 
 [Back to Contents](#contents)
 
@@ -147,7 +153,7 @@ A class can be defined as a template/blueprint that describes the behaviors/stat
 #### Fields 
 Each object has its unique set of instant variables, which are called fields. An object's state is created by the values assigned to these fields.
 
-### First Program:
+### First Program
 
 #### Interactive Mode Programming
 Invoking the interpreter without passing a script file as a parameter brings up the following prompt:
@@ -165,7 +171,7 @@ Invoking the interpreter without passing a script file as a parameter brings up 
     */
     write('Hello, nJexl!')
 
-Save this as a file "hello.jxl" and run :
+Save this as a file "tmp.jxl" and run :
 
     C:\>njexl tmp.jxl
     Hello, nJexl!
@@ -197,12 +203,12 @@ Following are illegal identifiers:
 ##### Operator identifiers
 An operator identifier consists of one or more operator characters. Operator characters are printable ASCII characters such as +, :, ?, ~ or #. Following are legal operator identifiers:
 
-     + ++ ::: <?> :>
+     + += : 
 
 #### Keywords:
 
 Some are reserved words, and can not be used as identifiers.
-Some are semi reserved, and can be used as identifiers.
+Some are semi reserved, and can be used as identifiers, for example *me* and *my*.
 
 ##### Reserved Kewords
 
@@ -496,8 +502,6 @@ Suppose we have  E =[] ,  A = [1,2,3] , AA = [2,1,3] ,  B = [2,3,4,1 ] , D = [0,
 | \| | Union of two collections | (A \| D ) is [0,1,2,3,10]  |
 | - | Collection subtraction |  (B - A) = [4]  while (A - B) = [] |
 | ^ | Collection symmetric difference |  (A-D) | (D-A) :: means : (A^D) = [0, 2, 3, 10] |
-
-
 
 
 [Back to Contents](#contents)
@@ -1041,6 +1045,17 @@ Now, we can read even from the command line :
 
 Read can also read from an url, and generate a get request.
 
+    (njexl)_url_ = 'http://jsonplaceholder.typicode.com/posts/1'
+    =>http://jsonplaceholder.typicode.com/posts/1
+    (njexl)read(_url_)
+    =>{
+      "userId": 1,
+      "id": 1,
+      "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+      "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
+    }
+
+
 ### Write 
 
 We are already familiar with write() call.
@@ -1056,6 +1071,32 @@ will create a file 'test.txt' and write this line to it.
 
 Write can also write to an url, that is generate a post request.
 
+    (njexl)    _url_ = 'https://httpbin.org/post'
+    =>https://httpbin.org/post
+    (njexl)
+    (njexl)params = { 'foo' : 'bar' , 'complexity' : 'sucks'  }
+    =>{complexity=sucks, foo=bar}
+    (njexl)write(_url_,params)
+    =>{
+      "args": {}, 
+      "data": "", 
+      "files": {}, 
+      "form": {
+        "complexity": "sucks", 
+        "foo": "bar"
+      }, 
+      "headers": {
+        "Accept": "text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2", 
+        "Content-Length": "24", 
+        "Content-Type": "application/x-www-form-urlencoded", 
+        "Host": "httpbin.org", 
+        "User-Agent": "Java/1.8.0_60"
+      }, 
+      "json": null, 
+      "origin": "124.123.179.172", 
+      "url": "https://httpbin.org/post"
+    }
+
 
 ## Special Functions
 
@@ -1066,6 +1107,13 @@ There are many special functions those create specific data structures, for exam
  * dict 
 
 These creates collection types.
+The functions :
+
+ * empty 
+ * size
+
+are used to find if collections are empty and the size of the collections.
+*null* is empty, as well as *size(null)* < 0.
 
 ### Collections
 
@@ -1126,11 +1174,8 @@ The same code can be achived by the list() function :
     =>[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
 
 Here we notice that the code you would have written inside the for-body, you write 
-in the curly braces after the function _list_ . Also, we note that there is this implicit variable "$"
-that holds the current element of the list.
-
-This anonymous function block is called Anonymous Parameter to the function, any function can have it, 
-but not all functions process it.
+in the curly braces after the function _list_ . Also, we note that there is this implicit variable "$" that holds the current element of the list.
+This anonymous function block is called Anonymous Parameter to the function, any function can have it, but not all functions process it.
 
 #### Searching for Something 
 
@@ -1148,7 +1193,16 @@ Suppose I want to find the first element of the list which is greater then 10:
     =>16
 
 This is the job of the _index_ function. Here one specifies the condition which should become true, 
-to say when the searching ended.
+to say when the searching ended. The *rindex* function finds the index in reverse, so :
+
+    (njexl)y
+    =>[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+    (njexl)rindex{ $ < 15 }(y)
+    =>2
+    (njexl)y[2]
+    =>9
+
+
 
 ##### Select 
 
@@ -1210,6 +1264,19 @@ But, recursion is bad, and thus the same code can be done with fold functions ( 
 
 Note that the initial seed is passed as 0, the anonymous parameter passed tells to add the 
 current element with partial result generated thereby , which is accessed by  " \_$\_ " .
+
+*lfold* folds a structure from *left* (traversing from left to right) while *rfold* 
+travarses from right to left.
+
+Observe this:
+
+    (njexl)lfold(y)
+    =>1∅4∅9∅16∅25∅36∅49∅64∅81∅100
+    (njexl)rfold(y)
+    =>100∅81∅64∅49∅36∅25∅16∅9∅4∅1
+
+With nothing, it produces a *unique* string representation of the list from left to right
+and right to left.
 
 ## Sample Programs 
 
