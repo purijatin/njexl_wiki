@@ -1029,19 +1029,37 @@ Accessing properties would be :
 The function *inspect* returns funcion names and field names of an object or a class:
 
     (njexl)inspect([])
-    =>Type : [Ljava.lang.Object;
-    ==== Fields ===
-    === Methods ===
-    getClass
-    wait
-    hashCode
-    equals
-    notifyAll
-    clone
-    finalize
-    toString
-    registerNatives
-    notify
+    =>{t=[Ljava.lang.Object;, F=[], f=[], m=[getClass, wait, hashCode, equals, notifyAll, clone, finalize, toString, registerNatives, notify]}
+    (njexl)
+
+Observe that the key "f" defines instances fields, while "F" defines static fields.
+Using this, a generic object equals and comparison can be written as discussed below.
+
+##### Generic Object Equals
+
+    def object2dict(x){
+       r = inspect(x) // this is how we figure out the stuff
+       dict{  [ $.key , x[$.key]  ]  }(r.f)
+    }
+    def _equal_(a,b){
+       d_a = object2dict(a)
+       d_b = object2dict(b)
+       d_a == d_b // good enough 
+    }
+    // try with string?
+    write ( _equal_("abc" , "abc") )
+    write ( _equal_("ac" , "abc") )
+    // try with integers 
+    write ( _equal_(12 , 12) )
+    write ( _equal_(2 , 12) )
+
+The result of this is :
+
+    true
+    false
+    true
+    false
+
 
 [Back to Contents](#contents)
 
