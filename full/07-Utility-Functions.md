@@ -1034,16 +1034,14 @@ The function *inspect* returns funcion names and field names of an object or a c
 
 Observe that the key "f" defines instances fields, while "F" defines static fields.
 Using this, a generic object equals and comparison can be written as discussed below.
+Notice that *dict* with one argument ( which is not not map ) produce a dict representation 
+of that object. 
 
 ##### Generic Object Equals
 
-    def object2dict(x){
-       r = inspect(x) // this is how we figure out the stuff
-       dict{  [ $.key , x[$.key]  ]  }(r.f)
-    }
     def _equal_(a,b){
-       d_a = object2dict(a)
-       d_b = object2dict(b)
+       d_a = dict(a) // create a dict representin an object 
+       d_b = dict(b) // same with another 
        d_a == d_b // good enough 
     }
     // try with string?
