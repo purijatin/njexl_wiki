@@ -98,7 +98,8 @@ Observe now that we can now create another function, lets call it list\_from\_li
      def list_from_list(fp, old_list)
          l = list()
          for ( x : old_list ){
-             l.add( map(x) )   
+            // use the function *reference* which was passed
+             l.add( fp(x) )   
          }
         return l
     } 
@@ -122,7 +123,7 @@ For an anonymous function parameters, there are 3 implicit guranteed arguments :
 
 Another case to case parameter is :
 
-* _$_ --> Signifies the partial result of the processing , we call it *PARTIAL*
+* \_$\_ --> Signifies the partial result of the processing , we call it *PARTIAL*
 
 Thus, armed with these concepts we can proceed to understand Utility functions.
 
@@ -374,6 +375,28 @@ The issue is that the millisec is not unique enough. To avoid collision :
     (njexl)d = dict{ k = $.time; [ k , (k @ _$_ )?(_$_[k] += $ ): list($) ] }(dates)
     =>{1448895633778=[Mon Nov 30 20:30:33 IST 2015, Mon Nov 30 20:30:33 IST 2015, Mon Nov 30 20:30:33 IST 2015]}
 
+#### Serializer
+
+In some situations it is needed to make a serialized type of an object.
+Observe :
+
+    (njexl)dict(1)
+    =>{@t=java.lang.Integer, value=1}
+    (njexl)dict("")
+    =>{@t=java.lang.String, value=[C@deb6432, hash=0}
+    (njexl)dict(date())
+    =>{cdate=null, @t=java.util.Date, fastTime=1449501612224}
+
+What it does, it makes a dictionary out of the object instance, with the fields filled up
+with the instances values for the fields. The collection is unmodifiable :
+
+    (njexl)one = dict(1)
+    =>{@t=java.lang.Integer, value=1}
+    (njexl)one.value = 10
+    Error : set object property error : at line 1, cols 5:9
+    Caused By : java.lang.UnsupportedOperationException
+
+
 [Back to Contents](#contents)
 
 ### Project
@@ -579,6 +602,21 @@ And thus, to recover the multiplicand, we need to reverse the tuples in the list
     (njexl)y / l
     =>[a, b] ## This is 'm'
 
+### Anagrams of a word
+
+Suppose we have a word : "waseem". We want to find all anagrams of this word.
+This becomes *almost like* find all permutations of the word.
+To do so, we start with finding all permuation of the word waseem :
+
+    (njexl)w = "waseem".toCharArray
+    =>@[w, a, s, e, e, m]
+    (njexl)anagrams = join{ where( $ == w and str($,'') !~ _$_  ){ $ = str($,'') ; } }(w,w,w,w,w,w)
+
+Or rather, using the argument overwriting :
+
+    join{ where( $ == w and str($,'') !~ _$_  ){ $ = str($,'') ; } }(__args__ = list{ w }([0:6]) ) 
+
+
 [Back to Contents](#contents)
 
 ## Sorting 
@@ -610,6 +648,24 @@ Obviously we can do it using the roll too:
     =>[{roll=1, name=X}, {roll=2, name=Z}, {roll=3, name=C}]
 
 Thus, the standard comparison function can be passed straight in the anonymous function block.
+
+#### Is Anagram
+
+Suppose we need to find if 2 strings are anagram or not :
+
+    (njexl)x = "waseem"
+    =>waseem
+    (njexl)y = "mseeaw"
+    =>mseeaw
+    (njexl)str( sorta(x.toCharArray) ) == str( sorta(y.toCharArray) )
+
+##### Optimality 
+
+It can easily be done, much easier, using :
+
+    (njexl) x.toCharArray == y.toCharArray 
+    =>true
+
 
 [Back to Contents](#contents)
 

@@ -90,7 +90,7 @@ In the dependency section (latest release is 0.2 ) :
 <dependency>
   <groupId>com.github.nmondal</groupId>
   <artifactId>njexl.lang</artifactId>
-  <version>0.2</version>
+  <version>0.2</version> <!-- or 0.3-SNAPSHOT -->
 </dependency>
 ```
 
