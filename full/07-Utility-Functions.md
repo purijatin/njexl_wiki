@@ -124,10 +124,34 @@ Another case to case parameter is :
 
 * _$_ --> Signifies the partial result of the processing , we call it *PARTIAL*
 
+#### Clsoure Properties
+
+One needs to understand that for all practical purposes, the anonymous functions 
+are extension to the parent block, or rather parent caller. 
+Observe :
+
+    x = 0 
+    s = list{  x = $ } ( [0:4])
+    write(s)
+    write(x)
+
+Yields :
+
+    [0, 1, 2, 3]
+    3
+
+Therefore, the variables defined in the outer scope becomes r/w accessible.
+However, one may choose to use nested anonymous blocks :
+
+    (njexl)s = list{  M  = minmax{ $[0] < $[1] }($) ; M[0] } ( [0:4].list() ** 2 )
+    =>[0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 2, 2, 0, 1, 2, 3]
+
+Observer that the argument to minmax : "$" is the items of the list, 
+and is different than what gets inside the anonymous function of minmax.
+A very clear example is generating combinations, which can be found [here](https://github.com/nmondal/njexl/wiki/10-Some-Practical-Use-Cases#permutation-and-combination).
 Thus, armed with these concepts we can proceed to understand Utility functions.
 
 [Back to Contents](#contents)
-
 
 ## Numerics
 
