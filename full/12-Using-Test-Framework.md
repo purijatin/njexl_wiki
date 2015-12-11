@@ -288,9 +288,9 @@ which of course would use the vars value!
 Such a demonstration can be taken to extreme - thus we can use :
 
      // this is first level of abstraction - before data source 
-     data = { 'word' : "talentsprint" ,
-              'name' : "ezeetra" ,
-              'email' : "support@ezeetra.com" ,
+     data = { 'word' : "foobar" ,
+              'name' : "foobar" ,
+              'email' : "support@foobar.com" ,
               'phone' : "99999999" }
 
     // connect to automatic variables : caution, should not do it in prod 
