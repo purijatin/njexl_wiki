@@ -1202,7 +1202,21 @@ to say when the searching ended. The *rindex* function finds the index in revers
     (njexl)y[2]
     =>9
 
+###### Where
 
+What about we want to get both the index as well as the item? 
+We use what is known as the [closure property]() of the anonymous function with respect to the external script :
+
+    (njexl)y = list{ $**2 }([1:11])
+    =>[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+    (njexl)d = { : }
+    =>{}
+    (njexl)index{ where( $ > 10 ){ d[_] = $ } }(y) // observe the *where* clause 
+    =>3
+    (njexl)d
+    =>{3=16}
+
+Note the *where* clause. where returns the value of the ( expression ), while executing any code inside the block.
 
 ##### Select 
 
