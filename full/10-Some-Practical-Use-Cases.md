@@ -7,6 +7,7 @@
 * [List Comprehension Examples](#list-comprehension-examples)
     * [How Close are Two Lists?](#how-close-are-two-lists)
 * [Permutation and Combination](#permutation-and-combination)
+    * [Anagrams](#anagrams)
     * [N Sum Problem](#n-sum-problem)
 * [Number formatting and rounding](#number-formatting-and-rounding)
 * [Summing them up](#summing-them-up)
@@ -168,7 +169,7 @@ But one can see the last args are still hard coded, to remove that we need - the
     // return for validation 
     return [p,c]
 
-Note the interesting "__args__=x" syntax. That let's you overwrite the argument of the function 
+Note the interesting "\_\_args\_\_=x" syntax. That let's you overwrite the argument of the function 
 by the parameter you are passing. Thus, 
 
     func(a,b)
@@ -181,6 +182,74 @@ Which, is by the way - not cool.
 But wait, in the case of parameterizing combination / permutation - they surely are!
 
 [Back to Contents](#contents)
+
+### Anagrams
+
+Wikipedia defines as [such](https://en.wikipedia.org/wiki/Anagram) :
+
+>An anagram is a type of word play, the result of rearranging the letters of a word or phrase to produce a new word or phrase, using all the original letters exactly once; for example, the word anagram can be rearranged into nag-a-ram. 
+
+Therefore, suppose we have a word "w". We need to find how many different anagrams of this word exist. 
+
+#### Hard Solution
+
+Given a dictionary, we :
+
+* Permutate the letters of the word to create multiple unique words
+* See if that word exist in the dictionary
+
+This is easily done by :
+
+    (njexl)w='noga'
+    =>noga
+    (njexl)l = w.toCharArray()
+    =>@[n, o, g, a]
+    (njexl)join{ t = str($,'') ;  where ( not (  t @ _$_ ) and $ == l ){ $ = t }  }(l,l,l,l)
+    =>[noga, noag, ngoa, ngao, naog, nago, onga, onag, ogna, ogan, oang, oagn, gnoa, gnao, gona, goan, gano, gaon, anog, ango, aong, aogn, agno, agon]
+
+You just need to add the dictionary check.
+
+#### Easy Solution
+
+Supposing we have a dictionary 'words.txt' :
+
+    (njexl)system('wc -l /BigPackages/words.txt')
+      354985 /BigPackages/words.txt
+    =>0
+
+Now we need to follow this algorithm:
+
+##### Pre Process
+
+* create a dictionary 
+* for each word in the English dictionary   
+* sort the word by letters, and create  another word by concatenating the sorted letters 
+* if this key is new, append this new key, with value as a list containing the word 
+* if this key already exist, get the value list for the key, append this word to it
+
+Now that we are done prec processing, we can find anagrams, the list of words ( value )
+are the anagrams!
+
+    (njexl)words = lines ('/BigPackages/words.txt' )
+    .... // too many lines 
+    (njexl)d = lfold{ k = str( sorta( $.toCharArray() ),'') ; if ( k @ _$_ ){ _$_[k] += $  } else { _$_[k] = list($) } ; _$_  }(words,{:})
+    ...// too many lines 
+
+
+##### Find Anagrams 
+
+* get a word from user 
+* sort the letters of the word by creating the key
+* fetch the list of words corresponding to the key which are the anagrams
+
+This now becomes :
+
+    (njexl)word = 'repeat'
+    =>repeat
+    (njexl)d[ str(sorta(word.toCharArray()),'')]
+    =>[repeat, retape]
+
+
 
 ### N Sum Problem 
 Given a number, and a list, is there a sub list such that the total of the sub list 
