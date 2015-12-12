@@ -162,6 +162,14 @@ However, one can force it to be a specific type. In that case:
     =>1
     (njexl)type(x)
     =>class java.math.BigInteger
+    (njexl)x = 1l
+    =>1
+    (njexl)type(x)
+    =>class java.lang.Long
+    (njexl)x = 0.2d
+    =>0.2
+    (njexl)type(x)
+    =>class java.lang.Double
 
 
 ## Numeric Type Conversion 
@@ -229,6 +237,7 @@ Generally this is to be used to type promotion ( upward ) :
 [Back to Contents](#contents)
 
 ## Date & Time
+
 Simplification of date & time are premium from a testing perspective.
 Thus, we have much easier functions   
 
