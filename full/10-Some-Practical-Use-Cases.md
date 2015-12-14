@@ -19,6 +19,7 @@
     * [Filter list of numbers](#filter-list-of-numbers)
     * [Find extreemum in a List](#find-extreemum-in-a-list)
     * [Sieve of Eratosthenes](#sieve-of-eratosthenes)
+    * [Filtering Collections](#filtering-collections)
 * [Some More Sample Programs](https://github.com/nmondal/njexl/wiki/0-An-Easy-Tutorial#sample-programs)
 
 ## Overview
@@ -372,5 +373,55 @@ When we run it :
     Script imported : JexlMain@/Users/noga/soe.jexl
     [3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 2]
         
+
+[Back to Contents](#contents)
+
+## Filtering Collections
+
+Observe that any webpage that does filtering has two primary components :
+
+* A colelction of items on top of which filters should be applied
+* A set of filters which are to be applied in tandem over the items
+
+A general idea then of creating filters would be as this :
+
+     def filter(item){  /* check something and return boolean */ }
+     filters = [ filter1 , filter2, ... , filter_n ]
+
+And now, to apply the filters :
+
+     filtered_list = list()
+     for ( i : items ){
+         include = true 
+         for ( filter : filters ){
+             pass = filter(i)
+             if ( !pass ){
+                 include = false
+                 break 
+             }
+         }
+         if ( include ){
+            filtered_list += i 
+         }
+     }
+
+This is somewhat functional. But a much better way to write the same code would be :
+
+     select{  _x_ = $ ; index{  !$(_x_) }(filters) < 0   }(items)
+
+This, solves the problem in the same go. Now an example :
+
+    (njexl)l = [1,3,9, 10, 16, 4, 25, 99 ]
+    =>@[1, 3, 9, 10, 16, 4, 25, 99]
+    (njexl)def odd(x){ x%2 != 0 }
+    =>ScriptMethod{ name='odd', instance=false}
+    (njexl)def is_square(x){ for ( i : [1:x/2 + 2 ] ){ if ( i** 2 == x ) return true  } ; false }
+    =>ScriptMethod{ name='is_square', instance=false}
+    (njexl)filters = [ odd, is_square ]
+    =>@[ScriptMethod{ name='odd', instance=false}, ScriptMethod{ name='is_square', instance=false}]
+    (njexl)select{ i = $ ; index{ !$(i) }(filters) < 0 }(l)
+    =>[1, 9, 25]
+
+This finds the odd, square of a number integers from the list of integers already passed!
 
 [Back to Contents](#contents)
