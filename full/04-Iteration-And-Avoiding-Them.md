@@ -373,8 +373,17 @@ There you go :
     =>true
 
 
-The "_" is the current index of the implicit loop, while "$" is the current variable. "$$" is the argument context 
-passed, which is the list "a" here.
+The "_" is the current index of the implicit loop, while "$" is the current variable. "$$" is the argument context passed, which is the list "a" here. Observe that w/o these implicits, 
+what we would have is :
+
+    (njexl)i = -1
+    =>-1
+    (njexl)empty( select{ i += 1 ; ( i > 0 and $ < a[i-1] ) }(a) )
+    =>true
+
+One can see that in this form the expression is hard coded with the function parameters, 
+as well as not closed out from external variables like *i*. Hence, the implicits helps 
+tightening the screwes a bit.
 
 All we are trying to test if any element is out of order, select that element.
 As no element is selected - we are sure that the list is in order - i.e. sorted.
