@@ -63,7 +63,7 @@ in the [test](https://github.com/nmondal/njexl/tree/master/lang/src/test/java/co
 ##### nJexl gets interpreted on the JVM
 nJexl is interpreted by a Java runtime. This means that nJexl and Java have a common runtime platform. You can easily move from Java to nJexl and vice versa.
 
-##### nJexl can Execute any exisiting Java Code
+##### nJexl can Execute any existing Java Code
 nJexl enables you to use all the classes of the Java SDK's in nJexl, and also your own, custom Java classes, or your favourite Java open source projects.
 
 
@@ -128,7 +128,7 @@ and then add path to this njexl.bat file in your path variable, see [here](https
 
 #### Test Setup 
 
-Open a comamnd prompt, and type :
+Open a command prompt, and type :
 
      $njexl 
      (njexl)
@@ -211,7 +211,7 @@ An operator identifier consists of one or more operator characters. Operator cha
 Some are reserved words, and can not be used as identifiers.
 Some are semi reserved, and can be used as identifiers, for example *me* and *my*.
 
-##### Reserved Kewords
+##### Reserved Rewords
 
      if  else where while for import as continue break size empty #def def 
 
@@ -236,7 +236,7 @@ A semicolon at the end of a statement is usually optional. You can type one if y
 ## Data Types
 
 nJexl is untyped in most cases. That actually means that the interpreter handles the type for you,
-and you dont need to bother about it, for 99.999999% of the cases. But for some cases you need types, 
+and you don't need to bother about it, for 99.999999% of the cases. But for some cases you need types, 
 hence some types can be converted :
 
      byte, char, short, int, long, float, double, big int, big decimal, string, method , class 
@@ -273,7 +273,7 @@ The boolean literals _true_ and _false_ are members of type Boolean.
 ##### String Literals
 
 A string literal is a sequence of characters in  single or double quotes. 
-The characters are either printable unicode character or are described by escape sequences. Here are some string literals:
+The characters are either printable Unicode character or are described by escape sequences. Here are some string literals:
 
     "Hello,\nWorld!"
     "This string contains a \" character."
@@ -369,9 +369,9 @@ Assume variable A holds 10 and variable B holds 20, then:
 
 #### Relational Operators
 
-Relational operators are to be used over neumericals, also between collections.
+Relational operators are to be used over numericals, also between collections.
 
-##### Neumerical Relations
+##### Numerical Relations
 
 Assume variable A holds 10 and variable B holds 20, then:
 

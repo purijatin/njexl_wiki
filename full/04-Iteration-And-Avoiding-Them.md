@@ -25,6 +25,10 @@
          * [List to Dictionary](#list-to-dictionary)
          * [List to List](#list-to-list)
          * [Dictionary to List](#dictionary-to-list)
+ * [Monads](#monads)
+    * [Outline](#outline)
+    * [Practice](#practice)
+
 
 ## Overview
 
@@ -586,3 +590,12 @@ Or, rather,
     =>[4, 16, 36]
 
 [Back to Contents](#contents)
+
+## Monads
+
+What are monads? Monads are computation builders.
+Take a look [here](http://stackoverflow.com/questions/44965/what-is-a-monad) and [here]().
+
+#### Outline
+
+

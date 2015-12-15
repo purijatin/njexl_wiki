@@ -103,9 +103,9 @@ Observe now that we can now create another function, lets call it list\_from\_li
          }
         return l
     } 
-    list_from_list(map,[0:n]) // same as previous 2 implementaions
+    list_from_list(map,[0:n]) // same as previous 2 implementations
 
-The same can be achived in a much sorter way, with this :
+The same can be achieved in a much sorter way, with this :
 
      list{ $*$ }([0:n])
 
@@ -113,9 +113,10 @@ The curious block construct after the list function is called anonymous (functio
 which takes over the map function. The loop stays implicit, and the result is equivalent 
 from the other 3 examples.
 
+
 #### Keywords
 
-For an anonymous function parameters, there are 3 implicit guranteed arguments :
+For an anonymous function parameters, there are 3 implicit guaranteed arguments :
 
 * $ --> Signifies the item of the collection , we call it the *ITEM*
 * $$ --> The context, or the collection itself , we call it the *CONTEXT* 
@@ -125,7 +126,7 @@ Another case to case parameter is :
 
 * \_$\_ --> Signifies the partial result of the processing , we call it *PARTIAL*
 
-#### Clsoure Properties
+#### Closure Properties
 
 One needs to understand that for all practical purposes, the anonymous functions 
 are extension to the parent block, or rather parent caller. 
@@ -147,17 +148,41 @@ However, one may choose to use nested anonymous blocks :
     (njexl)s = list{  M  = minmax{ $[0] < $[1] }($) ; M[0] } ( [0:4].list() ** 2 )
     =>[0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 2, 2, 0, 1, 2, 3]
 
-Observer that the argument to minmax : "$" is the items of the list, 
-and is different than what gets inside the anonymous function of minmax.
+Observer that the argument to min-max : "$" is the items of the list, 
+and is different than what gets inside the anonymous function of min-max.
 A very clear example is generating combinations, which can be found [here](https://github.com/nmondal/njexl/wiki/10-Some-Practical-Use-Cases#permutation-and-combination).
 Thus, armed with these concepts we can proceed to understand Utility functions.
+
+#### Scope of Variables
+
+The following rules are observed:
+
+* Any variable in outer scope is in read write more from the inner scope
+* Any newly defined variable in the inner scope is strictly local
+
+Observe: for rule [1] :
+
+    (njexl)i = 0 // global i
+    =>0
+    (njexl)list{ i+=1 }([0:4] )
+    =>[1, 2, 3, 4]
+    (njexl)i 
+    =>4  // i is modified
+
+Now for rule [2] :
+
+    (njexl)list{ x = $ ; $ = x** 2  }([0:4] )
+    =>[0, 1, 4, 9]
+    (njexl)x
+    Error : undefined variable : 'x'  : at line 1, cols 1:1
+
 
 [Back to Contents](#contents)
 
 ## Numerics
 
 These are type conversion and type coercing functions.
-These comes with what is known as fallback or default values:
+These comes with what is known as fall-back or default values:
 
 #### Defaults
 
