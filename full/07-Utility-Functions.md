@@ -48,7 +48,8 @@ condition
     * [minmax](#minmax) --> finds min, max of a list in a single pass, for those who are non scalar
     * [fold](#fold) ( lfold or rfold ) --> [fold](https://en.wikipedia.org/wiki/Fold_(higher-order_function)) functions, important on collection traversal 
 * [Error Handling](#error-handling)
-    * [try](#try) --> guards a native Java function call to ensure it does not throw exceptions
+    * [try](#try) --> guards a block to ensure it does not throw exceptions
+    * [error](#error) --> Raise error when need be, assuming someone there to catch it
     * [Multiple Return](#multiple-return) 
 * [load](#load) --> load arbitrary jars from a directory location, recursively
 * [system](#system) --> make arbitrary system calls
@@ -1286,6 +1287,33 @@ For those scenarios - we have try() function.
     =>java.lang.NumberFormatException: For input string: "xxx"
 
 Thus, the idea is to eat up the exception, and then give a suitable default.
+
+### Error
+
+In rarest of rare scenarios, one needs to raise error.
+That happens because the environment has passed you an error, and you need to pass it further
+down the lane. Doing so requires the error function :
+
+    (njexl)def f(){ error(size( __args__) != 0  ,  'size mismatch!' ) }
+    =>ScriptMethod{ name='f', instance=false}
+    (njexl)f(0)
+    java.lang.Error: size mismatch!
+    size mismatch!
+    (njexl)f()
+    =>false
+
+The syntax is :
+
+     error[ anonymous-function ](argument)
+     error(expression,argument)
+
+When the expression or the anonymous function returns true, error is raised.
+If it is false, then nothing happens and the function returns false.
+
+     error() // does return false 
+     error(null) // returns false      
+
+This is there to make sure the program execution stays linear, not branched.
 
 ### Multiple Return 
 
