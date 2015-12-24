@@ -291,6 +291,34 @@ if the result is proper or not:
 
 This *null* value tells you that the date string is wrong.
 
+#### Handling TimeZones
+
+It is important most of the time to handle timezones properly.
+The Java timezone is [messy](http://vafer.org/blog/20041128172956/) and thus 
+we use [JodaTime](http://www.joda.org/joda-time/) to handle timezones better.
+
+In short, this is how you convert dates from one timezone to another, given my timezone 
+is [Asia/Kolkata](https://en.wikipedia.org/wiki/Asia/Kolkata) :
+
+    (njexl)d=date()
+    =>Thu Dec 24 13:25:18 IST 2015
+    (njexl)time(d,'Asia/Tokyo')
+    =>2015-12-24T16:55:18.190+09:00
+
+Thus you can pick any date-time in any timezone, and covert the date-time into any other time zone.
+
+#### Instant
+
+In Java 8, there is this fancy new guy called [Instant](https://docs.oracle.com/javase/8/docs/api/java/time/Instant.html)
+To get an instant here :
+
+    (njexl)i = instant()
+    =>2015-12-24T07:59:20.515Z
+    (njexl)type(i)
+    =>class java.time.Instant
+
+This is crucial because this is not derived from Date!
+
 #### Arithmetic on Dates
 
 One can do arithmetic on dates, i.e. add & subtract days, months etc from dates.
@@ -303,6 +331,22 @@ But as Java date does not supports it, it must be done via Joda time.
 
 A full manual is available for [JodaTime](http://www.joda.org/joda-time/apidocs/org/joda/time/DateTime.html).
 You can see more and apply it if need be.
+
+#### Logic On Dates
+
+All the date types are comparable to one another.
+Before , after etc are pretty simple :
+
+
+    (njexl)t1 = time()
+    =>2015-12-24T16:03:35.589+05:30
+    (njexl)d = date()
+    =>Thu Dec 24 16:03:39 IST 2015
+    (njexl)i = instant()
+    =>2015-12-24T10:33:44.657Z
+    (njexl)t1 < d and d < i
+    =>true
+
 
 [Back to Contents](#contents)
 
