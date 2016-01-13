@@ -13,6 +13,7 @@
 * [Summing them up](#summing-them-up)
 * [On Manipulating Time](#on-manipulating-time)
 * [Result of Competitive Exam](#result-of-competitive-exam)
+* [Verify Filtering](#verify-filtering)
 * [Some One Liners](#some-one-liners)
     * [Multiply Each Item in a List by 2](#multiply-each-item-in-a-list-by-2)
     * [Sum a List of Numbers](#sum-a-list-of-numbers)
@@ -379,6 +380,83 @@ Here is how :
 And the result comes out to be:
 
     =>7.5    
+
+[Back to Contents](#contents)
+
+## Verify Filtering
+
+Suppose there is a grid - with filtering support placed over columns.
+The filters are of type :
+
+ * Equals 
+ * Less than 
+ * Greater than 
+ * In Range between min, Max 
+
+Let's take the first problem it pose - that of :
+
+> If any item in the column after filtering is not equal to the value set in the filter, it failed
+
+This can easily be solved using :
+
+    test_pass = index{ $ != filter_value }( filtered_values ) < 0 
+
+and this would be the first case. Similarly, for the second :
+
+    test_pass = index{ $  >= filter_value }( filtered_values ) < 0 
+
+and for the 3rd :
+
+    test_pass = index{ $  <= filter_value }( filtered_values ) < 0 
+
+so, the question is, can we make it generic? Yes, we can, observe that from [currying](06-currying)
+we have the idea of this :
+
+    op_dict = {  'Equals' : '!=' , 'LessThan' : '>='  , 'GreaterThan' : '<=' }
+    op = op_dict[filter_operation]
+    test_pass = index{ `$ #{op} filter_value` }( filtered_values ) < 0 
+
+But, how do we solve the last one, the range?
+Clearly we can implement the range as :
+
+    test_pass = index{ $  > filter_max_value or $ < filter_min_value }( filtered_values ) < 0 
+
+Another faster way of saying the same thing is :
+
+    test_pass = {  
+        #(m,M) = minmax(filtered_values)  
+        M <= filter_max_value and m >= filter_min_value
+    } 
+Observe that, we have a ternary operator here, *within*. 
+That pose a problem, because we can not generalize this with the other binary *index* operations.
+The first three are of the form : operation( item, value), while the last one is operation(item, value1, value2).
+
+We can obviously solve this problem via :
+
+    op = op_dict[filter_operation]
+    if ( op != null ){
+        test_pass = index{ `$ #{op} filter_value` }( filtered_values ) < 0 
+        }else{
+        #(m,M) = minmax(filtered_values)  
+        test_pass = ( M <= filter_max_value and m >= filter_min_value )
+    }
+
+Which is not that bad, but not good either, declarative style succinctly tries to avoid
+if-else-but. Hence, a newer idea can be put to use :
+
+
+    def bin(l,v){  index{ `$ #{op.0} v` }(l) < 0   }
+    def range(l,v1,v2){ #(m,M) = minmax(l) ; M <= v1 and m>= v2 ; }
+    op_dict = {  'Equals' : [ '!=' , bin ], 
+                 'LessThan' : [ '>=' , bin ] , 
+                 'GreaterThan' : [ '<=' , bin ] 
+                 'Range' : [ '' , range ]  }
+    //... now use it ?
+    op = op_dict[filter_operation]
+    test_pass = (op.1)( filtered_values , value1, value2 )
+
+And that is totally declarative, and solves our problem. This is a practical use of *closure* 
+and currying.
 
 [Back to Contents](#contents)
 
