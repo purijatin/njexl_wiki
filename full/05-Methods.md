@@ -6,7 +6,8 @@
  * [Global and Local Scope and Variables](#global-and-local-scope-and-variables)
  * [Recursion is Divine](#recursion-is-divine)
  * [Functional Programming](#functional-programming)
- * [The Args constructs](#the-args-constructs)
+ * [Argument Passing](#the-args-constructs)
+       * [Parameters](#parameters)
        * [Anonymous Argument](#anonymous-argument)
        * [Default Arguments](#default-arguments)
  * [Argument overwriting](#argument-overwriting)
@@ -233,12 +234,50 @@ Basically, it is calling methods "my_max_function" and "dummy:some_func" by name
 
 ## The Args constructs 
 
+In nJexl, any function can take arbitrary no. of parameters. 
+This is the topic for this section.
+
+### parameters
+
+One can define a function that takes parameters :
+
+     def function(a){
+        write(a)
+     } 
+     // call it :
+     function(10) // prints 10
+     function("hello") // prints hello
+
+But it is totally fine not passing the required parameters, which would be 
+automatically assigned the value *null* :
+
+    function() // prints null
+
+One can pass more parameters that it was defined to the function, w/o any weired set of behavior:
+
+    function("Hello" , "How" , "are" , "you" ) // prints Hello
+
+How to access the extra parameters passed which are not bound to any name are the discussion topic of next section.
 
 ### Anonymous Argument 
 
      __args__
 
-is the construct. The purpose of it, is to be used to anonymously use the whole argument list ( actually Object array). Why they are useful? Mostly when I do not care about the arguments, but needs to process them, and names are last on my mind. A classic example is the one given at the start of the chapter : 
+is the construct. The purpose of it, is to be used to anonymously use the whole argument list ( actually Object array). Why they are useful? Mostly when I do not care about the arguments, but needs to process them, and names are last on my mind. 
+
+To get into the grind, let's define :
+
+     def function(){
+        write( str(__args__, "##") )
+     } 
+
+and now, we use it :
+
+    function("Hello" , "How" , "are" , "you" ) // prints Hello##How##are##you
+
+Thus, we can access unnamed parameters using this.
+
+A classic example is the one given at the start of the chapter : 
 
 
 	// This does not take any param, so, a call to this 
