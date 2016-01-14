@@ -451,9 +451,9 @@ if-else-but. Hence, a newer idea can be put to use :
                  'LessThan' : [ '>=' , bin ] , 
                  'GreaterThan' : [ '<=' , bin ] 
                  'Range' : [ '' , range ]  }
-    //... now use it ?
-    op = op_dict[filter_operation]
-    test_pass = (op.1)( filtered_values , value1, value2 )
+    //... now use the designated function ?
+    function = op_dict[filter_operation].1
+    test_pass = function( filtered_values , value1, value2 )
 
 And that is totally declarative, and solves our problem. This is a practical use of *closure* 
 and currying.
