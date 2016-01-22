@@ -975,7 +975,7 @@ which is to be a Dictionary contaning parameters.
     write(ro)
 
 
-### FOpen
+### Fopen
 
 *fopen* lets one do file operations.
 With no arguments it lets one return a BufferedReader over system input.
@@ -1433,7 +1433,21 @@ To do so, we have the system() function:
     drwxr-xr-x  9 noga  wheel   306 May 13 22:20 script_testing
     drwxr-xr-x  5 noga  wheel   170 May 13 22:20 testing
     =>0 # This is the exit status for success
-    (njexl)
+    
+One can however, break the execution commands appropriately :
+
+    (njexl)system('ls', '-al')
+    total 192
+    drwxr-xr-x+ 34 noga  staff   1632 Jan 22 19:11 .
+    drwxr-xr-x   5 root  admin    204 Dec 12 17:51 ..
+    -r--------   1 noga  staff      7 Sep 25 19:12 .CFUserTextEncoding
+    <.... too many lines snipped >
+
+And with 0 arguments, this returns the Runtime :
+
+    (njexl)system()
+    =>java.lang.Runtime@5fa7e7ff
+
 
 ### Error 
 
@@ -1482,6 +1496,13 @@ Let's understand threading by using the sample :
 Note the curious "$$" usage, which signifies the arguments passed to the thread() function.
 This is accessible in the anonymous method block.
 The standard variable "$" contains the thread object itself, while "_" has the thread id.
+
+### Atomic Blocks
+
+A block declared as atomic{  }().
+
+### Atomic Data Types
+
 
 [Back to Contents](#contents)
 
@@ -1624,6 +1645,20 @@ They are the same.
 One can obviously change the algorithm used :
 
      hash([algo-string , ] <string> )
+
+### Using Base 64 
+There are these two specific *algorithms* that one can use to convert to and from base 64 
+encoding. They are *e64* to encode and *d64* to decode.
+Thus, to encode a string in the base 64 :
+
+    (njexl)hash('e64', 'hello, world')
+    =>aGVsbG8sIHdvcmxk
+
+And to decode it back :
+
+    (njexl)hash('d64', 'aGVsbG8sIHdvcmxk' )
+    =>hello, world
+
 
 [Back to Contents](#contents)
 
