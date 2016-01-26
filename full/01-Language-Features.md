@@ -76,6 +76,7 @@
    * [Anonymous Functions and Lambda](#anonymous-functions-and-lambda)
    * [List Operations](#list-operations)
 * [Threading Support](#threading-support)
+   * [Atomicity](#atomicity)
 * [Exception Handling](#exception-handling)
 
 
@@ -952,6 +953,52 @@ thread() with suitable parameters which to be passed to the anonymous function b
 
 Creates a thread - which just calls the write call.
 More of this in the threading section.
+
+#### Atomicity 
+Atomic coding: synchronized code, with fail-over reset is supported using the keyword #atomic.
+When someone marks a block with #atomic, that block would be entered by any thread one at a time.
+Moreover, any assignment to any local variable ( not the vars, which are global ) would be reverted back in case of any error in the block. Thus, observe the code :
+
+    x = 0 
+    #atomic{
+      // x := 4 now 
+       x = 2 + 2    
+    }
+    // work some more...
+    #atomic{
+       x = 10
+       // error, x should revert back to 4
+       t = p 
+    }
+    write(x)
+
+should produce 4. This is possible because in a functional style language, states can be saved as there is really no side-effect.
+
+#### Synchronizing 
+
+Atomic gets used in synchronizing too, observe the following :
+     
+    my_var = 0  
+    list_of_threads  = list{ thread{    
+                            #atomic{
+                               my_var += 1 
+                              write('%d --> %s\n', _ , my_var)  }
+
+                    }() }([0:3])
+    while ( true ){
+       break( empty ( select{ $.isAlive }(list_of_threads) ) )
+    }
+    // will always produce 3
+    write(my_var)
+
+Would produce something like :
+
+    11 --> 1
+    12 --> 2
+    13 --> 3
+    3
+
+Thus, the code showcases synchronization. 
 
 ## Exception Handling
 
