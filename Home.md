@@ -111,12 +111,36 @@ Once downloaded, put this back in your PATH, in *nix like environment :
 And you are pretty much ready to go. Now type "njexl" from anywhere in the command prompt - and you are ready inside the njexl prompt.
 
 ### The IDE debacle
-IDEs are good - and that is why we have minimal editor support, [Sublime Text](http://www.sublimetext.com) is my favourite one. You also have access to the syntax highlight file for jexl and a specially made theme for jexl editing - ( ES ) both of them can be found :   [here](https://github.com/nmondal/njexl/tree/master/doc).
+IDEs are good - and that is why we have minimal editor support, [Sublime Text](http://www.sublimetext.com) is my favourite one. You also have access to the syntax highlight file for jexl and a specially made theme for jexl editing - ( ES ) both of them can be found :   [here](https://github.com/nmondal/njexl/tree/master/doc). There is also a vim syntax file.
 
-
+#### Sublime Text 
 If you use them with your sublime text editor - then typical jexl script file looks like this : 
 
 ![Sample Editing in Sublime Text ](http://s12.postimg.org/5dmcutp59/Screen_Shot_2015_05_02_at_6_23_45_pm.png)
+
+#### For Vim
+
+Create these two files :
+
+    $HOME/.vim/ftdetect/jxl.vim
+    $HOME/.vim/syntax/jxl.vim
+
+For most \*nix systems it would be same as :
+
+    mkdir -p ~/.vim/ftdetect/
+    touch ~/.vim/ftdetect/jxl.vim 
+    touch ~/.vim/syntax/jxl.vim 
+
+Now on the ~/.vim/ftdetect/jxl.vim  file, put this line :
+
+    autocmd BufRead,BufNewFile *.jxl,*.jexl,*.njxl,*.njexl  set filetype=jxl
+
+Note that you should not have blanks between commas.
+And then, copy the content of the [vim syntax file here](https://github.com/nmondal/njexl/blob/master/doc/jxl.vim) in the ~/.vim/syntax/jxl.vim file as is.
+
+If everything is fine, you can now open jexl scripts in vim!
+
+
 
 Happy Coding!
 
