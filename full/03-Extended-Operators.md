@@ -15,6 +15,12 @@
         * [Division over a Dict](#division-over-a-dict)
 * [Axiomatic Multiplication](#axiomatic-multiplication)
 * [Axiomatic Exponentiation](#axiomatic-exponentiation)
+* [Matching Operators](#matching-operators)
+    * [Contains](#contains)
+    * [Begin With](#begin-with)
+    * [Ends With](#ends-with)
+    * [In Order](#in-order)
+
 
 ## Overview
 This is where we talk about all sort of operators, 
@@ -340,5 +346,100 @@ And the list exponentiation :
     =>[[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 1, 1], [1, 0, 0], [1, 0, 1], [1, 1, 0], [1, 1, 1]]
 
 Yes, you guessed it right - the join operation is '*'. 
+
+[Back to Contents](#contents)
+
+## Matching Operators
+
+Given two character sequences (x, y) or collection we sometime need to find if the following are true or not :
+
+* One is contained in another ( x IN y := x @ y )
+* One is not contained in another (  not ( x @ y )  )
+* One is prefix of another ( x is prefix of y :=   x #^ y )
+* One is suffix of another ( x is suffix of y :=   x #$ y )
+* One is proper sub tuple of another ( x is sub tuple of y :=   x #@ y )
+
+
+#### Contains 
+
+The operator "@" defines contains. Much as saying abc@def.com implies user "abc" exists in def.com.
+
+    (njexl)x = "abc"
+    =>abc ## String
+    (njexl)y = "abcdef"
+    =>abcdef ## String
+    (njexl)x @ y
+    =>true ## Boolean
+
+##### Not Contains 
+Is simply putting a not before that :
+
+    (njexl)x = "cba"
+    =>cba ## String
+    (njexl)x @ y
+    =>false ## Boolean
+    (njexl)not ( x @ y )
+    =>true ## Boolean
+
+#### Begins With 
+Also called prefix, to do so observe :
+
+    (njexl)x = "abc"
+    =>abc ## String
+    (njexl)y = "abcdef"
+    =>abcdef ## String
+    (njexl)y #^ x // read y <begins with> x 
+    =>true ## Boolean
+
+Note that jexl 3 has it in the form "=^", which is problematic for us.
+In any case, it works for collections never the less:
+
+    (njexl)y
+    =>@[1, 2, 3, 4]
+    (njexl)x = [1,2]
+    =>@[1, 2]
+    (njexl)y #^ x
+    =>true ## Boolean
+
+#### Ends With 
+Also called suffix, to do so observe :
+
+    (njexl)y
+    =>abcdef ## String
+    (njexl)x = 'def'
+    =>def ## String
+    (njexl)y #$ x // read y <ends with> x 
+    =>true ## Boolean
+
+This too, works for collections:
+
+    (njexl)y
+    =>@[1, 2, 3, 4]
+    (njexl)x = [3,4]
+    =>@[3, 4]
+    (njexl)y #$ x
+    =>true ## Boolean
+
+#### In Order 
+
+    (njexl)x #@ y // x is in order inside y
+    =>true ## Boolean
+
+This becomes clear when one sees the corresponding collection case:
+
+    (njexl)y = [1,2,3,4]
+    =>@[1, 2, 3, 4]
+    (njexl)x = [2,3]
+    =>@[2, 3]
+    (njexl)x @ y
+    =>true ## Boolean
+    (njexl)x #@ y
+    =>true ## Boolean
+    (njexl)z = [3,2]
+    =>@[3, 2]
+    (njexl)z @ y
+    =>true ## Boolean
+    (njexl)z #@ y
+    =>false ## Boolean
 
 [Back to Contents](#contents)
