@@ -41,6 +41,24 @@ Generally we start with Arithmetic:
     **           // does exponentiation 
     |,&,^, ~     // they are standard bitwise operators 
 
+### Auto Conversion of Numerals
+For most of the other languages, type conversion is not automatic. But, here in nJexl,
+it is. Observe this :
+
+    (njexl)1 + "abc"
+    =>1abc ## String
+    (njexl)"abc" + 1
+    =>abc1 ## String
+    (njexl)"2" + 1
+    =>21 ## String
+    (njexl)1 + "2" 
+    =>3 ## Integer
+
+The association is to the left, thus, when the left side is numeric, the system 
+automatically tries to type change the right into a numeric. Only failing this 
+the system would do a string concatenation.
+
+
 ## Extension of Arithmetic Operators 
 Based on what sort of stuff we are in, the operators change meaning. 
 Not completely, but in a context sensitive way. 
