@@ -161,7 +161,8 @@ It will make the world a better place.
 ## Code Coverage 
 
 PS. We should preach what we practice.
-Hence, here is the code coverage result of the njexl, showing 81% coverage ( almost )
-excluding the parser.
+Hence, here is the code coverage result of the njexl, showing 82% coverage ( almost )
+excluding the parser. The tests are throttled at 80% coverage, that is, if the coverage goes 
+less than 80%, the build will automatically fail.
 
-![Code Coverage](http://s12.postimg.org/5zxkj0ch9/Screen_Shot_2016_02_02_at_10_52_22_PM.png)
+![Code Coverage](http://s13.postimg.org/svhvk9nx3/Screen_Shot_2016_02_11_at_9_38_18_PM.png)
