@@ -4,12 +4,15 @@
  * [Overview](#overview)
  * [Defining Methods](#defining-methods)
  * [Global and Local Scope and Variables](#global-and-local-scope-and-variables)
+ * [Borrowing From Others](#borrowing-from-others)
+       * [Script as a Method](#script-as-a-method)
  * [Recursion is Divine](#recursion-is-divine)
  * [Functional Programming](#functional-programming)
  * [Argument Passing](#the-args-constructs)
        * [Parameters](#parameters)
        * [Anonymous Argument](#anonymous-argument)
        * [Default Arguments](#default-arguments)
+       * [Arguments to a Script](#arguments-to-a-script)
  * [Argument overwriting](#argument-overwriting)
  * [Assignment to Variables](#assignment-to-variables)
  * [Closures](#closures)
@@ -96,6 +99,45 @@ This would print 2. However, if you fail to put var, then :
 
 would print 0. The global variable comes in local copy, 
 but does not get write back to the original global one.
+
+[Back to Contents](#contents)
+
+## Borrowing From Others
+
+It is sometime necessary to call methods defined in some other scripts. 
+Unlike other languages that bask on the nesting of name spaces, I choose to create one with 0 nesting.
+That means import statements must be uniquely mapped to an alias.
+
+So, given I have this script : something.jxl : 
+
+    def my_function(arg){
+        write( arg )
+    }
+    my_function( "Hello, World")
+
+And we need to call this method my\_function from another script. It would be created as such :
+
+    // as in [I]mported [N]ame[S]pace
+    import 'something.jxl' as INS 
+    INS:my_function("Hi, There!")
+
+Running this script would produce :
+
+    $njexl tmp.jxl
+    Hi, There!
+
+### Script as a Method 
+
+Given we have imported the script, can we actually use the whole script as a function?
+Yes, we can, that would be easy with the \_\_me\_\_ function - which is a reserved function name:
+
+    // as in [I]mported [N]ame[S]pace
+    import 'something.jxl' as INS 
+    INS:my_function("Hi, There!")
+    // use __me__ to tell : run the whole script as function 
+    INS:__me__()
+
+Running this runs the imported jxl script as if it is a function.
 
 [Back to Contents](#contents)
 
@@ -337,6 +379,34 @@ Which basically sums up how the args should be used. Note that, one should not m
 
 Every function takes variable length args, and thus - null values get's assigned to parameters which are not passed. 
 People should be careful.
+
+[Back to Contents](#contents)
+
+### Arguments to a Script
+As one can call an imported script as a function, the \_\_args\_\_ construct is supported there too.
+Given we have a script :
+
+    // something.jxl
+    def my_function(arg){
+        write( str( arg ) )
+    }
+    // Python equivalent of run as main 
+    if ( #def __args__ ){
+      my_function( __args__ )
+    }
+
+Now, if we want to call the script with parameters from another script :
+
+    // as in [I]mported [N]ame[S]pace
+    import 'something.jxl' as INS 
+    INS:__me__(4,2)
+
+Of course the result would be :
+
+    njexl tmp.jxl
+    42
+
+And gladly, that is the ultimate answer.
 
 [Back to Contents](#contents)
 
