@@ -84,13 +84,13 @@ And let me know how it feels!
 
 # How to include it in your project
 
-In the dependency section (latest release is 0.2 ) : 
+In the dependency section (latest release is 0.3-ALPHA1 ) : 
 
 ```xml
 <dependency>
   <groupId>com.github.nmondal</groupId>
   <artifactId>njexl.lang</artifactId>
-  <version>0.2</version> <!-- or 0.3-SNAPSHOT -->
+  <version>0.3-ALPHA1</version> <!-- or 0.3-SNAPSHOT -->
 </dependency>
 ```
 
