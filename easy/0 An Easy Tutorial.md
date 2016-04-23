@@ -211,7 +211,7 @@ An operator identifier consists of one or more operator characters. Operator cha
 Some are reserved words, and can not be used as identifiers.
 Some are semi reserved, and can be used as identifiers, for example *me* and *my*.
 
-##### Reserved Rewords
+##### Reserved Keywords
 
      if  else where while for import as continue break size empty #def def 
 

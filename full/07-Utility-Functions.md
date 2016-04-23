@@ -74,8 +74,8 @@ whic his nick-named as "Anonymous Parameter" to a utility function.
 
 #### Rationale 
 
-Consider a simple problem of creating a list from an exisiting one, 
-by modifyig individual elements in some way. This comes under [map](https://en.wikipedia.org/wiki/Map_(higher-order_function)) , but the idea can be shared much simply :
+Consider a simple problem of creating a list from an existing one, 
+by modifying individual elements in some way. This comes under [map](https://en.wikipedia.org/wiki/Map_(higher-order_function)) , but the idea can be shared much simply :
 
      l = list()
      for ( x : [0:n] ){
