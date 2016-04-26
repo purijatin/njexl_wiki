@@ -638,31 +638,56 @@ The syntactically Perl inspired !~ operator can be used to check that a string d
 
 #### Addition
 
-  The usual + operator is used. For example
+The usual + operator is used. For example
 
      val1 + val2
 
+The operator += is used in usual sense.
+
+      x += 2 // increment x by 2 and assign back to x 
+
+For lists and collections, it usually means calling add()
+
+
 #### Subtraction
 
-  The usual - operator is used. For example
+The usual - operator is used. For example
 
     val1 - val2
 
+The operator -= is used in usual sense.
+
+      x -= 2 // decrement x by 2 and assign it back to x 
+
+For lists and collections, it usually means calling remove()
+
+
 #### Multiplication
 
-  The usual * operator is used. For example
+The usual \* operator is used. For example
 
     val1 * val2
 
+The operator \*= is used in usual sense.
+
+      x *= 2 // multiply x by 2 and assign it back to x 
+
+
 #### Division
 
-   The usual / operator is used, or one can use the div operator. For example
+The usual / operator is used, or one can use the div operator. For example
 
      val1 / val2
 
 or
 
      val1 div val2
+
+The operator /= is used in usual sense.
+
+      x /= 2 // divide x by 2 and assign it back to x 
+
+
 
 #### Modulus
 
@@ -676,9 +701,13 @@ gives 1 and is equivalent to
 
 #### Negation
 
- The unary - operator is used. For example
+The unary - operator is used. For example
 
      -12
+
+It is legal, unfortunately, to use --12, which is interpreted as -(-12) := 12.
+So, be careful!
+
 
 #### Exponentiation
 
