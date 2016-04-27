@@ -521,6 +521,15 @@ When we run it :
     [3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 2]
         
 
+#### Print Ladder
+
+Prints a ladder:
+
+    n = 10 // any value ....
+    lfold{ print (' '** (n - $) + '#' ** $) }([1:n+1])
+
+try beating that!
+
 [Back to Contents](#contents)
 
 ## Filtering Collections
