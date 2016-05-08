@@ -114,9 +114,11 @@ Download the latest one-jar.jar file from [here](https://oss.sonatype.org/conten
 
 If you are using \*nix platform, then you should create an alias :
 
-     alias njexl = "java -jar njexl.lang-0.3-<time-stamp>-onejar.jar" 
+     alias njexl="java -jar path_to_folder_containing_your_njexl/njexl.lang-0.3-<time-stamp>-onejar.jar" 
 
-in your .login file.
+in your ~/.login file. Once you do this, you will have to reload your `~/.login` file in your session by:
+
+      source ~/.login 
 
 If you are using Windows, then you should create a batch file that looks like this:
 
